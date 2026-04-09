@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PharmaLink Wholesale | Precision Sourcing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#dde3ee",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-container": "#edeeef",
+                        "surface-variant": "#e1e3e4",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#722b00",
+                        "surface-container-highest": "#e1e3e4",
+                        "outline": "#727784",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#351000",
+                        "tertiary-fixed-dim": "#ffb694",
+                        "secondary-fixed-dim": "#c1c7d1",
+                        "primary-fixed-dim": "#acc7ff",
+                        "surface": "#f8f9fa",
+                        "surface-dim": "#d9dadb",
+                        "surface-bright": "#f8f9fa",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9fa",
+                        "on-background": "#191c1d",
+                        "secondary-fixed": "#dde3ee",
+                        "on-tertiary-container": "#ffc2a7",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "inverse-primary": "#acc7ff",
+                        "error": "#ba1a1a",
+                        "primary": "#003f87",
+                        "inverse-surface": "#2e3132",
+                        "on-primary-fixed-variant": "#004491",
+                        "on-secondary-container": "#5e656e",
+                        "surface-tint": "#115cb9",
+                        "on-surface": "#191c1d",
+                        "on-primary-container": "#bbd0ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001a40",
+                        "primary-fixed": "#d7e2ff",
+                        "on-surface-variant": "#424752",
+                        "surface-container-high": "#e7e8e9",
+                        "secondary": "#585f68",
+                        "primary-container": "#0056b3",
+                        "tertiary-container": "#983c00",
+                        "outline-variant": "#c2c6d4",
+                        "inverse-on-surface": "#f0f1f2",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#414750",
+                        "on-secondary-fixed": "#161c24"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-header {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-8 h-16 w-full">
+<div class="flex items-center gap-12">
+<span class="text-xl font-bold text-blue-900 dark:text-blue-100 tracking-tighter font-headline">PharmaLink Wholesale</span>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 font-headline font-semibold tracking-tight transition-colors" href="#">Dashboard</a>
+<a class="text-blue-700 dark:text-blue-300 border-b-2 border-blue-700 pb-1 font-headline font-semibold tracking-tight" href="#">Inventory</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 font-headline font-semibold tracking-tight transition-colors" href="#">Orders</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 font-headline font-semibold tracking-tight transition-colors" href="#">Analytics</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:bg-slate-200/50 p-2 rounded-full transition-all">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:bg-slate-200/50 p-2 rounded-full transition-all">account_circle</span>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2 rounded-xl font-headline font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-90 transition-all active:scale-95">
+                Request Quotation
+            </button>
+</div>
+</nav>
+<main class="pt-24 pb-32 px-8 max-w-[1600px] mx-auto flex gap-12">
+<!-- SideNavBar / Filter Shell -->
+<aside class="hidden lg:flex flex-col w-64 flex-shrink-0 sticky top-24 h-[calc(100vh-8rem)]">
+<div class="mb-8">
+<h2 class="font-headline font-extrabold text-2xl tracking-tight text-primary">Categories</h2>
+<p class="text-on-surface-variant text-sm mt-1">Filter by Therapeutic Class</p>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 font-bold rounded-lg cursor-pointer transition-all active:scale-95">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="text-sm">Analgesics</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">medication</span>
+<span class="text-sm">Antibiotics</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">favorite</span>
+<span class="text-sm">Cardiovascular</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">vaccines</span>
+<span class="text-sm">Dermatology</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">science</span>
+<span class="text-sm">Vaccines</span>
+</div>
+</div>
+<div class="mt-12">
+<h3 class="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant/70 mb-4">Manufacturer</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<span class="text-sm text-on-surface group-hover:text-primary transition-colors">GlaxoSmithKline</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-outline-variant text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<span class="text-sm text-on-surface group-hover:text-primary transition-colors">Pfizer Inc.</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<span class="text-sm text-on-surface group-hover:text-primary transition-colors">Sanofi S.A.</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<span class="text-sm text-on-surface group-hover:text-primary transition-colors">Novartis AG</span>
+</label>
+</div>
+</div>
+<button class="mt-auto text-primary font-bold text-sm flex items-center gap-2 py-4 border-t border-slate-200 dark:border-slate-800">
+                View All Filters
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</aside>
+<!-- Main Content -->
+<section class="flex-grow">
+<!-- Header Section -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-headline font-extrabold text-5xl tracking-tighter text-on-surface mb-2">Our Products</h1>
+<p class="text-on-surface-variant max-w-md">Access our verified global inventory of pharmaceutical grade active ingredients and formulated medications.</p>
+</div>
+<div class="relative w-full md:w-96 group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-container-high border-none rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-on-surface-variant/60" placeholder="Search by SKU, Generic or Brand..." type="text"/>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,63,135,0.04)] group border border-transparent hover:border-primary/10">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-6 bg-surface-container-low relative">
+<img alt="Medicine bottles" class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500" data-alt="high-end pharmaceutical packaging of white medicine bottles in a clean laboratory setting with soft clinical blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjc8RMdI33MYnIBZmPFdXA2bTnguyGI1z40NkYl1f6kACmCR8KXIzvLOI4OnK7fWdSAGOa0GPwA2ZQejdJ2R2qkfeOtAQ7kM_qVXZnD8S2JMJGFtbFxC4pH7a3ula9MJShK5FJ3E4VrYWGDQNsOLMgRimjSNJ0DUjsHHYWySArjwxSGUgWT-GPUwBRt0vJLQksJhWVWxNTnHvKXDiT0siiQMJkdo5UNxAtD8bddgm1w8ejSDCSUHpBJ8HzfvUWKDrj0JUscQcvihs4"/>
+<span class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">In Stock</span>
+</div>
+<div class="space-y-1 mb-6">
+<p class="text-[10px] font-bold text-primary/60 uppercase tracking-widest font-headline">GlaxoSmithKline</p>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight">Amoxicillin 500mg</h3>
+<p class="text-sm text-on-surface-variant">Generic: <span class="font-medium">Amoxicillin Trihydrate</span></p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-surface-container">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">inventory_2</span>
+<span class="text-xs text-on-surface-variant">Box of 100 Capsules</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl border border-primary/20 text-primary font-bold text-sm hover:bg-primary hover:text-on-primary transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to RFQ
+                    </button>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,63,135,0.04)] group border border-transparent hover:border-primary/10">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-6 bg-surface-container-low relative">
+<img alt="Laboratory vials" class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500" data-alt="sterile glass vials with blue liquid labels on a reflective stainless steel surface in a modern pharmaceutical facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdADJnLkRcGsLp32LOJGhN71b3DaKJrctZW72vhH6ztrcpyNRODav2enxS7b-DIv9LWPHm8iT0nCPMgLRydPoWe9B1wuXwYPTLOsqzA7P6e6teZFdXAPMuLFQK823a6F_23nZp1X2lXObJNxrTtrmk_W10EEToGda5T50HuDf2FOWMCrLX4C0T0wxQDfEmdzo1oE2Yi8K6JaXiw_E-hOWts73t_op0bTpsi_pvYmB8zktENzDgaQKwcsp8raTlU4eYBIWBxHq1Uzft"/>
+<span class="absolute top-4 right-4 bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Limited Supply</span>
+</div>
+<div class="space-y-1 mb-6">
+<p class="text-[10px] font-bold text-primary/60 uppercase tracking-widest font-headline">Pfizer Inc.</p>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight">Atorvastatin 20mg</h3>
+<p class="text-sm text-on-surface-variant">Generic: <span class="font-medium">Atorvastatin Calcium</span></p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-surface-container">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">inventory_2</span>
+<span class="text-xs text-on-surface-variant">Pack of 30 Tablets</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl border border-primary/20 text-primary font-bold text-sm hover:bg-primary hover:text-on-primary transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to RFQ
+                    </button>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,63,135,0.04)] group border border-transparent hover:border-primary/10">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-6 bg-surface-container-low relative">
+<img alt="Capsules" class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500" data-alt="close up shot of pharmaceutical capsules with transparent orange shells on a clean white laboratory backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO56ISCAUgJzTjxaIuWuQ82bwnPH-NuQDPmnq8RihwnTzmLU36RW1CWCjNH2tdwxJj6Ouxwx7dXPDzbtvXZXURU97F8VFpajGQw-gfVXt3wiFH97WAGhzGqMjq06qkVQt2rpvXFCDTTQ2xmBNHwXFVBIRmZahYWtgoH-CW4jZmzAbQyCJ7IXxUtZ1rUEp3GL9zfJg49dOkn7MF5SwCmIuGr_i3Dm3RgUbHRzAPYbmQe98THvxzuBy7XUSgF1CCrFJo9j3J14OmW0HR"/>
+<span class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">In Stock</span>
+</div>
+<div class="space-y-1 mb-6">
+<p class="text-[10px] font-bold text-primary/60 uppercase tracking-widest font-headline">Sanofi S.A.</p>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight">Lantus SoloStar</h3>
+<p class="text-sm text-on-surface-variant">Generic: <span class="font-medium">Insulin Glargine</span></p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-surface-container">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">inventory_2</span>
+<span class="text-xs text-on-surface-variant">5 x 3ml Prefilled Pens</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl border border-primary/20 text-primary font-bold text-sm hover:bg-primary hover:text-on-primary transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to RFQ
+                    </button>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,63,135,0.04)] group border border-transparent hover:border-primary/10">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-6 bg-surface-container-low relative">
+<img alt="Medicine blister pack" class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500" data-alt="macro photograph of pharmaceutical blister packs on a clinical light table with vibrant professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYZ1x3WtHloM6Hl17mctqflpDabpDQc9iuMAKFIpB_mkC7Jd7RefUn66FKNdwTYNZiC2SZRBQY1cCQN7EmHCwwddVUU5wBkubZn_yGxi243jQYzajArTx-jia3qsta4Gqjwkx0oxDl0T9fzve6O-yiUIgU0yYzUOmkgwydfi9VSncZeHt0wvjBymoKI29aMTygbwfVsBsdnzre8Yzo7ST1wtD9b0ggVYesQIcu4J4eObkDg8gcc3u3gNBu-ELmC5145OkhswtwV6-G"/>
+<span class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">In Stock</span>
+</div>
+<div class="space-y-1 mb-6">
+<p class="text-[10px] font-bold text-primary/60 uppercase tracking-widest font-headline">Bayer AG</p>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight">Aspirin Protect</h3>
+<p class="text-sm text-on-surface-variant">Generic: <span class="font-medium">Acetylsalicylic Acid</span></p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-surface-container">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">inventory_2</span>
+<span class="text-xs text-on-surface-variant">Box of 100 Tablets</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl border border-primary/20 text-primary font-bold text-sm hover:bg-primary hover:text-on-primary transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to RFQ
+                    </button>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,63,135,0.04)] group border border-transparent hover:border-primary/10">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-6 bg-surface-container-low relative">
+<img alt="Medical science" class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500" data-alt="close-up of scientific medical research equipment and vials in a high-tech laboratory with soft teal and white tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo4bJ8o0pBYPxa6ufZ8VC-OOwN7JPTemT4y54g4gPbCCzrqXIIaHP_-QdAYxbpAFWPimnJrwawCvxskMI40qxifROC22nTyT9hxX1n5r1JErhrwlOWtcER0rgVkJZCtpVFTUuk29wGm7ivhW3lB-b7DfQhxRruoI95Di2Ty9QB5sIQrUeuwe5n1e4GOC8VFG4FkqR_yVp3CgQmIU7Y_HBbn_gFMmeJC-t3qP1GM1O1YWB_KNBN8OWJp__QFlZBdWj9a3vb-3DA8iBx"/>
+<span class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">In Stock</span>
+</div>
+<div class="space-y-1 mb-6">
+<p class="text-[10px] font-bold text-primary/60 uppercase tracking-widest font-headline">Novartis AG</p>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight">Entresto 97/103mg</h3>
+<p class="text-sm text-on-surface-variant">Generic: <span class="font-medium">Sacubitril/Valsartan</span></p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-surface-container">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">inventory_2</span>
+<span class="text-xs text-on-surface-variant">Box of 56 Tablets</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl border border-primary/20 text-primary font-bold text-sm hover:bg-primary hover:text-on-primary transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to RFQ
+                    </button>
+</div>
+<!-- Product Card 6 -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,63,135,0.04)] group border border-transparent hover:border-primary/10">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-6 bg-surface-container-low relative">
+<img alt="Pharma packaging" class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-500" data-alt="pristine pharmaceutical packaging box on a clean laboratory surface with a sterile environment and soft shadow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIxU0vGYrI-EB761Krr0KeHyLuZgr___AHgsy9Ma3WedTVykavY8bnelJFg8mr-7da5qiOhiTrhkUE43Ksl2VxcngLVcBxiIpBh8wVeuSuVcpCu3iA_7AgPPy58Hcz955YmR9qo8I-qY--YUPyYjsoWbVsftocNPqZbvflEt865kVnXiWz-KTSsWJAT_vp_wdJ41P6J15a9fSVSK_Lqw191_b_NZTRjUIZ-XgEpXRZl_524MwU-5rCWSUleaDn-aGMidLVg-0fOIi1"/>
+<span class="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">In Stock</span>
+</div>
+<div class="space-y-1 mb-6">
+<p class="text-[10px] font-bold text-primary/60 uppercase tracking-widest font-headline">AstraZeneca</p>
+<h3 class="font-headline font-bold text-xl text-on-surface leading-tight">Nexium 40mg</h3>
+<p class="text-sm text-on-surface-variant">Generic: <span class="font-medium">Esomeprazole Magnesium</span></p>
+<div class="flex items-center gap-2 mt-3 pt-3 border-t border-surface-container">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">inventory_2</span>
+<span class="text-xs text-on-surface-variant">Box of 28 Gastro-Resistant Tabs</span>
+</div>
+</div>
+<button class="w-full py-3 rounded-xl border border-primary/20 text-primary font-bold text-sm hover:bg-primary hover:text-on-primary transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+                        Add to RFQ
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky RFQ Summary Bar -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[60] w-[90%] max-w-2xl bg-white/80 dark:bg-slate-900/80 glass-header border border-white/20 rounded-2xl py-4 px-6 flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">RFQ Summary</p>
+<p class="text-xs text-on-surface-variant font-medium">5 unique therapeutic items selected</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:block text-right">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest leading-none">Est. Priority</p>
+<p class="text-sm font-bold text-primary uppercase">Urgent</p>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-xl font-headline font-bold text-sm shadow-md shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                Review Quote
+            </button>
+</div>
+</div>
+<!-- Toast Notification (Example State) -->
+<div class="fixed top-20 right-8 z-[100] bg-on-background text-on-primary p-4 rounded-xl flex items-center gap-4 shadow-2xl animate-fade-in pointer-events-none">
+<span class="material-symbols-outlined text-green-400">check_circle</span>
+<div class="pr-8">
+<p class="text-sm font-bold">Success</p>
+<p class="text-xs opacity-80">Amoxicillin 500mg added to RFQ</p>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full border-t border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 flex justify-between items-center px-8 py-6 w-full mt-auto">
+<span class="font-['Manrope'] font-bold text-slate-400 tracking-tighter">PharmaLink</span>
+<div class="flex gap-8 items-center">
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 hover:text-blue-500 transition-colors" href="#">Terms of Sale</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 hover:text-blue-500 transition-colors" href="#">Regulatory Compliance</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 hover:text-blue-500 transition-colors" href="#">MSDS Database</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 hover:text-blue-500 transition-colors" href="#">Privacy Policy</a>
+</div>
+<p class="font-['Inter'] text-[10px] uppercase tracking-widest text-slate-400">© 2024 PharmaLink Wholesale Precision Systems</p>
+</footer>
+</body></html>

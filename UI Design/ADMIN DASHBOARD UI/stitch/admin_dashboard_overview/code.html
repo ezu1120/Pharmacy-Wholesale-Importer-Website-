@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pharmalink Pro - Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdbcc",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "tertiary-container": "#983c00",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "background": "#f8f9fa",
+                    "inverse-on-surface": "#f0f1f2",
+                    "secondary": "#585f68",
+                    "primary-fixed-dim": "#acc7ff",
+                    "surface-container-low": "#f3f4f5",
+                    "surface-container-high": "#e7e8e9",
+                    "on-secondary-fixed": "#161c24",
+                    "tertiary": "#722b00",
+                    "on-surface": "#191c1d",
+                    "primary": "#003f87",
+                    "on-secondary-fixed-variant": "#414750",
+                    "surface": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#bbd0ff",
+                    "inverse-surface": "#2e3132",
+                    "surface-bright": "#f8f9fa",
+                    "secondary-fixed-dim": "#c1c7d1",
+                    "secondary-fixed": "#dde3ee",
+                    "tertiary-fixed-dim": "#ffb694",
+                    "on-tertiary-container": "#ffc2a7",
+                    "on-primary-fixed": "#001a40",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#dde3ee",
+                    "surface-container": "#edeeef",
+                    "on-tertiary": "#ffffff",
+                    "outline": "#727784",
+                    "on-surface-variant": "#424752",
+                    "primary-container": "#0056b3",
+                    "surface-tint": "#115cb9",
+                    "on-tertiary-fixed": "#351000",
+                    "surface-dim": "#d9dadb",
+                    "primary-fixed": "#d7e2ff",
+                    "surface-variant": "#e1e3e4",
+                    "on-secondary-container": "#5e656e",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#acc7ff",
+                    "on-primary-fixed-variant": "#004491",
+                    "outline-variant": "#c2c6d4",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-error": "#ffffff",
+                    "on-background": "#191c1d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-sm shadow-blue-900/5 flex justify-between items-center px-8 h-20">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors rounded-full lg:hidden">
+<span class="material-symbols-outlined text-blue-900" data-icon="menu">menu</span>
+</button>
+<span class="font-manrope font-extrabold text-blue-900 dark:text-blue-100 text-2xl tracking-tight">Clinical Curator</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-6">
+<span class="text-blue-700 dark:text-blue-400 font-bold font-inter text-sm">Dashboard</span>
+<span class="text-slate-500 dark:text-slate-400 font-medium font-inter text-sm hover:text-blue-600 transition-colors cursor-pointer">RFQ List</span>
+<span class="text-slate-500 dark:text-slate-400 font-medium font-inter text-sm hover:text-blue-600 transition-colors cursor-pointer">Inventory</span>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="Professional portrait of a male pharmaceutical executive in a light blue shirt, clean clinical studio lighting, blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx24M2yU5TEkkZpsp5FwKcTpGr1pt90LElQu-QzYI4MxVbWIf4nN1JRoa5jRnHlZ6Dwxw1ULw5i6DEfn3z7NoIwFkdD_tYugrkaS6-T6emXn7G3Tcy_JbFR7wUBjxf5k8rb4Bfgg-FLn0nwnPiE6uzmxsU3gKq8tur2rTEWzGeK0VLYWXHS2Zevl0Dp-EOjof5cCI06NPJohliuG9je2UTByf6xM2D_sSyYKfub__i45Xm2w0rEoQXzSPxQH1G6W9NcxIqZ9SvhEOk"/>
+</div>
+</div>
+</header>
+<div class="flex pt-20 min-h-screen">
+<!-- NavigationDrawer (Hidden on mobile by default, shown here as reference/web side nav) -->
+<aside class="hidden lg:flex fixed left-0 top-20 h-[calc(100vh-5rem)] w-72 bg-slate-50 dark:bg-slate-950 flex-col py-8 space-y-2">
+<div class="px-8 mb-8">
+<h2 class="font-manrope font-bold text-lg text-blue-900">Admin Portal</h2>
+<p class="text-xs text-slate-500 font-medium tracking-wide uppercase">Pharma Distribution</p>
+</div>
+<nav class="flex-1">
+<div class="bg-white dark:bg-slate-900 text-blue-700 dark:text-blue-400 font-bold rounded-l-full ml-4 pl-4 py-3 flex items-center gap-3 transition-all translate-x-1">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm font-medium">Dashboard</span>
+</div>
+<div class="text-slate-500 dark:text-slate-400 pl-8 py-3 flex items-center gap-3 hover:text-blue-600 dark:hover:text-blue-300 transition-all">
+<span class="material-symbols-outlined" data-icon="request_quote">request_quote</span>
+<span class="font-inter text-sm font-medium">RFQ List</span>
+</div>
+<div class="text-slate-500 dark:text-slate-400 pl-8 py-3 flex items-center gap-3 hover:text-blue-600 dark:hover:text-blue-300 transition-all">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-inter text-sm font-medium">Inventory</span>
+</div>
+<div class="text-slate-500 dark:text-slate-400 pl-8 py-3 flex items-center gap-3 hover:text-blue-600 dark:hover:text-blue-300 transition-all">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-sm font-medium">Settings</span>
+</div>
+</nav>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 lg:ml-72 p-6 md:p-10 bg-surface">
+<!-- Hero Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<!-- Total RFQs -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary-container/10 rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">+4.2%</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium mb-1">Total RFQs</p>
+<h3 class="text-3xl font-extrabold text-on-surface tracking-tight">1,248</h3>
+<div class="mt-4 h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%] rounded-full"></div>
+</div>
+</div>
+<!-- New RFQs -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-tertiary-fixed/30 rounded-lg text-tertiary-container">
+<span class="material-symbols-outlined" data-icon="new_releases">new_releases</span>
+</div>
+<span class="text-xs font-bold text-tertiary-container bg-tertiary-fixed/20 px-2 py-1 rounded-full">Today</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium mb-1">New RFQs</p>
+<h3 class="text-3xl font-extrabold text-on-surface tracking-tight">12</h3>
+<div class="mt-4 flex gap-1">
+<div class="h-1.5 flex-1 bg-tertiary-container rounded-full"></div>
+<div class="h-1.5 flex-1 bg-surface-container-high rounded-full"></div>
+<div class="h-1.5 flex-1 bg-surface-container-high rounded-full"></div>
+<div class="h-1.5 flex-1 bg-surface-container-high rounded-full"></div>
+</div>
+</div>
+<!-- Pending -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-amber-50 rounded-lg text-amber-600">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+</div>
+<span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">Action Required</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium mb-1">Pending</p>
+<h3 class="text-3xl font-extrabold text-on-surface tracking-tight">45</h3>
+<div class="mt-4 h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 w-[30%] rounded-full"></div>
+</div>
+</div>
+<!-- Closed -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-slate-100 rounded-lg text-slate-600">
+<span class="material-symbols-outlined" data-icon="task_alt">task_alt</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm font-medium mb-1">Closed</p>
+<h3 class="text-3xl font-extrabold text-on-surface tracking-tight">1,191</h3>
+<div class="mt-4 h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-slate-400 w-full rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Asymmetric Content Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Quick Insights: RFQ Trends (8 Cols) -->
+<div class="lg:col-span-8 bg-surface-container-low rounded-2xl p-8 relative overflow-hidden group">
+<div class="relative z-10 flex flex-col h-full">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="text-2xl font-manrope font-extrabold text-on-surface tracking-tight">RFQ Volume Trends</h2>
+<p class="text-on-surface-variant text-sm">Last 7 days performance metrics</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-bold text-sm bg-white px-4 py-2 rounded-lg shadow-sm">
+<span>Weekly</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+<!-- Sparkline Visualization Container -->
+<div class="flex-1 flex items-end gap-3 min-h-[200px]">
+<div class="flex-1 bg-primary/10 hover:bg-primary/20 transition-colors rounded-t-lg h-[40%] relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">124</span>
+</div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/30 transition-colors rounded-t-lg h-[65%] relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">156</span>
+</div>
+<div class="flex-1 bg-primary/10 hover:bg-primary/20 transition-colors rounded-t-lg h-[45%] relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">132</span>
+</div>
+<div class="flex-1 bg-primary/40 hover:bg-primary/50 transition-colors rounded-t-lg h-[80%] relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">210</span>
+</div>
+<div class="flex-1 bg-primary/10 hover:bg-primary/20 transition-colors rounded-t-lg h-[55%] relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">145</span>
+</div>
+<div class="flex-1 bg-primary-container hover:bg-primary transition-colors rounded-t-lg h-[95%] relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">248</span>
+</div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/30 transition-colors rounded-t-lg h-[70%] relative group">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">189</span>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-on-surface-variant tracking-widest uppercase opacity-60">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+</div>
+<!-- Recent Activity (4 Cols) -->
+<div class="lg:col-span-4 space-y-6">
+<div class="flex justify-between items-center">
+<h2 class="text-xl font-manrope font-bold text-on-surface">Recent Activity</h2>
+<button class="text-primary text-xs font-bold hover:underline">View All</button>
+</div>
+<div class="space-y-4">
+<!-- Activity Card 1 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl flex items-center gap-4 border-l-4 border-amber-500 shadow-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img alt="Drug Compound" class="w-full h-full object-cover" data-alt="High quality close up of medical pills and capsules in a petri dish, laboratory setting, bright sterile lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbe-7hjn3NM8wKbVZVYNeKRnMohPJVcTra7U5jE5oMHpx7fZOCLj6v_Y3qJzHi_whrv72Piq1E4N_4dU0bgaUE9JsASooU2Ed4HjTmMKBa-iHKO0zTyRP3DxWsuKc7lEE-2OeqV6m89bRlzpjrnVbecGCeBpPgNCGl0IQaGYZOhNuJcXsC67oTM61zOF3zcQyKrlp5KEy3R42z2jrEg_rAMRltriLhgtblCU2pUEw7w-yyrcMjgcZd8TuUKE5GoC_vhMuOwxSOIRNY"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-sm font-bold text-on-surface truncate">Amoxicillin 500mg</h4>
+<p class="text-xs text-on-surface-variant">RFQ #45210 • 2h ago</p>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-amber-50 text-amber-700 uppercase">Pending</span>
+</div>
+<!-- Activity Card 2 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl flex items-center gap-4 border-l-4 border-blue-500 shadow-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img alt="Pharma Stock" class="w-full h-full object-cover" data-alt="Abstract shot of pharmaceutical bottles on a conveyor belt, blurred movement, clean blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuuA0ACh0qMiqSOpBO7toXuiDSRTKfwl7eHokvsj4l28c56hEukRq4G5SYCyO2Tsyg57Bh4viVgOX9QRi406PC5QvQ62KgtOIY7tBitGFLxV245sb2VB2uOYQDt3lg7PC4ok94up0Xy7hrNaASCpfSnbjdTHFosx7BpkL8KcKMYklFKCybR6vNjmXwG9xZj7p_bgUcqrkOPeC-V96ZDRykU9jME9I9kT1wogCFEAHgXWT1wiBXawfDlaGoag1wVIBrWw68Rs52ynDm"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-sm font-bold text-on-surface truncate">Lipitor Bulk Batch</h4>
+<p class="text-xs text-on-surface-variant">RFQ #45209 • 5h ago</p>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-50 text-blue-700 uppercase">Review</span>
+</div>
+<!-- Activity Card 3 -->
+<div class="bg-surface-container-lowest p-5 rounded-xl flex items-center gap-4 border-l-4 border-slate-200 shadow-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img alt="Insulin Pen" class="w-full h-full object-cover" data-alt="Close up of a modern insulin pen on a clean white surface with soft blue shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKMyetekj5avhrcIjhgnfjOVH9hpz2PlRfwQv5KqTf9k-vfl6uWbV6SARnp-VgVcuN7KuG8_ysXBz1qc9MGc-5An3gQJNFgwNiHf70mE1GYm7zZDPjJuct0tiwEWeCd-z1T_PBrAaRyYqKRc1u9R_CksicYNqvGLxrakcKA5XLpiiZNpst94qeCYE16dbNU9U_RErDfoqy_KTbFdbJ8pO0PeB90EGIkNxnFthtTw-8QWoR8RDTksEekuhne0KP05Ywn2Vl37JbRaJX"/>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-sm font-bold text-on-surface truncate">Insulin Glargine</h4>
+<p class="text-xs text-on-surface-variant">RFQ #45198 • 1d ago</p>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-slate-50 text-slate-500 uppercase">Closed</span>
+</div>
+</div>
+<!-- Quick Insight Box -->
+<div class="bg-primary p-6 rounded-2xl text-white shadow-lg relative overflow-hidden">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-white/50 mb-4" data-icon="tips_and_updates">tips_and_updates</span>
+<h4 class="font-manrope font-bold text-lg mb-2">Efficiency Insight</h4>
+<p class="text-white/80 text-sm leading-relaxed">Closing rates are up 12% this week after the new auto-quoting logic was enabled.</p>
+<button class="mt-6 w-full py-2 bg-white/10 hover:bg-white/20 transition-colors border border-white/20 rounded-lg text-sm font-bold">Review Logs</button>
+</div>
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full"></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button - Only for Dashboard context -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-2xl shadow-xl shadow-primary/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-40 group">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="absolute right-full mr-4 bg-on-surface text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Create RFQ</span>
+</button>
+</body></html>

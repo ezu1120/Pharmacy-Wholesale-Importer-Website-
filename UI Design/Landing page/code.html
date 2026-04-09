@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PharmaLink Wholesale | Trusted Pharmaceutical Solutions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#424752",
+                    "surface-container-highest": "#e1e3e4",
+                    "primary-fixed-dim": "#acc7ff",
+                    "on-primary-fixed": "#001a40",
+                    "secondary-fixed-dim": "#c1c7d1",
+                    "secondary-container": "#dde3ee",
+                    "surface-variant": "#e1e3e4",
+                    "background": "#f8f9fa",
+                    "secondary-fixed": "#dde3ee",
+                    "primary-fixed": "#d7e2ff",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#722b00",
+                    "tertiary-fixed": "#ffdbcc",
+                    "surface-container-low": "#f3f4f5",
+                    "surface": "#f8f9fa",
+                    "on-tertiary-container": "#ffc2a7",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e7e8e9",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "tertiary-container": "#983c00",
+                    "on-error": "#ffffff",
+                    "outline-variant": "#c2c6d4",
+                    "surface-dim": "#d9dadb",
+                    "outline": "#727784",
+                    "on-secondary-container": "#5e656e",
+                    "on-secondary-fixed-variant": "#414750",
+                    "secondary": "#585f68",
+                    "on-primary-fixed-variant": "#004491",
+                    "on-primary-container": "#bbd0ff",
+                    "inverse-surface": "#2e3132",
+                    "on-tertiary-fixed": "#351000",
+                    "inverse-on-surface": "#f0f1f2",
+                    "surface-container": "#edeeef",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#acc7ff",
+                    "surface-bright": "#f8f9fa",
+                    "primary-container": "#0056b3",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1d",
+                    "primary": "#003f87",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed-dim": "#ffb694",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#161c24",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#115cb9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #003f87 0%, #0056b3 100%);
+        }
+        .hero-mask {
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/20">
+<!-- TopNavBar -->
+<nav class="sticky top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex items-center justify-between px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-blue-900 dark:text-blue-100 font-headline">PharmaLink Wholesale</div>
+<div class="hidden md:flex items-center space-x-8 font-headline text-sm font-semibold tracking-tight">
+<a class="text-blue-700 dark:text-blue-300 border-b-2 border-blue-700 dark:border-blue-300 pb-1" href="#">Products</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-white transition-colors" href="#">Categories</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-white transition-colors" href="#">About</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-white transition-colors" href="#">RFQ</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-high border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search pharmaceuticals..." type="text"/>
+</div>
+<button class="primary-gradient text-white px-6 py-2.5 rounded-lg font-headline font-bold text-sm transition-all duration-200 ease-out active:scale-95 shadow-md">
+                    Request Quotation
+                </button>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Mobile Overlay Logic) -->
+<aside class="fixed inset-y-0 left-0 z-[60] flex flex-col h-full w-64 border-r border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl md:hidden translate-x-full transition-transform duration-300" id="mobile-nav">
+<div class="p-6">
+<div class="font-bold text-blue-900 dark:text-white font-headline text-xl">PharmaLink</div>
+<div class="text-xs text-slate-500 font-label">Wholesale Portal</div>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-800 dark:text-blue-100 font-bold border-r-4 border-blue-700 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">medication</span>
+<span>Products</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">category</span>
+<span>Categories</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">info</span>
+<span>About</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">request_quote</span>
+<span>RFQ</span>
+</a>
+</nav>
+</aside>
+<main>
+<!-- 1. Hero Section -->
+<section class="relative min-h-[870px] flex items-center overflow-hidden bg-slate-900">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-40 hero-mask" data-alt="wide shot of a bright clinical laboratory with high-tech equipment and pharmaceutical storage under cool blue surgical lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN246v7S1eCsC9EPT7g3Hfol8IQgN0KpxtLICRCLuJ-CMJa6E5WjyBpgEDsF9LGyPMcAVXsyDEWsE-BHpMwP0hr5fSnRvtyR6azfXmR0JL6Rk4FwyUBahW6bp10A4YWfCJnj-YnHKBJZXIBsDcnHHSicJHiSfYB6c4elXNUs2JZYFMeMQ5Yrs5cyk7d_B_meBXAG8fwfTD0IFud5DdXQlHrbWhLFKBM9K5mKMknNsy49Wzmc1yufoOXfL2qfeydIR3ie-SnkwWUr7M"/>
+</div>
+<div class="relative z-10 max-w-screen-2xl mx-auto px-8 w-full">
+<div class="max-w-3xl">
+<span class="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary-fixed-dim text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-sm border border-primary/30">Global Distribution Excellence</span>
+<h1 class="text-white font-headline text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[1.1]">
+                        Trusted Pharmaceutical Wholesale &amp; <span class="text-blue-400">Import Solutions</span>
+</h1>
+<p class="text-slate-300 text-lg md:text-xl mb-12 max-w-xl font-body leading-relaxed">
+                        Supplying medical institutions worldwide with precision-sourced medications, surgical supplies, and laboratory equipment through a certified cold-chain network.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="primary-gradient text-white px-10 py-5 rounded-lg font-headline font-bold text-lg hover:scale-[1.02] transition-all shadow-2xl">
+                            Request Quotation
+                        </button>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-5 rounded-lg font-headline font-bold text-lg hover:bg-white/20 transition-all">
+                            View Products
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. About Section -->
+<section class="py-24 px-8 max-w-screen-2xl mx-auto">
+<div class="grid md:grid-cols-2 gap-20 items-center">
+<div class="relative">
+<div class="aspect-square rounded-2xl overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="Close up of a professional pharmacist in a clean white lab coat inspecting a medicine vial in a high-end storage facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMGLCR_-jrmWuj4ZRKVuUjUXAmoneCW8aCk3DceORIKs5lhc9K63Lu6fuMnYLfrSY4Gqw1xvywpPJYgx8iFJ0KqoOVG1ffIDln5SIo9H6z5DwNjotRyVhZiy0DX7XNckph4ISAIhwhvZMjP9-dCwSZFWV0u_PwJQmRu0dsIQS-7HW3fkEcNfhlzUJHILk6ThSzEaZykiHITA8rcIkAIpvLODk6FVD4FQwJaYOXSC7A_kcT2gX-daoXsr6dh4rI3SpiKjDidqbX-X22"/>
+</div>
+<div class="absolute -bottom-10 -right-10 bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hidden lg:block max-w-xs">
+<p class="text-primary font-headline font-extrabold text-4xl mb-1">15+</p>
+<p class="text-on-surface-variant font-label text-sm uppercase tracking-wider">Years of Regulatory Excellence</p>
+</div>
+</div>
+<div>
+<h2 class="text-primary font-headline text-4xl font-extrabold mb-8">The Essential Bridge in Healthcare Supply Chains</h2>
+<div class="space-y-6 text-on-surface-variant text-lg leading-relaxed">
+<p>
+                            PharmaLink Pro operates at the intersection of medical necessity and logistical precision. As a licensed global wholesaler, we remove the complexities of international pharmaceutical procurement.
+                        </p>
+<p>
+                            Our commitment to <strong>Regulatory Compliance</strong> ensures that every SKU in our catalog meets rigorous international standards, including WHO, FDA, and EMA guidelines. We prioritize clinical integrity from origin to delivery.
+                        </p>
+</div>
+<div class="mt-12 grid grid-cols-2 gap-8">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<div>
+<p class="font-headline font-bold text-on-surface">Fully Licensed</p>
+<p class="text-xs text-on-surface-variant">Global Export Permits</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">thermostat</span>
+<div>
+<p class="font-headline font-bold text-on-surface">Cold Chain</p>
+<p class="text-xs text-on-surface-variant">Temperature Controlled</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Product Categories -->
+<section class="py-24 bg-surface-container-low px-8">
+<div class="max-w-screen-2xl mx-auto">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="text-on-surface font-headline text-3xl font-extrabold mb-4">Explore Specialized Categories</h2>
+<p class="text-on-surface-variant">Streamlined procurement for every medical department.</p>
+</div>
+<a class="text-primary font-headline font-bold hover:underline" href="#">View All Categories</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- OTC -->
+<div class="bg-surface-container-lowest p-8 rounded-xl hover:shadow-xl transition-all group">
+<div class="w-14 h-14 bg-secondary-container rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-white">pill</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-3">OTC Medications</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">High-volume over-the-counter essentials for retail pharmacy networks.</p>
+<button class="text-primary font-headline font-bold text-sm flex items-center gap-2">
+                            Request Quote <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Surgical -->
+<div class="bg-surface-container-lowest p-8 rounded-xl hover:shadow-xl transition-all group">
+<div class="w-14 h-14 bg-secondary-container rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-white">content_cut</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-3">Surgical Supplies</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Precision instruments and sterile disposables for operating theaters.</p>
+<button class="text-primary font-headline font-bold text-sm flex items-center gap-2">
+                            Request Quote <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Lab Equipment -->
+<div class="bg-surface-container-lowest p-8 rounded-xl hover:shadow-xl transition-all group">
+<div class="w-14 h-14 bg-secondary-container rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-white">biotech</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-3">Lab Equipment</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Diagnostic devices and consumables for clinical research facilities.</p>
+<button class="text-primary font-headline font-bold text-sm flex items-center gap-2">
+                            Request Quote <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Vitamins -->
+<div class="bg-surface-container-lowest p-8 rounded-xl hover:shadow-xl transition-all group">
+<div class="w-14 h-14 bg-secondary-container rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-white">nutrition</span>
+</div>
+<h3 class="font-headline font-bold text-xl mb-3">Nutraceuticals</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Pharmaceutical grade vitamins and supplements for holistic care.</p>
+<button class="text-primary font-headline font-bold text-sm flex items-center gap-2">
+                            Request Quote <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Why Choose Us -->
+<section class="bg-primary text-white py-20 px-8">
+<div class="max-w-screen-2xl mx-auto">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-12">
+<div class="text-center">
+<span class="material-symbols-outlined text-4xl mb-4 text-blue-300" style="font-variation-settings: 'FILL' 1;">verified</span>
+<h4 class="font-headline font-bold text-lg mb-2">Genuine Products</h4>
+<p class="text-blue-200 text-xs px-4">Direct sourcing from certified manufacturers only.</p>
+</div>
+<div class="text-center">
+<span class="material-symbols-outlined text-4xl mb-4 text-blue-300" style="font-variation-settings: 'FILL' 1;">payments</span>
+<h4 class="font-headline font-bold text-lg mb-2">Competitive Pricing</h4>
+<p class="text-blue-200 text-xs px-4">Economies of scale passed directly to our clients.</p>
+</div>
+<div class="text-center">
+<span class="material-symbols-outlined text-4xl mb-4 text-blue-300" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+<h4 class="font-headline font-bold text-lg mb-2">Fast Delivery</h4>
+<p class="text-blue-200 text-xs px-4">Optimized air &amp; sea freight for rapid turnaround.</p>
+</div>
+<div class="text-center">
+<span class="material-symbols-outlined text-4xl mb-4 text-blue-300" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<h4 class="font-headline font-bold text-lg mb-2">Licensed &amp; Compliant</h4>
+<p class="text-blue-200 text-xs px-4">Strict adherence to regional health authorities.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Featured Inventory -->
+<section class="py-24 px-8 max-w-screen-2xl mx-auto">
+<div class="flex justify-between items-center mb-16">
+<h2 class="text-on-surface font-headline text-3xl font-extrabold">Ready-to-Ship Inventory</h2>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container-high">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container-high">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Product 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="aspect-square bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Clinical studio product shot of a high-quality box of amoxicillin antibiotic pills on a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT1Zpx30eiJH2B3FN3tVvNGqulav-d54JO54EGZllsqOBx38n3F4IMwSy1T0xpQLUYTtK4lQMxvODIjgOrf2q-nDw_MCxVO9s5cb8d1OgECNRPBPXzCRVNHXPBWh0oR6Nc1mnhtmfWN-VWQs-PPugkYnZGfk9CuRzg-ZOv1B_2Zuu_LiEk_0NGmNvTjPDIiPKoBQz7uPBUZwQfrSxSzoquwuRzzt1ju3-sPTucBPiypVzeT5BYAuRXHMUljvs2qq0Xv3xClu4CpfEs"/>
+</div>
+<div class="p-6">
+<p class="text-[10px] uppercase tracking-tighter text-on-surface-variant font-bold mb-1">Antibiotics</p>
+<h3 class="font-headline font-bold text-lg mb-1">Amoxicillin 500mg</h3>
+<p class="text-xs text-on-surface-variant mb-4">Pack of 100 Capsules • Pharmacia Ltd</p>
+<button class="w-full py-2 border-2 border-primary text-primary font-headline font-bold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                            Add to RFQ
+                        </button>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="aspect-square bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Amber bottle of Dettol liquid antiseptic liquid against a clinical white laboratory backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgMAnDSWcUQ4ymoodb7C9SBCmipw7C1_aRAOfTs48YyNzH4GJQQZWfOPbPokVj7IwT0PLwtaF1bmWCibbB0IEMwD4DKKtxygAiOybudrtnVwgBuUmluYV9ZjZPucU7g-iTWR2LMN_yTrNXslgjbv4KT5rO0DWJxVH1OztAFATiiI4YLERmVM5iCNQGpWQdVFx1r44uXJ1Yqj_1__YphDFPMe6REby7K4QtDwKSpsefcySEBIav8nFFJWbzqKwQnb-AlYYC-upFtJgA"/>
+</div>
+<div class="p-6">
+<p class="text-[10px] uppercase tracking-tighter text-on-surface-variant font-bold mb-1">Antiseptics</p>
+<h3 class="font-headline font-bold text-lg mb-1">Dettol Antiseptic</h3>
+<p class="text-xs text-on-surface-variant mb-4">500ml Bottle • RB Health</p>
+<button class="w-full py-2 border-2 border-primary text-primary font-headline font-bold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                            Add to RFQ
+                        </button>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="aspect-square bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Sterile surgical stainless steel precision scalpel placed on a clean blue medical draped surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXmIVCkIpvjyqjp1qsgBrhpEoiUuFadOdDwmpHCbidSua6RjlRkXQEo1ohX_Q6VD9lIrVpeGWDf7yGBXKbNiCf1ykqUg9kZZuuG0l_6ubmpcZQQZwEGleuco9X8ZwyKGyJOobIKlP3lLDlUzsMmNYKtiJ5X6noqB_NEperWwJml7S-8kf2quC-Gj241zFL1pMBgNwDwWcvpkHjTWceyLIsZVpcZKGmgPqj3OTtnv2bScz_ZngfPDWmrOAIsFFfHSGadF2KvXZS4icy"/>
+</div>
+<div class="p-6">
+<p class="text-[10px] uppercase tracking-tighter text-on-surface-variant font-bold mb-1">Surgical</p>
+<h3 class="font-headline font-bold text-lg mb-1">Precision Scalpel</h3>
+<p class="text-xs text-on-surface-variant mb-4">No. 11 Stainless • MedBlade</p>
+<button class="w-full py-2 border-2 border-primary text-primary font-headline font-bold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                            Add to RFQ
+                        </button>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden group">
+<div class="aspect-square bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Professional medical grade vitamin C supplement bottle with tablets spilling out slightly on a clean light gray surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMjzjeTZKSwMSz8wmYI5AxZqdn9zzggPCMFdos7aLZp67a9GizoJidjMOJnEUATOtmauWtk8Tbwh3Wq9TbbaDYx9hPuikIuZOJMKCXoGjLZIe5e6YrMnbI4GxvMDhx1noaIBd_PBnBsgYEB9n1d5sXZw_kl429lfU0OQ4NyIq-GNVNv26vm3vxhymcokhG1_b_wJlNOXSPf7K9AjxSOQCXr87slhrlzAAU8w8VnQP_7GDcstWmYVGeWuthZz7ohnGe4r74OhzVkV8X"/>
+</div>
+<div class="p-6">
+<p class="text-[10px] uppercase tracking-tighter text-on-surface-variant font-bold mb-1">Vitamins</p>
+<h3 class="font-headline font-bold text-lg mb-1">Vitamin C 1000mg</h3>
+<p class="text-xs text-on-surface-variant mb-4">90 Effervescent Tabs • NutraCare</p>
+<button class="w-full py-2 border-2 border-primary text-primary font-headline font-bold rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+                            Add to RFQ
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. How It Works -->
+<section class="py-24 bg-surface px-8">
+<div class="max-w-screen-xl mx-auto text-center">
+<h2 class="text-on-surface font-headline text-3xl font-extrabold mb-16">The Procurement Process</h2>
+<div class="relative flex flex-col md:flex-row justify-between items-center gap-12 md:gap-4">
+<!-- Progress Line (Desktop only) -->
+<div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-4/5 h-0.5 bg-outline-variant hidden md:block"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center max-w-[200px]">
+<div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white font-headline font-bold text-xl mb-6 shadow-lg shadow-primary/30">1</div>
+<h5 class="font-headline font-bold mb-2">Browse</h5>
+<p class="text-xs text-on-surface-variant">Explore our extensive verified catalog.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center max-w-[200px]">
+<div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white font-headline font-bold text-xl mb-6 shadow-lg shadow-primary/30">2</div>
+<h5 class="font-headline font-bold mb-2">Add to RFQ</h5>
+<p class="text-xs text-on-surface-variant">Select quantities and specific requirements.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center max-w-[200px]">
+<div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white font-headline font-bold text-xl mb-6 shadow-lg shadow-primary/30">3</div>
+<h5 class="font-headline font-bold mb-2">Submit</h5>
+<p class="text-xs text-on-surface-variant">Provide facility details and delivery preference.</p>
+</div>
+<!-- Step 4 -->
+<div class="relative z-10 flex flex-col items-center max-w-[200px]">
+<div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white font-headline font-bold text-xl mb-6 shadow-lg shadow-primary/30">4</div>
+<h5 class="font-headline font-bold mb-2">Receive Quote</h5>
+<p class="text-xs text-on-surface-variant">Get a formalized clinical quotation within 24h.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Testimonials -->
+<section class="py-24 px-8 max-w-screen-2xl mx-auto overflow-hidden">
+<h2 class="text-center text-on-surface font-headline text-3xl font-extrabold mb-16">Trusted by Healthcare Leaders</h2>
+<div class="grid md:grid-cols-2 gap-8">
+<div class="bg-surface-container-low p-10 rounded-2xl relative">
+<span class="material-symbols-outlined text-primary/20 text-6xl absolute top-6 right-8">format_quote</span>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a female hospital administrator with a professional and trustworthy appearance in a modern clinic environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw0zGW3tEslZbPD92Nqu6SRUWAAowKoiVMH-0-7QpNd7Boe5_vxx4YaMOSGph39TDOCUKrWypPehzmzVVc_uFPbXWPM_u9s_0yMn532zWgcAGWN-CKOjFMcVBSSDiFvelcfoG9N-BRAfsy1zRSyx0Ycru6sizbcJhLYyBfNliCIRnwdiHmPXC3-TVFyIkMfZeExqyMJAbYPgVcOZI6WLzxQYpI_HDAxSWjsBDiYnsbSlecnhwB_KC50Htl5mOUyIZRirKCDycOuxAJ"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Dr. Sarah Jenkins</p>
+<p class="text-xs text-on-surface-variant">Hospital Administrator, St. Jude Medical</p>
+</div>
+</div>
+<p class="text-on-surface font-body italic leading-relaxed">
+                        "The reliability of PharmaLink's cold chain logistics has been transformative for our oncology department. We never have to worry about the integrity of our temperature-sensitive imports."
+                    </p>
+</div>
+<div class="bg-surface-container-low p-10 rounded-2xl relative">
+<span class="material-symbols-outlined text-primary/20 text-6xl absolute top-6 right-8">format_quote</span>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a male pharmacist in his early 40s wearing professional attire in front of stocked pharmacy shelves" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXBMbmkRSebp14anh_znz2nku4IyS0J6SXoJY5oiWZ7KafSkPCA0c4uysdV0FP05PO9uHj65L66i1-lajCpSs4imI46WsGAg9EtaxZCD6-PyEvFElvi6KNAP1gS-KPwmpRbja4hPmuuERjvsWGjs6kIeQ5FOkaS2UgwexrEHFkgRARtGIO-_8J3i3mfLK9X4qjUN7J187zLYC5fasUwjsNfrxXyzrnE24mDK-q_GU8f1X9AuRfcnntv7x2p7hoUiQe2aTDxFS1Xbh2"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">Mark Thompson</p>
+<p class="text-xs text-on-surface-variant">Owner, City Health Pharmacies</p>
+</div>
+</div>
+<p class="text-on-surface font-body italic leading-relaxed">
+                        "Procuring rare medications used to be a nightmare of paperwork. PharmaLink's RFQ portal simplifies the entire process, letting me focus on patient care rather than logistics."
+                    </p>
+</div>
+</div>
+</section>
+<!-- 8. Get In Touch -->
+<section class="py-24 px-8 bg-surface-container-highest/30">
+<div class="max-w-screen-2xl mx-auto grid lg:grid-cols-2 gap-20">
+<div>
+<h2 class="text-primary font-headline text-4xl font-extrabold mb-8">Let's Secure Your Supply Chain</h2>
+<p class="text-on-surface-variant text-lg mb-12">Our procurement experts are ready to assist with bulk orders, regular supplies, or specialized medical equipment imports.</p>
+<div class="space-y-8">
+<div class="flex items-start gap-6">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div>
+<h6 class="font-headline font-bold mb-1">Headquarters</h6>
+<p class="text-sm text-on-surface-variant leading-relaxed">Medical Park West, Floor 14<br/>London, UK EC1A 4HQ</p>
+</div>
+</div>
+<div class="flex items-start gap-6">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-primary">call</span>
+</div>
+<div>
+<h6 class="font-headline font-bold mb-1">Phone Support</h6>
+<p class="text-sm text-on-surface-variant leading-relaxed">+44 (0) 20 7946 0123<br/>Available Mon-Fri, 9am - 6pm GMT</p>
+</div>
+</div>
+<div class="flex items-start gap-6">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-primary">mail</span>
+</div>
+<div>
+<h6 class="font-headline font-bold mb-1">Email Support</h6>
+<p class="text-sm text-on-surface-variant leading-relaxed">support@pharmalinkwholesale.com<br/>procurement@pharmalinkwholesale.com</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-10 rounded-2xl shadow-xl">
+<form class="space-y-6">
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Full Name</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg p-3 focus:ring-2 focus:ring-primary/20" placeholder="John Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Work Email</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg p-3 focus:ring-2 focus:ring-primary/20" placeholder="john@hospital.com" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Message</label>
+<textarea class="w-full bg-surface-container-high border-none rounded-lg p-3 focus:ring-2 focus:ring-primary/20" placeholder="Please describe your requirements..." rows="5"></textarea>
+</div>
+<button class="w-full primary-gradient text-white py-4 rounded-lg font-headline font-bold text-lg hover:shadow-xl transition-all active:scale-[0.98]">
+                            Send Message
+                        </button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 max-w-screen-2xl mx-auto">
+<div class="space-y-6">
+<div class="font-manrope font-bold text-lg text-slate-900 dark:text-slate-100">PharmaLink Wholesale</div>
+<p class="text-slate-500 dark:text-slate-400 font-inter text-xs leading-relaxed">
+                    Reliable pharmaceutical distribution serving hospitals, clinics, and pharmacies globally with precision and care.
+                </p>
+<div class="flex gap-4">
+<a class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">public</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">groups</span>
+</a>
+</div>
+</div>
+<div class="space-y-4">
+<h6 class="font-headline font-bold text-sm text-slate-900 dark:text-slate-100">Quick Links</h6>
+<nav class="flex flex-col gap-2 font-inter text-xs">
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-blue-600 dark:hover:text-blue-400" href="#">Terms of Service</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-blue-600 dark:hover:text-blue-400" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-blue-600 dark:hover:text-blue-400" href="#">Regulatory Compliance</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h6 class="font-headline font-bold text-sm text-slate-900 dark:text-slate-100">Support</h6>
+<nav class="flex flex-col gap-2 font-inter text-xs">
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-blue-600 dark:hover:text-blue-400" href="#">Contact Support</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-blue-600 dark:hover:text-blue-400" href="#">Distribution Network</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline hover:text-blue-600 dark:hover:text-blue-400" href="#">Track Shipment</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h6 class="font-headline font-bold text-sm text-slate-900 dark:text-slate-100">Newsletter</h6>
+<p class="text-slate-500 dark:text-slate-400 text-[10px] font-inter">Get regulatory updates and inventory arrivals.</p>
+<div class="flex gap-2">
+<input class="flex-1 text-xs border-slate-200 rounded p-2 focus:ring-1 focus:ring-primary" placeholder="Email" type="email"/>
+<button class="bg-primary text-white text-[10px] font-bold px-4 rounded">Join</button>
+</div>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-800 py-8 px-12 max-w-screen-2xl mx-auto">
+<p class="text-slate-500 dark:text-slate-400 font-inter text-xs leading-relaxed text-center">
+                © 2024 PharmaLink Wholesale. Clinical Precision in Distribution.
+            </p>
+</div>
+</footer>
+<!-- FAB RFQ SUMMARY -->
+<div class="fixed bottom-8 right-8 z-[100] group">
+<button class="primary-gradient text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-110 active:scale-95">
+<span class="material-symbols-outlined text-3xl">list_alt</span>
+<span class="absolute -top-1 -right-1 bg-error text-white text-[10px] w-6 h-6 rounded-full flex items-center justify-center font-bold border-2 border-white">0</span>
+</button>
+<div class="absolute bottom-full right-0 mb-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all pointer-events-none">
+<div class="bg-white p-4 rounded-xl shadow-2xl border border-slate-100 w-48 text-center">
+<p class="text-xs font-bold text-on-surface mb-1">Your RFQ is empty</p>
+<p class="text-[10px] text-on-surface-variant">Add items to request a quote</p>
+</div>
+</div>
+</div>
+</body></html>

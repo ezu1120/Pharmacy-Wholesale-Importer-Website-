@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clinical Curator - RFQ List</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdbcc",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "tertiary-container": "#983c00",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "background": "#f8f9fa",
+                    "inverse-on-surface": "#f0f1f2",
+                    "secondary": "#585f68",
+                    "primary-fixed-dim": "#acc7ff",
+                    "surface-container-low": "#f3f4f5",
+                    "surface-container-high": "#e7e8e9",
+                    "on-secondary-fixed": "#161c24",
+                    "tertiary": "#722b00",
+                    "on-surface": "#191c1d",
+                    "primary": "#003f87",
+                    "on-secondary-fixed-variant": "#414750",
+                    "surface": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#bbd0ff",
+                    "inverse-surface": "#2e3132",
+                    "surface-bright": "#f8f9fa",
+                    "secondary-fixed-dim": "#c1c7d1",
+                    "secondary-fixed": "#dde3ee",
+                    "tertiary-fixed-dim": "#ffb694",
+                    "on-tertiary-container": "#ffc2a7",
+                    "on-primary-fixed": "#001a40",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#dde3ee",
+                    "surface-container": "#edeeef",
+                    "on-tertiary": "#ffffff",
+                    "outline": "#727784",
+                    "on-surface-variant": "#424752",
+                    "primary-container": "#0056b3",
+                    "surface-tint": "#115cb9",
+                    "on-tertiary-fixed": "#351000",
+                    "surface-dim": "#d9dadb",
+                    "primary-fixed": "#d7e2ff",
+                    "surface-variant": "#e1e3e4",
+                    "on-secondary-container": "#5e656e",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#acc7ff",
+                    "on-primary-fixed-variant": "#004491",
+                    "outline-variant": "#c2c6d4",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-error": "#ffffff",
+                    "on-background": "#191c1d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface antialiased overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-sm shadow-blue-900/5 flex justify-between items-center px-6 h-20 w-full">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 ease-out rounded-lg">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-400" data-icon="menu">menu</span>
+</button>
+<h1 class="font-manrope font-bold text-2xl tracking-tight text-blue-900 dark:text-blue-100">RFQ List</h1>
+</div>
+<div class="flex items-center">
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden ring-2 ring-white shadow-md">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="professional medical administrator portrait with neutral background and clean professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO0DnncaOdVh-AJUmhlO6vckOzB2-eNsJ05U1zy7S77mZAKBj_0-sdXnWZxk99Fz_6b8ubryZel2fPVrnVtAdEqNQ_qVuRc_X0wOxmxn2skmrIoDUnhApL_bdiT_KpGWEEOABvU-b-CChQJOaxL-UgmK1cHThH8iNzi412HHKRpO2iDnvTms0QrJF1sPl4CdsRw3U2J7IXtWGhRhzHSvCr09E2_YqAEvF0ul7EmGlbMb1wikGsGw8A3VXikmR1znhd643o85vuk9cK"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation (Visible on MD+) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-screen w-72 bg-slate-50 dark:bg-slate-950 flex flex-col py-8 space-y-2 z-40 pt-24">
+<div class="px-8 mb-6">
+<h2 class="font-manrope font-bold text-lg text-blue-900">Admin Portal</h2>
+<p class="text-xs text-slate-500 font-medium tracking-wide">Pharma Distribution</p>
+</div>
+<nav class="flex flex-col space-y-1">
+<a class="flex items-center gap-4 text-slate-500 dark:text-slate-400 pl-8 py-3 hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 bg-white dark:bg-slate-900 text-blue-700 dark:text-blue-400 font-bold rounded-l-full ml-4 pl-4 py-3 shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="request_quote">request_quote</span>
+<span class="font-inter text-sm font-medium">RFQ List</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 dark:text-slate-400 pl-8 py-3 hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-inter text-sm font-medium">Inventory</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 dark:text-slate-400 pl-8 py-3 hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-sm font-medium">Settings</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-72 pt-24 pb-12 px-4 md:px-10 max-w-5xl mx-auto">
+<!-- Search & Filter Section -->
+<section class="mb-8 space-y-4">
+<div class="flex items-center gap-3 w-full">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60 text-lg" data-icon="search">search</span>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container-high border-none rounded-xl font-body text-sm focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest transition-all" placeholder="Search by ID or Company..." type="text"/>
+</div>
+<button class="flex items-center justify-center h-14 w-14 md:w-auto md:px-6 bg-surface-container-lowest text-on-surface rounded-xl shadow-sm hover:shadow-md transition-all">
+<span class="material-symbols-outlined md:mr-2" data-icon="filter_list">filter_list</span>
+<span class="hidden md:inline font-medium text-sm">Filter</span>
+</button>
+</div>
+<!-- Quick Stats/Chips -->
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-full text-xs font-bold whitespace-nowrap">All RFQs</button>
+<button class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full text-xs font-semibold whitespace-nowrap">New Requests (12)</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant rounded-full text-xs font-semibold whitespace-nowrap">Pending (45)</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant rounded-full text-xs font-semibold whitespace-nowrap">Archived</button>
+</div>
+</section>
+<!-- RFQ Cards Grid -->
+<div class="grid grid-cols-1 gap-4">
+<!-- RFQ Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-primary/20">
+<div class="flex justify-between items-start mb-4">
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-primary tracking-widest uppercase opacity-70">#RFQ-2024-001</p>
+<h3 class="font-manrope font-bold text-lg text-blue-900 leading-tight">St. Jude Medical Center</h3>
+</div>
+<span class="px-3 py-1 bg-primary-container text-white text-[10px] font-extrabold rounded-full uppercase tracking-wider">New</span>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2 text-on-surface-variant opacity-80">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-medium">Oct 24, 2024</span>
+</div>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-100 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="avatar thumbnail of a medical supply manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWDsF6jWtKjkT7vKhf3iwyXpifAwQp5j5_Ebc-1DOgmhC2AzOW8LX4l_j2qGApH-3KFwyBnalLoIqFU5TNbEVWy_duO4xs4tmDNgw6CALkF4loaZ6Xqf1ua9delrl_63CWmS2uSIHhsyDbEHtsGhmSaVHBrALygJYqVZfiNcDM3OYNxR0sljJrT3Nld63x_KXsr1M-fDC5s49ev39KQ_eOqMhApaQYvS1ssYR2ei9i4kVLfzobCKVy4de8nBA3zXy86M9SjtLLzGd5"/>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[8px] font-bold text-slate-500">
+                            +2
+                        </div>
+</div>
+</div>
+</div>
+<!-- RFQ Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-yellow-500/20">
+<div class="flex justify-between items-start mb-4">
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-primary tracking-widest uppercase opacity-70">#RFQ-2024-002</p>
+<h3 class="font-manrope font-bold text-lg text-blue-900 leading-tight">City General Pharmacy</h3>
+</div>
+<span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-[10px] font-extrabold rounded-full uppercase tracking-wider">Pending</span>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2 text-on-surface-variant opacity-80">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-medium">Oct 22, 2024</span>
+</div>
+<span class="text-[10px] font-medium text-slate-400">Awaiting Price Confirmation</span>
+</div>
+</div>
+<!-- RFQ Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-slate-300">
+<div class="flex justify-between items-start mb-4">
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-primary tracking-widest uppercase opacity-70">#RFQ-2023-942</p>
+<h3 class="font-manrope font-bold text-lg text-blue-900 leading-tight">Northview Biotech</h3>
+</div>
+<span class="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-extrabold rounded-full uppercase tracking-wider">Closed</span>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2 text-on-surface-variant opacity-80">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-medium">Oct 18, 2024</span>
+</div>
+<div class="flex items-center gap-1 text-green-600">
+<span class="material-symbols-outlined text-base" data-icon="check_circle">check_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-tight">Converted</span>
+</div>
+</div>
+</div>
+<!-- RFQ Card 4 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-primary/20">
+<div class="flex justify-between items-start mb-4">
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-primary tracking-widest uppercase opacity-70">#RFQ-2024-005</p>
+<h3 class="font-manrope font-bold text-lg text-blue-900 leading-tight">Unity Health Group</h3>
+</div>
+<span class="px-3 py-1 bg-primary-container text-white text-[10px] font-extrabold rounded-full uppercase tracking-wider">New</span>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2 text-on-surface-variant opacity-80">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-medium">Oct 24, 2024</span>
+</div>
+<span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">High Priority</span>
+</div>
+</div>
+<!-- RFQ Card 5 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-yellow-500/20">
+<div class="flex justify-between items-start mb-4">
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-primary tracking-widest uppercase opacity-70">#RFQ-2024-009</p>
+<h3 class="font-manrope font-bold text-lg text-blue-900 leading-tight">Global Care Pharma</h3>
+</div>
+<span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-[10px] font-extrabold rounded-full uppercase tracking-wider">Pending</span>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center gap-2 text-on-surface-variant opacity-80">
+<span class="material-symbols-outlined text-base" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-medium">Oct 21, 2024</span>
+</div>
+<span class="text-[10px] font-medium text-slate-400 italic">Reviewing Inventory</span>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="mt-10 flex justify-center">
+<button class="px-8 py-3 bg-surface-container-high text-on-surface-variant font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-surface-container-highest transition-colors">
+                Load More Results
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-100 flex justify-around items-center h-20 px-4 z-50">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Dash</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-blue-700" href="#">
+<span class="material-symbols-outlined" data-icon="request_quote" data-weight="fill">request_quote</span>
+<span class="text-[10px] font-extrabold uppercase tracking-tighter">RFQs</span>
+</a>
+<div class="relative -top-8">
+<button class="w-16 h-16 bg-gradient-to-br from-primary to-primary-container text-white rounded-full shadow-lg shadow-blue-900/30 flex items-center justify-center ring-4 ring-background">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Stock</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">More</span>
+</a>
+</nav>
+<!-- Empty Padding for Bottom Nav -->
+<div class="h-24 md:hidden"></div>
+</body></html>

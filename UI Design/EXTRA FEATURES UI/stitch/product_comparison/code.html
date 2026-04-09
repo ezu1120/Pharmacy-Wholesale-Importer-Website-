@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Comparison | PharmaDirect Wholesale</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001a40",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#351000",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-bright": "#f8f9fa",
+                        "primary-fixed": "#d7e2ff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-fixed": "#dde3ee",
+                        "secondary": "#585f68",
+                        "on-secondary-fixed-variant": "#414750",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb694",
+                        "on-secondary-container": "#5e656e",
+                        "primary": "#003f87",
+                        "inverse-primary": "#acc7ff",
+                        "on-primary-container": "#bbd0ff",
+                        "surface-container-high": "#e7e8e9",
+                        "on-secondary-fixed": "#161c24",
+                        "outline-variant": "#c2c6d4",
+                        "on-primary-fixed-variant": "#004491",
+                        "primary-fixed-dim": "#acc7ff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error": "#ffffff",
+                        "surface": "#f8f9fa",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "tertiary-container": "#983c00",
+                        "surface-variant": "#e1e3e4",
+                        "on-surface-variant": "#424752",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f3f4f5",
+                        "on-surface": "#191c1d",
+                        "secondary-container": "#dde3ee",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#ffc2a7",
+                        "on-background": "#191c1d",
+                        "primary-container": "#0056b3",
+                        "inverse-surface": "#2e3132",
+                        "surface-tint": "#115cb9",
+                        "error-container": "#ffdad6",
+                        "outline": "#727784",
+                        "surface-container": "#edeeef",
+                        "tertiary": "#722b00",
+                        "secondary-fixed-dim": "#c1c7d1",
+                        "background": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(248, 249, 250, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c2c6d4;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar Component -->
+<header class="flex items-center justify-between px-6 py-4 w-full sticky top-0 bg-[#f8f9fa]/80 backdrop-blur-md z-50 transition-transform">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="medication">medication</span>
+<span class="font-headline font-extrabold text-[#003f87] uppercase tracking-wider text-xl">PharmaDirect Wholesale</span>
+</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-slate-500 font-medium hover:bg-slate-100 px-3 py-2 rounded-lg transition-colors" href="#">Dashboard</a>
+<a class="text-slate-500 font-medium hover:bg-slate-100 px-3 py-2 rounded-lg transition-colors" href="#">RFQs</a>
+<a class="text-[#003f87] font-semibold border-b-2 border-[#003f87] px-3 py-2" href="#">Compare</a>
+<a class="text-slate-500 font-medium hover:bg-slate-100 px-3 py-2 rounded-lg transition-colors" href="#">Catalog</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="language">language</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-fixed text-xs font-bold">CP</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-6 py-12">
+<!-- Editorial Header Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-headline font-bold text-4xl tracking-tight text-on-surface mb-2">Comparative Analysis</h1>
+<p class="text-on-surface-variant max-w-2xl leading-relaxed">Detailed technical comparison of active pharmaceutical ingredients and therapeutic alternatives for clinical procurement decision-making.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-primary font-semibold rounded-xl hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="share">share</span>
+                        Export PDF
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white font-semibold rounded-xl hover:shadow-lg transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                        Add Product
+                    </button>
+</div>
+</div>
+</section>
+<!-- Bento Style Grid / Comparison Table Container -->
+<div class="bg-surface-container-low rounded-[2rem] p-1 overflow-hidden shadow-sm">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full border-collapse">
+<thead>
+<tr>
+<!-- Sticky Column Header -->
+<th class="sticky left-0 bg-surface-container-low z-20 min-w-[240px] p-8 text-left border-r border-outline-variant/10">
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary/60">Parameters</span>
+<h3 class="font-headline font-extrabold text-xl">Technical Specs</h3>
+</div>
+</th>
+<!-- Product Column 1 -->
+<th class="min-w-[320px] p-8 bg-surface-container-lowest transition-colors group">
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 mb-6 rounded-2xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close-up photo of white pharmaceutical capsules in a sterile glass laboratory container with soft blue studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVb3K30tdCfOwJd_rXzSIYDFv5Pr5pcbURnLezA88I4GqH_VwgeE4jBRhh2IxGlVyPGTqV8aoanICNxyuYqXEzaXfLzkcXrzm5xe6g_x8CxiPRy4uAlth8dqzUb-asapwCxWDFX4Q1wfBzbx-tLL9FlzC75k4bkXzqTGv_Wu0KQKeX35MZUaWahh6oCqTixW5_9WoVna895QH5rYuBauL6WziZFgN6el4fJx3Cg48VVaDxDU8CgS5dvca9BhEuLrHqwKn7d179WYgV"/>
+</div>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-wider mb-3">Antibiotic</span>
+<h2 class="font-headline font-bold text-2xl text-primary mb-1">Amoxicillin BP</h2>
+<p class="text-xs text-on-surface-variant font-medium">GlaxoSmithKline (GSK)</p>
+</div>
+</th>
+<!-- Product Column 2 -->
+<th class="min-w-[320px] p-8 bg-surface-container-lowest border-l border-outline-variant/10">
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 mb-6 rounded-2xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Vial of liquid medicine on a clean clinical white surface with soft professional laboratory lighting and depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkhKnf505C7E-Hxe2msfMAnW6LuKVQ2NICDI7pN0rVaqyLAqzI2uLdHbKvvIyRSJ6CXssFXD-aF65CS3Ei5scXm_34ouJD1qx8rrrm306RHBag8f7aItFjZzc-tvu1pp--7xgAmkRHqWgCpKkRuXv4oxaKQ4PfVDY_NtlE9TCUUghJ8gDfY0rY9W_OsOYsQXWVDJY7OuRICDBIJeqAjlmhHv1pUH42FKA_7nhwgLXHIxelTnhEufE5xQ3V1H-vmhGA2lv9oXtTdGZb"/>
+</div>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-wider mb-3">Antibiotic</span>
+<h2 class="font-headline font-bold text-2xl text-primary mb-1">Penicillin V</h2>
+<p class="text-xs text-on-surface-variant font-medium">Pfizer Inc.</p>
+</div>
+</th>
+<!-- Product Column 3 -->
+<th class="min-w-[320px] p-8 bg-surface-container-lowest border-l border-outline-variant/10">
+<div class="flex flex-col items-center text-center">
+<div class="w-24 h-24 mb-6 rounded-2xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Assorted pharmaceutical pills and tablets arranged neatly on a sterile grey surface representing high-end medical manufacturing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnymoig-KGzPcN23fhPogK9Qm6SQsHSosclal8uj9Mujz5OmPQinQEy4KVjwPBn0eUNoICK1iDMembeCl1W0kQqb6Oc0i-vjdPo9x7MUBANObLnpdPjgAi3qpfv6vmWHCwAV0rXpY6xhNDzUNICrboqZPCViEzUzNTFuLfG0DwODNPRy1hWS2cP1MKseGHrkWkcS6fs3TnRKoYEmlxfEG5Zsl04j_qONqHWIpcPWM34wyXQD9D6dFcWNRuWtxgmsZhr-on1xKrCF8a"/>
+</div>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-wider mb-3">Broad Spectrum</span>
+<h2 class="font-headline font-bold text-2xl text-primary mb-1">Augmentin XR</h2>
+<p class="text-xs text-on-surface-variant font-medium">Sandoz International</p>
+</div>
+</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<!-- Strength Row -->
+<tr class="group">
+<td class="sticky left-0 bg-surface-container-low p-6 font-bold text-on-surface border-r border-outline-variant/10">Strength</td>
+<td class="p-6 text-center bg-surface-container-lowest font-medium">500mg / 875mg</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10 font-medium">250mg / 500mg</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10 font-medium">1000mg / 62.5mg</td>
+</tr>
+<!-- Dosage Form Row -->
+<tr class="group">
+<td class="sticky left-0 bg-surface-container-low p-6 font-bold text-on-surface border-r border-outline-variant/10">Dosage Form</td>
+<td class="p-6 text-center bg-surface-container-lowest">Hard Gelatin Capsules</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">Film-Coated Tablets</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">Extended Release Tab</td>
+</tr>
+<!-- Manufacturer Row -->
+<tr class="group">
+<td class="sticky left-0 bg-surface-container-low p-6 font-bold text-on-surface border-r border-outline-variant/10">Manufacturer</td>
+<td class="p-6 text-center bg-surface-container-lowest">GlaxoSmithKline, UK</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">Pfizer, USA</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">Sandoz, Germany</td>
+</tr>
+<!-- Pack Size Row -->
+<tr class="group">
+<td class="sticky left-0 bg-surface-container-low p-6 font-bold text-on-surface border-r border-outline-variant/10">Pack Size</td>
+<td class="p-6 text-center bg-surface-container-lowest">100 Capsules / Unit</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">28 Tablets / Unit</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">50 Tablets / Unit</td>
+</tr>
+<!-- Temp Requirements Row -->
+<tr class="group">
+<td class="sticky left-0 bg-surface-container-low p-6 font-bold text-on-surface border-r border-outline-variant/10">Storage Condition</td>
+<td class="p-6 text-center bg-surface-container-lowest">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="device_thermostat">device_thermostat</span>
+<span>20°C - 25°C</span>
+</div>
+</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="device_thermostat">device_thermostat</span>
+<span>Below 30°C</span>
+</div>
+</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="ac_unit">ac_unit</span>
+<span>2°C - 8°C (Cool Store)</span>
+</div>
+</td>
+</tr>
+<!-- Purity/Bioavailability Row (Design System Grid Style) -->
+<tr class="group">
+<td class="sticky left-0 bg-surface-container-low p-6 font-bold text-on-surface border-r border-outline-variant/10">Purity Standard</td>
+<td class="p-6 text-center bg-surface-container-lowest">USP / Ph. Eur. 98%</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">BP 99.2%</td>
+<td class="p-6 text-center bg-surface-container-lowest border-l border-outline-variant/10">USP Premium Grade</td>
+</tr>
+<!-- Actions Row -->
+<tr>
+<td class="sticky left-0 bg-surface-container-low p-8 border-r border-outline-variant/10"></td>
+<td class="p-8 bg-surface-container-lowest">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all active:scale-95">
+                                    Add to RFQ
+                                </button>
+<p class="text-center mt-3 text-[11px] font-semibold text-slate-400 uppercase tracking-widest">In Stock: 5,400 Units</p>
+</td>
+<td class="p-8 bg-surface-container-lowest border-l border-outline-variant/10">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all active:scale-95">
+                                    Add to RFQ
+                                </button>
+<p class="text-center mt-3 text-[11px] font-semibold text-slate-400 uppercase tracking-widest">In Stock: 1,200 Units</p>
+</td>
+<td class="p-8 bg-surface-container-lowest border-l border-outline-variant/10">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all active:scale-95">
+                                    Add to RFQ
+                                </button>
+<p class="text-center mt-3 text-[11px] font-semibold text-slate-400 uppercase tracking-widest">Limited Availability</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Floating Summary Info (Glassmorphism) -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-6 rounded-3xl bg-surface-container-lowest border border-white/50 shadow-sm flex items-start gap-4">
+<div class="p-3 bg-primary-fixed rounded-2xl">
+<span class="material-symbols-outlined text-primary" data-icon="verified">verified</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Verified Sources</h4>
+<p class="text-sm text-on-surface-variant">All listed manufacturers are WHO-GMP certified and verified by our procurement team.</p>
+</div>
+</div>
+<div class="p-6 rounded-3xl bg-surface-container-lowest border border-white/50 shadow-sm flex items-start gap-4">
+<div class="p-3 bg-tertiary-fixed rounded-2xl">
+<span class="material-symbols-outlined text-tertiary" data-icon="speed">speed</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Real-time Stock</h4>
+<p class="text-sm text-on-surface-variant">Inventory levels are synced every 15 minutes with our regional distribution centers.</p>
+</div>
+</div>
+<div class="p-6 rounded-3xl bg-surface-container-lowest border border-white/50 shadow-sm flex items-start gap-4">
+<div class="p-3 bg-secondary-fixed rounded-2xl">
+<span class="material-symbols-outlined text-secondary" data-icon="local_shipping">local_shipping</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Cold Chain Ready</h4>
+<p class="text-sm text-on-surface-variant">Temperature sensitive items include specialized IoT-monitored logistical handling.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- RFQ Floating Bar (Glassmorphism) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50">
+<div class="glass-header border border-white/40 p-4 px-6 rounded-[2rem] shadow-2xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-3">
+<div class="h-10 w-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center font-bold text-[10px]">AM</div>
+<div class="h-10 w-10 rounded-full border-2 border-white bg-slate-300 flex items-center justify-center font-bold text-[10px]">PN</div>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">2 Items in RFQ Basket</p>
+<p class="text-[11px] text-on-surface-variant font-medium tracking-tight">Estimated Total: Pending Quote</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-semibold text-sm hover:text-primary transition-colors">Clear All</button>
+<button class="bg-primary text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                    Finalize Quotation Request
+                </button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 md:hidden bg-[#ffffff]/90 backdrop-blur-xl border-t border-slate-100">
+<button class="flex flex-col items-center text-slate-400">
+<span class="material-symbols-outlined text-2xl" data-icon="home">home</span>
+<span class="text-[11px] font-semibold mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center text-slate-400">
+<span class="material-symbols-outlined text-2xl" data-icon="request_quote">request_quote</span>
+<span class="text-[11px] font-semibold mt-1">RFQs</span>
+</button>
+<button class="flex flex-col items-center text-[#003f87] scale-110">
+<span class="material-symbols-outlined text-2xl" data-icon="compare_arrows" style="font-variation-settings: 'FILL' 1;">compare_arrows</span>
+<span class="text-[11px] font-semibold mt-1">Compare</span>
+</button>
+<button class="flex flex-col items-center text-slate-400">
+<span class="material-symbols-outlined text-2xl" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-[11px] font-semibold mt-1">Chat</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,93 @@
+const router = require('express').Router()
+const pool = require('../db/pool')
+
+const VALID_CATEGORIES = ['prescription', 'otc', 'medical-supplies', 'surgical', 'laboratory', 'personal-care']
+
+// GET /api/products
+router.get('/', async (req, res, next) => {
+  try {
+    let { text, category, page = 1, limit = 24 } = req.query
+    page = Math.max(1, parseInt(page))
+    limit = Math.min(100, Math.max(1, parseInt(limit)))
+    const offset = (page - 1) * limit
+
+    const conditions = ['p.is_active = true']
+    const params = []
+
+    if (category && VALID_CATEGORIES.includes(category)) {
+      params.push(category)
+      conditions.push(`p.category = $${params.length}`)
+    }
+
+    let orderBy = 'p.name ASC'
+    if (text && text.trim()) {
+      params.push(text.trim())
+      conditions.push(
+        `to_tsvector('english', p.name || ' ' || COALESCE(p.generic_name,'') || ' ' || COALESCE(p.brand,'')) @@ plainto_tsquery('english', $${params.length})`
+      )
+      orderBy = `ts_rank(to_tsvector('english', p.name || ' ' || COALESCE(p.generic_name,'') || ' ' || COALESCE(p.brand,'')), plainto_tsquery('english', $${params.length})) DESC`
+    }
+
+    const where = conditions.join(' AND ')
+
+    const countResult = await pool.query(`SELECT COUNT(*) FROM products p WHERE ${where}`, params)
+    const totalCount = parseInt(countResult.rows[0].count)
+
+    params.push(limit, offset)
+    const { rows } = await pool.query(
+      `SELECT p.id, p.name, p.generic_name AS "genericName", p.brand, p.category,
+              p.package_size AS "packageSize", p.description, p.image_url AS "imageUrl",
+              p.is_featured AS "isFeatured"
+       FROM products p WHERE ${where} ORDER BY ${orderBy}
+       LIMIT $${params.length - 1} OFFSET $${params.length}`,
+      params
+    )
+
+    res.json({ items: rows, totalCount, page, limit })
+  } catch (err) { next(err) }
+})
+
+// GET /api/products/featured
+router.get('/featured', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT id, name, generic_name AS "genericName", brand, category,
+              package_size AS "packageSize", description, image_url AS "imageUrl"
+       FROM products WHERE is_active = true AND is_featured = true
+       ORDER BY name ASC LIMIT 8`
+    )
+    res.json(rows)
+  } catch (err) { next(err) }
+})
+
+// GET /api/products/:id
+router.get('/:id', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT id, name, generic_name AS "genericName", brand, category,
+              package_size AS "packageSize", description, image_url AS "imageUrl"
+       FROM products WHERE id = $1 AND is_active = true`,
+      [req.params.id]
+    )
+    if (!rows.length) return res.status(404).json({ error: 'PRODUCT_NOT_FOUND' })
+    res.json(rows[0])
+  } catch (err) { next(err) }
+})
+
+// GET /api/categories
+router.get('/meta/categories', async (req, res) => {
+  res.json(VALID_CATEGORIES)
+})
+
+// GET /api/testimonials
+router.get('/meta/testimonials', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT id, customer_name AS "customerName", company_name AS "companyName", comment
+       FROM testimonials WHERE is_active = true ORDER BY sort_order ASC`
+    )
+    res.json(rows)
+  } catch (err) { next(err) }
+})
+
+module.exports = router

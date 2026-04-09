@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RFQ Wizard - Step 3 | Pharmalink Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "outline": "#727784",
+                        "on-surface": "#191c1d",
+                        "surface": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#414750",
+                        "surface-container": "#edeeef",
+                        "on-primary-container": "#bbd0ff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary": "#722b00",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-background": "#191c1d",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "background": "#f8f9fa",
+                        "tertiary-container": "#983c00",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d7e2ff",
+                        "primary-fixed-dim": "#acc7ff",
+                        "outline-variant": "#c2c6d4",
+                        "on-primary-fixed": "#001a40",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#5e656e",
+                        "on-surface-variant": "#424752",
+                        "secondary-fixed-dim": "#c1c7d1",
+                        "on-tertiary-fixed": "#351000",
+                        "on-secondary-fixed": "#161c24",
+                        "surface-dim": "#d9dadb",
+                        "primary-container": "#0056b3",
+                        "surface-container-high": "#e7e8e9",
+                        "secondary-fixed": "#dde3ee",
+                        "surface-variant": "#e1e3e4",
+                        "inverse-surface": "#2e3132",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "secondary": "#585f68",
+                        "secondary-container": "#dde3ee",
+                        "on-tertiary-container": "#ffc2a7",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#acc7ff",
+                        "on-primary-fixed-variant": "#004491",
+                        "primary": "#003f87",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-tint": "#115cb9",
+                        "tertiary-fixed-dim": "#ffb694",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(248, 249, 250, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-md">
+<div class="flex justify-between items-center h-16 px-8 max-w-full mx-auto">
+<div class="text-xl font-bold tracking-tight text-blue-900 dark:text-blue-100">Pharmalink Pro</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 transition-colors" href="#">Inventory</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 transition-colors" href="#">Orders</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 transition-colors" href="#">Analytics</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 transition-colors" href="#">RFQ History</a>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-slate-600 font-medium">Support</span>
+<span class="material-symbols-outlined text-slate-600 cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-slate-600 cursor-pointer">account_circle</span>
+</div>
+</div>
+</nav>
+<!-- Side Navigation Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-surface-container-low dark:bg-slate-900 flex flex-col pt-20 pb-8 hidden lg:flex">
+<div class="px-8 mb-8">
+<div class="font-headline font-bold text-blue-800 dark:text-blue-300 text-lg">Clinical Ops</div>
+<div class="text-xs text-slate-500 font-medium">PharmaWholesale Corp</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-200 px-8 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-200 px-8 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-medium">Product Catalog</span>
+</a>
+<a class="flex items-center gap-3 bg-white dark:bg-slate-800 text-blue-900 dark:text-blue-300 font-bold rounded-l-full ml-4 pl-4 py-3" href="#">
+<span class="material-symbols-outlined">assignment_add</span>
+<span class="font-medium">RFQ Wizard</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-200 px-8 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-medium">Shipping Log</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-200 px-8 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="px-8 mt-auto">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Request
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 px-8 pb-12 min-h-screen">
+<div class="max-w-4xl mx-auto">
+<!-- Header Section (Editorial Style) -->
+<header class="mb-12">
+<div class="flex items-end justify-between gap-4 mb-8">
+<div>
+<span class="text-sm font-bold tracking-widest text-primary uppercase mb-2 block">Step 3 of 4</span>
+<h1 class="text-4xl font-extrabold text-on-surface tracking-tight leading-tight">Additional Details</h1>
+</div>
+<div class="hidden md:block text-right">
+<div class="text-xs font-bold text-outline uppercase mb-2">Request ID</div>
+<div class="font-mono text-sm font-semibold bg-surface-container px-3 py-1 rounded-lg">RFQ-2023-9021-CL</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="relative h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary rounded-full transition-all duration-500" style="width: 75%;"></div>
+</div>
+<div class="flex justify-between mt-4">
+<span class="text-xs font-bold text-primary">Verification</span>
+<span class="text-xs font-bold text-primary">Quantity</span>
+<span class="text-xs font-bold text-primary">Logistics</span>
+<span class="text-xs font-bold text-outline">Review</span>
+</div>
+</header>
+<!-- Form Content -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Main Form Area -->
+<div class="md:col-span-8 space-y-8">
+<!-- Section: Logistics -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 transition-all duration-200">
+<h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+                            Logistics &amp; Delivery
+                        </h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant ml-1">Preferred Delivery Date</label>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all appearance-none text-on-surface" type="date"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline pointer-events-none">calendar_today</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant ml-1">Shipping Method</label>
+<div class="relative">
+<select class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all appearance-none text-on-surface">
+<option>Standard (3-5 Business Days)</option>
+<option>Express (Next Day)</option>
+<option>Cold Chain (Temperature Regulated)</option>
+</select>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Documentation -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 transition-all duration-200">
+<h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                            Verification Documents
+                        </h2>
+<p class="text-sm text-outline mb-6">Please upload any required prescriptions, clinic licenses, or specialized handling certifications.</p>
+<div class="border-2 border-dashed border-outline-variant rounded-2xl p-10 flex flex-col items-center justify-center text-center bg-surface-container-low/30 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">cloud_upload</span>
+</div>
+<div class="font-bold text-on-surface">Drop files here or click to upload</div>
+<div class="text-xs text-outline mt-1">PDF, JPG, or PNG (Max 10MB per file)</div>
+</div>
+<!-- Uploaded Files Preview (Example) -->
+<div class="mt-6 space-y-3">
+<div class="flex items-center justify-between p-3 bg-surface-container rounded-xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">picture_as_pdf</span>
+<span class="text-sm font-medium">Pharmacy_License_2023.pdf</span>
+</div>
+<span class="material-symbols-outlined text-error cursor-pointer text-sm">close</span>
+</div>
+</div>
+</div>
+<!-- Section: Notes -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 transition-all duration-200">
+<h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">chat_bubble</span>
+                            Special Instructions
+                        </h2>
+<div class="space-y-2">
+<label class="text-sm font-bold text-on-surface-variant ml-1">Message / Notes</label>
+<textarea class="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all text-on-surface resize-none" placeholder="Enter any specific storage requirements or delivery window preferences..." rows="4"></textarea>
+</div>
+</div>
+</div>
+<!-- Sidebar / Summary (Asymmetric Layout) -->
+<div class="md:col-span-4">
+<div class="sticky top-24 space-y-6">
+<div class="bg-primary rounded-3xl p-6 text-on-primary shadow-xl shadow-primary/30 relative overflow-hidden">
+<!-- Background Texture -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB94QtvD306nKcyPiOi908Dlld54ULTYHqmkuyQc6Hm5wYuWoQssjtIFwD6RWPepVpXbeOImQ1x-Sk5TkjsWSgc9WPUUEVXE956PfmKKEAPRU2ab_yoGwO0M1UV4pZ3zm0mKiT1cBA5L0mx7K8mj8OjNpBEgNfMoRfK_n5mIQWal0myg_Hdn0is72oj_Lda5OceaSAYtnbBzELsAKeyOoLp3y4OQal8F0u8N1QrSXmpiRog5g3N_FqzULqZB4KKHYDIXnRUGnW8zTpM');"></div>
+<h3 class="text-lg font-bold mb-4 relative z-10">Request Summary</h3>
+<div class="space-y-4 relative z-10">
+<div class="flex justify-between items-start border-b border-on-primary/10 pb-3">
+<span class="text-xs font-medium opacity-80">Primary Product</span>
+<span class="text-sm font-bold text-right">Amoxicillin Trihydrate 500mg</span>
+</div>
+<div class="flex justify-between items-start border-b border-on-primary/10 pb-3">
+<span class="text-xs font-medium opacity-80">Bulk Quantity</span>
+<span class="text-sm font-bold text-right">10,000 Units</span>
+</div>
+<div class="flex justify-between items-start">
+<span class="text-xs font-medium opacity-80">Current Status</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 bg-on-tertiary-container rounded-full"></span>
+<span class="text-xs font-bold text-on-primary-container">Drafting</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-high/50 rounded-2xl p-6 border border-outline-variant/20">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-lg">verified_user</span>
+<span class="text-sm font-bold">Quality Assured</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                                All clinical orders are verified by our pharmaceutical logistics team to ensure compliant cold-chain protocols and license validity.
+                            </p>
+</div>
+<div class="relative rounded-2xl overflow-hidden h-40 group cursor-pointer">
+<img alt="Laboratory precision" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="close-up of glass pharmaceutical vials in a modern clinical laboratory with soft blue ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjAkoCdX1C3S9v3HL6cQjvzVQwdHULNHEXiAgkuD0WjfwIFStt4qOUU3m4MFl1k6Ewf4CB8Jds_pNmMg80K-1mJ12wUHYlWLR7Jb1ew8eUUKGvPTEPiF5n0_9bmw0QQ1wP347sVdxs3Vxb3z2Z14ltTbxCxZUyIg-s6U3omKOOVJuHSwe0mE59XHab4oDHQ5IsgZIWCIhd7Qxj2ZRD5wS_3M27CO3JOUYDTVDPJ7XvlemuPIdOt403fr2T2kje9SMdIGRxARRoatxB"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4">
+<span class="text-white text-xs font-bold">PharmaLink Global Standards v4.2</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Navigation Footer -->
+<footer class="mt-12 flex items-center justify-between py-6 border-t border-surface-container-high">
+<button class="px-8 py-3 rounded-xl border border-outline text-on-surface-variant font-bold flex items-center gap-2 hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+                    Back
+                </button>
+<div class="flex items-center gap-4">
+<span class="hidden md:block text-xs font-bold text-outline">One step remaining</span>
+<button class="px-10 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-container text-white font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                        Next Step
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</footer>
+</div>
+</main>
+<!-- Floating RFQ Progress Bar (Mobile Only) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full glass-header p-4 flex justify-between items-center border-t border-surface-container-high z-40">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-outline">STEP 3/4</span>
+<span class="text-sm font-bold text-primary tracking-tight">Additional Details</span>
+</div>
+<button class="bg-primary text-white px-6 py-2 rounded-lg font-bold text-sm">Next</button>
+</div>
+</body></html>
