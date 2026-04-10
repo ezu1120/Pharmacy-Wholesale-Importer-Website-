@@ -110,11 +110,36 @@ function Step1({ onNext }) {
 function Step2({ onNext, onBack }) {
   const { selectedProducts, addProduct, updateProduct, removeProduct } = useRFQStore()
   const [search, setSearch] = useState('')
+
+  // Static fallback products — shown when backend is offline
+  const STATIC_PRODUCTS = [
+    { id: 's1',  name: 'Amoxicillin 500mg',    brand: 'GlaxoSmithKline', packageSize: 'Box of 100 Capsules' },
+    { id: 's2',  name: 'Atorvastatin 20mg',     brand: 'Pfizer Inc.',     packageSize: 'Pack of 30 Tablets' },
+    { id: 's3',  name: 'Lantus SoloStar',        brand: 'Sanofi S.A.',     packageSize: '5 × 3ml Pens' },
+    { id: 's4',  name: 'Aspirin Protect 100mg',  brand: 'Bayer AG',        packageSize: 'Box of 100 Tablets' },
+    { id: 's5',  name: 'Nexium 40mg',            brand: 'AstraZeneca',     packageSize: 'Box of 28 Tabs' },
+    { id: 's6',  name: 'Metformin HCL 1000mg',   brand: 'Bayer Healthcare',packageSize: 'Box of 60 Tablets' },
+    { id: 's7',  name: 'Lisinopril 10mg',         brand: 'Pfizer Inc.',     packageSize: 'Bottle of 30 Tabs' },
+    { id: 's8',  name: 'Paracetamol 500mg',       brand: 'Generic Pharma', packageSize: 'Box of 100 Tablets' },
+    { id: 's9',  name: 'Vitamin D3 1000IU',       brand: 'NutraCare',       packageSize: '90 Softgel Capsules' },
+    { id: 's10', name: 'N95 Respirator Mask',     brand: 'MedShield',       packageSize: 'Box of 20 Masks' },
+    { id: 's11', name: 'Surgical Gloves L',       brand: 'Ansell',          packageSize: 'Box of 100 Pairs' },
+    { id: 's12', name: 'Entresto 97/103mg',       brand: 'Novartis AG',     packageSize: 'Box of 56 Tablets' },
+  ]
+
   const { data } = useQuery({
     queryKey: ['rfq-product-search', search],
     queryFn: () => api.get('/products', { params: { text: search, page: 1, limit: 20 } }).then((r) => r.data),
     keepPreviousData: true,
+    retry: 1,
   })
+
+  // Use DB products if available, otherwise filter static list
+  const displayProducts = data?.items?.length > 0
+    ? data.items
+    : STATIC_PRODUCTS.filter((p) =>
+        !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.brand.toLowerCase().includes(search.toLowerCase())
+      )
 
   return (
     <div>
@@ -139,7 +164,7 @@ function Step2({ onNext, onBack }) {
           <div className="bg-surface-container-low rounded-2xl overflow-hidden">
             <div className="p-4 bg-surface-container-high flex justify-between items-center">
               <span className="font-bold font-headline text-sm uppercase tracking-wider text-on-surface-variant">Available Inventory</span>
-              <span className="text-xs text-on-surface-variant/70">{data?.totalCount || 0} items found</span>
+              <span className="text-xs text-on-surface-variant/70">{data?.totalCount || displayProducts.length} items found</span>
             </div>
             <div className="overflow-y-auto max-h-[500px]">
               <table className="w-full text-left border-collapse">
@@ -150,7 +175,7 @@ function Step2({ onNext, onBack }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.items?.map((p) => (
+                  {displayProducts.map((p) => (
                     <tr key={p.id} className="hover:bg-surface-container-lowest transition-colors border-t border-outline-variant/10 group">
                       <td className="px-4 py-4">
                         <div className="font-semibold text-on-surface">{p.name}</div>
@@ -276,6 +301,27 @@ function Step2({ onNext, onBack }) {
 
 function Step3({ onNext, onBack }) {
   const { additionalInfo, setAdditionalInfo, selectedProducts, customerInfo } = useRFQStore()
+  const [files, setFiles] = useState([])
+
+  const handleFileChange = (e) => {
+    const selected = Array.from(e.target.files)
+    const valid = selected.filter((f) => f.size <= 10 * 1024 * 1024)
+    setFiles((prev) => {
+      const combined = [...prev, ...valid]
+      return combined.slice(0, 5) // max 5 files
+    })
+    // Store file names in additionalInfo for review step display
+    setAdditionalInfo({ attachmentNames: [...files, ...valid].slice(0, 5).map((f) => f.name) })
+  }
+
+  const removeFile = (index) => {
+    const updated = files.filter((_, i) => i !== index)
+    setFiles(updated)
+    setAdditionalInfo({ attachmentNames: updated.map((f) => f.name) })
+  }
+
+  // Expose files to parent via store for submission
+  useRFQStore.getState()._pendingFiles = files
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
       <div className="md:col-span-8 space-y-8">
@@ -308,21 +354,52 @@ function Step3({ onNext, onBack }) {
           </div>
         </div>
 
-        {/* Documents */}
-        <div className="bg-surface-container-lowest rounded-2xl p-8">
+          <div className="bg-surface-container-lowest rounded-2xl p-8">
           <h2 className="text-xl font-bold mb-2 flex items-center gap-2 font-headline">
             <span className="material-symbols-outlined text-primary">description</span>
             Verification Documents
           </h2>
           <p className="text-sm text-outline mb-6">Upload any required prescriptions, clinic licenses, or specialized handling certifications.</p>
-          <div className="border-2 border-dashed border-outline-variant rounded-2xl p-10 flex flex-col items-center justify-center text-center bg-surface-container-low/30 hover:bg-surface-container-low transition-colors cursor-pointer group">
+          <label className="border-2 border-dashed border-outline-variant rounded-2xl p-10 flex flex-col items-center justify-center text-center bg-surface-container-low/30 hover:bg-surface-container-low transition-colors cursor-pointer group">
             <div className="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <span className="material-symbols-outlined text-primary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>cloud_upload</span>
             </div>
             <div className="font-bold text-on-surface">Drop files here or click to upload</div>
-            <div className="text-xs text-outline mt-1">PDF, JPG, or PNG (Max 10MB per file)</div>
-            <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx" className="hidden" />
-          </div>
+            <div className="text-xs text-outline mt-1">PDF, JPG, PNG (Max 10MB · up to 5 files)</div>
+            <input
+              type="file"
+              multiple
+              accept=".pdf,.jpg,.jpeg,.png,.xlsx"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </label>
+
+          {/* Uploaded files list */}
+          {files.length > 0 && (
+            <div className="mt-6 space-y-3">
+              {files.map((file, i) => (
+                <div key={i} className="flex items-center justify-between p-3 bg-surface-container rounded-xl">
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-primary">
+                      {file.type === 'application/pdf' ? 'picture_as_pdf' : 'image'}
+                    </span>
+                    <div>
+                      <p className="text-sm font-medium text-on-surface">{file.name}</p>
+                      <p className="text-xs text-outline">{(file.size / 1024).toFixed(0)} KB</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(i)}
+                    className="text-error hover:bg-error-container/20 p-1.5 rounded-full transition-all"
+                  >
+                    <span className="material-symbols-outlined text-lg">close</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Notes */}
@@ -477,6 +554,35 @@ function Step4({ onBack, onSubmit, isLoading, isError }) {
             </div>
           </section>
         )}
+
+        {/* Attachments */}
+        {additionalInfo.attachmentNames?.length > 0 && (
+          <section className="bg-surface-container-low rounded-xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="material-symbols-outlined text-primary">attach_file</span>
+              <h2 className="text-xl font-bold text-on-surface font-headline">Attachments ({additionalInfo.attachmentNames.length})</h2>
+            </div>
+            <div className="space-y-3">
+              {additionalInfo.attachmentNames.map((name, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl">
+                  <span className="material-symbols-outlined text-primary">description</span>
+                  <span className="text-sm font-medium text-on-surface">{name}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Message */}
+        {additionalInfo.message && (
+          <section className="bg-surface-container-low rounded-xl p-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="material-symbols-outlined text-primary">chat_bubble</span>
+              <h2 className="text-xl font-bold text-on-surface font-headline">Special Instructions</h2>
+            </div>
+            <p className="text-on-surface-variant leading-relaxed">{additionalInfo.message}</p>
+          </section>
+        )}
       </div>
 
       {/* Sidebar */}
@@ -518,8 +624,29 @@ export default function RFQ() {
   const { currentStep, setStep, customerInfo, selectedProducts, additionalInfo, resetRFQ } = useRFQStore()
 
   const submitMutation = useMutation({
-    mutationFn: (payload) => api.post('/rfq', payload).then((r) => r.data),
-    onSuccess: (data) => { resetRFQ(); navigate(`/rfq/success/${data.rfqNumber}`) },
+    mutationFn: async (payload) => {
+      const files = useRFQStore.getState()._pendingFiles || []
+
+      if (files.length > 0) {
+        // Send as multipart/form-data when files are attached
+        const formData = new FormData()
+        formData.append('customerInfo', JSON.stringify(payload.customerInfo))
+        formData.append('products', JSON.stringify(payload.products))
+        formData.append('additionalInfo', JSON.stringify(payload.additionalInfo))
+        files.forEach((file) => formData.append('attachments', file))
+        return api.post('/rfq', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }).then((r) => r.data)
+      }
+
+      // No files — send as JSON
+      return api.post('/rfq', payload).then((r) => r.data)
+    },
+    onSuccess: (data) => {
+      useRFQStore.getState()._pendingFiles = []
+      resetRFQ()
+      navigate(`/rfq/success/${data.rfqNumber}`)
+    },
   })
 
   const handleFinalSubmit = () => {
