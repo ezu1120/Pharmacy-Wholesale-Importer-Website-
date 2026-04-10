@@ -660,8 +660,9 @@ export default function RFQ() {
     },
     onSuccess: (data) => {
       useRFQStore.getState()._pendingFiles = []
-      resetRFQ()
+      // Navigate FIRST, then reset — prevents blank re-render before navigation
       navigate(`/rfq/success/${data.rfqNumber}`)
+      setTimeout(() => resetRFQ(), 100)
     },
   })
 
