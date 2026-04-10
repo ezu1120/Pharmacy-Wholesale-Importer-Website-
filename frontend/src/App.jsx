@@ -9,6 +9,7 @@ import Services from './pages/Services'
 import Contact from './pages/Contact'
 import RFQ from './pages/RFQ'
 import RFQSuccess from './pages/RFQSuccess'
+import TrackRFQ from './pages/TrackRFQ'
 import Compare from './pages/Compare'
 import CustomerDashboard from './pages/CustomerDashboard'
 import CustomerRFQDetail from './pages/CustomerRFQDetail'
@@ -53,6 +54,7 @@ export default function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/rfq" element={<RFQ />} />
                 <Route path="/rfq/success/:rfqNumber" element={<RFQSuccess />} />
+                <Route path="/track" element={<TrackRFQ />} />
                 <Route path="/compare" element={<Compare />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

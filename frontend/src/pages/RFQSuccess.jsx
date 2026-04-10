@@ -78,8 +78,15 @@ export default function RFQSuccess() {
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            to="/products"
+            to="/track"
             className="border border-primary/20 text-primary px-8 py-3 rounded-xl font-headline font-bold hover:bg-primary hover:text-white transition-all flex items-center gap-2 justify-center"
+          >
+            <span className="material-symbols-outlined">track_changes</span>
+            Track This RFQ
+          </Link>
+          <Link
+            to="/products"
+            className="border border-outline-variant text-on-surface-variant px-8 py-3 rounded-xl font-headline font-bold hover:bg-surface-container transition-all flex items-center gap-2 justify-center"
           >
             <span className="material-symbols-outlined">inventory_2</span>
             Browse More Products

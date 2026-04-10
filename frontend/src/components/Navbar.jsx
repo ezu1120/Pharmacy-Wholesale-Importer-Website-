@@ -29,6 +29,9 @@ export default function Navbar() {
           <NavLink to="/contact" className={({ isActive }) =>
             isActive ? 'text-blue-700 border-b-2 border-blue-700 pb-1' : 'text-slate-600 hover:text-blue-900 transition-colors'
           }>Contact</NavLink>
+          <NavLink to="/track" className={({ isActive }) =>
+            isActive ? 'text-blue-700 border-b-2 border-blue-700 pb-1' : 'text-slate-600 hover:text-blue-900 transition-colors'
+          }>Track RFQ</NavLink>
         </div>
 
         <div className="flex items-center gap-4">
