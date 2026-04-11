@@ -99,11 +99,11 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-20 items-center">
           {/* Image */}
           <div className="relative">
-            <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
+            <div className="rounded-2xl overflow-hidden shadow-2xl aspect-[3/4]">
               <img
-                src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80"
-                alt="Pharmacist inspecting medicine"
-                className="w-full h-full object-cover"
+                src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&q=90"
+                alt="Doctor in white coat with stethoscope"
+                className="w-full h-full object-cover object-top"
               />
             </div>
             <div className="absolute -bottom-10 -right-10 bg-white p-8 rounded-2xl shadow-xl border border-slate-100 hidden lg:block max-w-xs">
