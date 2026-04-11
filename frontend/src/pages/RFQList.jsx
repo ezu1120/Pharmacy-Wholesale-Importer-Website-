@@ -13,6 +13,7 @@ const STATUS_BADGE = {
 
 export default function RFQList() {
   const [filters, setFilters] = useState({ rfqNumber: '', customerName: '', status: '', dateFrom: '', dateTo: '', page: 1 })
+  const [deleteConfirm, setDeleteConfirm] = useState(null) // rfq object to delete
   const qc = useQueryClient()
 
   const { data, isLoading } = useQuery({
@@ -26,6 +27,15 @@ export default function RFQList() {
     onSuccess: () => qc.invalidateQueries(['admin-rfqs']),
   })
 
+  const deleteRFQ = useMutation({
+    mutationFn: (id) => api.delete(`/admin/rfqs/${id}`),
+    onSuccess: () => {
+      qc.invalidateQueries(['admin-rfqs'])
+      qc.invalidateQueries(['admin-rfqs-dash'])
+      setDeleteConfirm(null)
+    },
+  })
+
   const set = (k) => (e) => setFilters((f) => ({ ...f, [k]: e.target.value, page: 1 }))
 
   const STATUS_CHIPS = [
@@ -37,6 +47,7 @@ export default function RFQList() {
   ]
 
   return (
+    <>
     <AdminLayout title="RFQ Management" subtitle="Review, respond to, and manage all quotation requests.">
 
       {/* Filters */}
@@ -178,13 +189,22 @@ export default function RFQList() {
                         {new Date(rfq.submittedAt).toLocaleDateString()}
                       </td>
                       <td className="py-4 px-4 text-center">
-                        <Link
-                          to={`/admin/rfqs/${rfq.id}`}
-                          className="inline-flex items-center gap-1 text-primary hover:underline text-xs font-bold"
-                        >
-                          <span className="material-symbols-outlined text-sm">visibility</span>
-                          View
-                        </Link>
+                        <div className="flex items-center justify-center gap-2">
+                          <Link
+                            to={`/admin/rfqs/${rfq.id}`}
+                            className="inline-flex items-center gap-1 text-primary hover:underline text-xs font-bold"
+                          >
+                            <span className="material-symbols-outlined text-sm">visibility</span>
+                            View
+                          </Link>
+                          <button
+                            onClick={() => setDeleteConfirm(rfq)}
+                            className="inline-flex items-center gap-1 text-error hover:underline text-xs font-bold"
+                          >
+                            <span className="material-symbols-outlined text-sm">delete</span>
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -218,5 +238,44 @@ export default function RFQList() {
         )}
       </div>
     </AdminLayout>
+
+    {/* Delete confirmation dialog */}
+    {deleteConfirm && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
+          <div className="w-16 h-16 bg-error-container rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="material-symbols-outlined text-error text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>delete_forever</span>
+          </div>
+          <h3 className="font-headline font-bold text-xl text-on-surface mb-2">Delete RFQ?</h3>
+          <p className="text-sm text-on-surface-variant mb-2">
+            This will permanently delete:
+          </p>
+          <p className="font-mono font-bold text-primary text-lg mb-2">{deleteConfirm.rfqNumber}</p>
+          <p className="text-xs text-on-surface-variant mb-6">
+            {deleteConfirm.companyName} · {deleteConfirm.customerName}
+            <br />All products, attachments, and notes will be removed. This cannot be undone.
+          </p>
+          {deleteRFQ.isError && (
+            <p className="text-xs text-error mb-4">Failed to delete. Please try again.</p>
+          )}
+          <div className="flex gap-3">
+            <button
+              onClick={() => setDeleteConfirm(null)}
+              className="flex-1 py-2.5 rounded-xl border border-outline-variant text-on-surface font-bold hover:bg-surface-container transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => deleteRFQ.mutate(deleteConfirm.id)}
+              disabled={deleteRFQ.isPending}
+              className="flex-1 py-2.5 rounded-xl bg-error text-white font-bold hover:opacity-90 transition-colors disabled:opacity-50"
+            >
+              {deleteRFQ.isPending ? 'Deleting...' : 'Delete'}
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
   )
 }

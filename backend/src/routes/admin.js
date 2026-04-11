@@ -78,6 +78,17 @@ router.get('/rfqs/:id', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+// ── DELETE /api/admin/rfqs/:id ───────────────────────────────────────────────
+router.delete('/rfqs/:id', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query('SELECT id, rfq_number FROM rfqs WHERE id = $1', [req.params.id])
+    if (!rows.length) return res.status(404).json({ error: 'NOT_FOUND' })
+    // Cascade deletes rfq_items and rfq_attachments automatically
+    await pool.query('DELETE FROM rfqs WHERE id = $1', [req.params.id])
+    res.json({ success: true, deleted: rows[0].rfq_number })
+  } catch (err) { next(err) }
+})
+
 // ── PATCH /api/admin/rfqs/:id/status ─────────────────────────────────────────
 router.patch('/rfqs/:id/status', async (req, res, next) => {
   try {

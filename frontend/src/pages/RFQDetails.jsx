@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '../lib/api'
 import AdminLayout from '../components/AdminLayout'
@@ -21,9 +21,11 @@ const STATUS_ICON = {
 export default function RFQDetails() {
   const { id } = useParams()
   const qc = useQueryClient()
+  const navigate = useNavigate()
   const [notes, setNotes] = useState(null) // null = not yet loaded
   const [notesSaved, setNotesSaved] = useState(false)
   const [quotationSent, setQuotationSent] = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
 
   const { data: rfq, isLoading } = useQuery({
     queryKey: ['admin-rfq', id],
@@ -50,6 +52,14 @@ export default function RFQDetails() {
     onSuccess: () => {
       setQuotationSent(true)
       qc.invalidateQueries(['admin-rfq', id])
+    },
+  })
+
+  const deleteRFQ = useMutation({
+    mutationFn: () => api.delete(`/admin/rfqs/${id}`),
+    onSuccess: () => {
+      qc.invalidateQueries(['admin-rfqs'])
+      navigate('/admin/rfqs')
     },
   })
 
