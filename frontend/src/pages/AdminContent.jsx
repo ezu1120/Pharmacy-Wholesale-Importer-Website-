@@ -34,14 +34,16 @@ function SectionHeader({ icon, title, subtitle }) {
   )
 }
 
-// Generic save-to-DB hook
+// Generic save-to-DB hook — invalidates both admin and public caches
 function useSectionSave(section) {
   const qc = useQueryClient()
   const [saved, setSaved] = useState(false)
   const mutation = useMutation({
     mutationFn: (data) => api.put(`/admin/site-content/${section}`, { data }),
     onSuccess: () => {
-      qc.invalidateQueries(['site-content', section])
+      // Invalidate both the admin fetch and the public page fetch
+      qc.invalidateQueries({ queryKey: ['site-content', section] })
+      qc.invalidateQueries({ queryKey: ['site-content'] })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
     },
@@ -49,7 +51,7 @@ function useSectionSave(section) {
   return { save: mutation.mutate, pending: mutation.isPending, saved, error: mutation.isError }
 }
 
-// Generic fetch from DB with fallback
+// Generic fetch from DB with fallback — staleTime 0 so always fresh
 function useSectionData(section, fallback) {
   const { data } = useQuery({
     queryKey: ['site-content', section],
@@ -58,20 +60,29 @@ function useSectionData(section, fallback) {
     staleTime: 0,
   })
   const [local, setLocal] = useState(null)
-  useEffect(() => { if (data !== undefined) setLocal(data) }, [data])
+  useEffect(() => { if (data !== undefined && data !== null) setLocal(data) }, [data])
   const value = local ?? data ?? fallback
   return [value, setLocal]
 }
 
 function SaveBtn({ onClick, saved, pending, error }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 flex-wrap">
       <button onClick={onClick} disabled={pending} className="btn-primary flex items-center gap-2 disabled:opacity-50">
         <span className="material-symbols-outlined text-base">{saved ? 'check' : pending ? 'progress_activity' : 'save'}</span>
-        {pending ? 'Saving to DB...' : saved ? '✓ Saved to Database' : 'Save to Database'}
+        {pending ? 'Saving...' : saved ? '✓ Saved' : 'Save to Database'}
       </button>
-      {saved && <span className="text-xs text-green-600 font-medium">Changes are now live on the website.</span>}
-      {error && <span className="text-xs text-error">Save failed. Check backend connection.</span>}
+      {saved && (
+        <span className="flex items-center gap-1.5 text-xs text-green-700 bg-green-50 border border-green-200 px-3 py-1.5 rounded-full font-medium">
+          <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings:"'FILL' 1" }}>check_circle</span>
+          Changes are now live on the website
+        </span>
+      )}
+      {error && (
+        <span className="text-xs text-error bg-error-container px-3 py-1.5 rounded-full">
+          Save failed — check backend connection
+        </span>
+      )}
     </div>
   )
 }
