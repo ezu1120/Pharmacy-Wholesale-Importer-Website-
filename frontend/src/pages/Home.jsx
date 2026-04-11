@@ -103,39 +103,41 @@ function HeroSlideshow({ slides }) {
         </div>
       </div>
 
-      {/* Slide controls — bottom center */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4">
-        {/* Prev / Next arrows */}
+      {/* Slide controls — minimal bottom center */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-3">
+        {/* Prev arrow — small, subtle */}
         <button
           onClick={goBack}
-          className="w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all backdrop-blur-sm"
+          className="w-7 h-7 rounded-full bg-white/15 text-white/70 flex items-center justify-center hover:bg-white/30 hover:text-white transition-all"
           aria-label="Previous slide"
         >
-          <span className="material-symbols-outlined text-lg">chevron_left</span>
-        </button>
-        <button
-          onClick={next}
-          className="w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all backdrop-blur-sm"
-          aria-label="Next slide"
-        >
-          <span className="material-symbols-outlined text-lg">chevron_right</span>
+          <span className="material-symbols-outlined text-sm">chevron_left</span>
         </button>
 
-        {/* Dot indicators */}
-        <div className="flex items-center gap-2 ml-2">
+        {/* Dot indicators — slim pills */}
+        <div className="flex items-center gap-1.5">
           {HERO_SLIDES.map((_, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className={`transition-all duration-300 rounded-full ${
+              className={`transition-all duration-300 ease-out rounded-full ${
                 i === current
-                  ? 'w-8 h-2 bg-white'
-                  : 'w-2 h-2 bg-white/40 hover:bg-white/70'
+                  ? 'w-6 h-1.5 bg-white'
+                  : 'w-1.5 h-1.5 bg-white/35 hover:bg-white/60'
               }`}
             />
           ))}
         </div>
+
+        {/* Next arrow */}
+        <button
+          onClick={next}
+          className="w-7 h-7 rounded-full bg-white/15 text-white/70 flex items-center justify-center hover:bg-white/30 hover:text-white transition-all"
+          aria-label="Next slide"
+        >
+          <span className="material-symbols-outlined text-sm">chevron_right</span>
+        </button>
       </div>
 
       {/* Progress bar */}
