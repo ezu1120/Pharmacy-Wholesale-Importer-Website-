@@ -10,7 +10,7 @@ const STATUS_BADGE = {
   CLOSED:         'bg-slate-100 text-slate-500',
 }
 
-// ── Donut Chart (pure CSS/SVG) ────────────────────────────────────────────────
+// ── Donut Chart (pure SVG) ────────────────────────────────────────────────────
 function DonutChart({ segments, size = 140 }) {
   const r = 50
   const cx = 60
@@ -18,12 +18,14 @@ function DonutChart({ segments, size = 140 }) {
   const circumference = 2 * Math.PI * r
   const total = segments.reduce((s, seg) => s + seg.value, 0)
 
-  let offset = 0
+  let cumulativeOffset = 0
   const paths = segments.map((seg) => {
     const pct = total ? seg.value / total : 0
     const dash = pct * circumference
     const gap = circumference - dash
-    const path = (
+    const currentOffset = cumulativeOffset
+    cumulativeOffset += dash
+    return (
       <circle
         key={seg.label}
         cx={cx} cy={cy} r={r}
@@ -31,13 +33,11 @@ function DonutChart({ segments, size = 140 }) {
         stroke={seg.color}
         strokeWidth="18"
         strokeDasharray={`${dash} ${gap}`}
-        strokeDashoffset={-offset}
+        strokeDashoffset={-currentOffset}
         strokeLinecap="butt"
         style={{ transition: 'stroke-dasharray 0.6s ease' }}
       />
     )
-    offset += dash
-    return path
   })
 
   return (
@@ -353,14 +353,14 @@ export default function AdminDashboard() {
             </div>
             <div className="space-y-3">
               {[
-                { label: 'Database',  status: 'Online',  ok: true },
-                { label: 'API',       status: 'Running', ok: true },
-                { label: 'Email',     status: process.env.SMTP_HOST ? 'Configured' : 'Dev Mode', ok: true },
+                { label: 'Database',  status: 'Online',   ok: true },
+                { label: 'API',       status: 'Running',  ok: true },
+                { label: 'Email',     status: 'Dev Mode', ok: true },
               ].map((s) => (
                 <div key={s.label} className="flex items-center justify-between">
                   <span className="text-xs text-white/70">{s.label}</span>
-                  <span className={`flex items-center gap-1 text-xs font-bold ${s.ok ? 'text-green-300' : 'text-red-300'}`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${s.ok ? 'bg-green-400' : 'bg-red-400'}`} />
+                  <span className="flex items-center gap-1 text-xs font-bold text-green-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
                     {s.status}
                   </span>
                 </div>
