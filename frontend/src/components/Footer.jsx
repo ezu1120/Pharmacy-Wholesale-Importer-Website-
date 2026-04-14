@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import useAuthStore from '../store/authStore'
 
 export default function Footer() {
+  const { user } = useAuthStore()
   return (
     <footer className="w-full border-t border-slate-200 bg-slate-100">
       <div className="max-w-screen-2xl mx-auto px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -35,8 +37,8 @@ export default function Footer() {
             {[
               { to: '/rfq', label: 'RFQ Generator' },
               { to: '/compare', label: 'Product Comparison' },
-              { to: '/portal', label: 'Customer Portal' },
-              { to: '/register', label: 'Create Account' },
+              { to: user?.role === 'admin' ? '/admin' : '/portal', label: 'Dashboard' },
+              ...(!user ? [{ to: '/register', label: 'Create Account' }] : []),
             ].map((l) => (
               <Link key={l.label} to={l.to} className="block text-sm text-slate-500 hover:text-primary transition-colors">{l.label}</Link>
             ))}
