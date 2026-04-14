@@ -1,5 +1,5 @@
-import { Link, NavLink, useLocation } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
 import useRFQStore from '../store/rfqStore'
 import useAuthStore from '../store/authStore'
 
@@ -7,9 +7,19 @@ export default function Navbar() {
   const itemCount = useRFQStore((s) => s.selectedProducts.length)
   const { user, clearAuth } = useAuthStore()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+  const profileRef = useRef(null)
 
   useEffect(() => { setIsMobileMenuOpen(false) }, [location.pathname])
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e) => { if (profileRef.current && !profileRef.current.contains(e.target)) setProfileOpen(false) }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
 
   const NAV_LINKS = [
     { to: '/products', label: 'Products' },
@@ -55,11 +65,26 @@ export default function Navbar() {
           </Link>
 
           {user ? (
-            <div className="flex items-center gap-2 md:gap-3">
-              <Link to="/portal" className="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors hidden sm:block">
-                {user.fullName}
-              </Link>
-              <button onClick={clearAuth} className="text-sm text-outline hover:text-error transition-colors hidden sm:block">Logout</button>
+            <div className="relative hidden sm:block" ref={profileRef}>
+              <button onClick={() => setProfileOpen((o) => !o)} className="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
+                <span className="material-symbols-outlined text-2xl">account_circle</span>
+              </button>
+              {profileOpen && (
+                <div className="absolute right-0 top-10 w-52 bg-white rounded-xl shadow-lg border border-outline-variant/20 py-2 z-50">
+                  <div className="px-4 py-2 border-b border-outline-variant/20">
+                    <p className="text-xs font-bold text-on-surface truncate">{user.fullName}</p>
+                    <p className="text-xs text-on-surface-variant truncate">{user.email}</p>
+                  </div>
+                  <Link to="/portal" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-on-surface hover:bg-surface-container transition-colors">
+                    <span className="material-symbols-outlined text-base">dashboard</span>
+                    My Dashboard
+                  </Link>
+                  <button onClick={() => { clearAuth(); navigate('/login') }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-error hover:bg-error/5 transition-colors">
+                    <span className="material-symbols-outlined text-base">logout</span>
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="hidden sm:flex items-center gap-2">
@@ -86,8 +111,13 @@ export default function Navbar() {
             <div className="border-t border-slate-100 pt-4">
               {user ? (
                 <div className="flex flex-col gap-3">
-                  <Link to="/portal" className="text-sm font-medium text-slate-700">Dashboard ({user.fullName})</Link>
-                  <button onClick={clearAuth} className="text-sm text-left text-red-500">Logout</button>
+                  <p className="text-xs text-slate-400">{user.fullName}</p>
+                  <Link to="/portal" className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-base">dashboard</span>My Dashboard
+                  </Link>
+                  <button onClick={() => { clearAuth(); navigate('/login') }} className="text-sm text-left text-red-500 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-base">logout</span>Logout
+                  </button>
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
