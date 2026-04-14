@@ -22,19 +22,31 @@ export default function RFQDetails() {
   const { id } = useParams()
   const qc = useQueryClient()
   const navigate = useNavigate()
-  const [notes, setNotes] = useState(null) // null = not yet loaded
+  const [notes, setNotes] = useState(null)
   const [notesSaved, setNotesSaved] = useState(false)
   const [quotationSent, setQuotationSent] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [itemPrices, setItemPrices] = useState({})
+  const [quoteNotes, setQuoteNotes] = useState('')
+  const [currency, setCurrency] = useState('USD')
 
   const { data: rfq, isLoading } = useQuery({
     queryKey: ['admin-rfq', id],
     queryFn: () => api.get(`/admin/rfqs/${id}`).then((r) => r.data),
   })
 
-  // Initialize notes when data loads
+  // Initialize notes and prices when data loads
   useEffect(() => {
-    if (rfq && notes === null) setNotes(rfq.internal_notes || '')
+    if (rfq && notes === null) {
+      setNotes(rfq.internal_notes || '')
+      setQuoteNotes(rfq.quote_notes || '')
+      // Pre-fill existing prices if already set
+      const prices = {}
+      rfq.items?.forEach((item) => {
+        if (item.unit_price) prices[item.id] = { unitPrice: item.unit_price, currency: item.currency || 'USD' }
+      })
+      setItemPrices(prices)
+    }
   }, [rfq])
 
   const updateStatus = useMutation({
@@ -48,7 +60,12 @@ export default function RFQDetails() {
   })
 
   const sendQuotation = useMutation({
-    mutationFn: () => api.post(`/admin/rfqs/${id}/respond`),
+    mutationFn: () => api.post(`/admin/rfqs/${id}/respond`, {
+      quoteNotes,
+      itemPrices: Object.fromEntries(
+        Object.entries(itemPrices).map(([k, v]) => [k, { ...v, currency }])
+      ),
+    }),
     onSuccess: () => {
       setQuotationSent(true)
       qc.invalidateQueries(['admin-rfq', id])
@@ -188,27 +205,87 @@ export default function RFQDetails() {
                   <span className="material-symbols-outlined text-primary">medical_services</span>
                   <h3 className="font-headline font-bold text-on-surface">Requested Products</h3>
                 </div>
-                <span className="text-xs text-outline">{rfq.items?.length} items</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-outline">{rfq.items?.length} items</span>
+                  <select
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value)}
+                    className="text-xs px-2 py-1 rounded-lg bg-surface-container border-none outline-none font-bold text-on-surface"
+                  >
+                    {['USD','EUR','GBP','AED','SAR'].map((c) => <option key={c}>{c}</option>)}
+                  </select>
+                </div>
               </div>
               <div className="divide-y divide-outline-variant/10">
                 {rfq.items?.map((item) => (
                   <div key={item.id} className="p-5 flex items-center justify-between gap-4 hover:bg-white/30 transition-colors">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 flex-1">
                       <div className="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center flex-shrink-0">
                         <span className="material-symbols-outlined text-outline text-lg">medication_liquid</span>
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <p className="font-bold text-sm text-on-surface">{item.product_name}</p>
                         <p className="text-xs text-outline">{item.brand} · {item.unit}</p>
                         {item.notes && <p className="text-xs text-on-surface-variant italic mt-0.5">"{item.notes}"</p>}
                       </div>
                     </div>
-                    <div className="text-right flex-shrink-0">
-                      <p className="text-xl font-headline font-extrabold text-primary">{item.quantity}</p>
-                      <p className="text-[10px] font-bold text-outline-variant uppercase">{item.unit}</p>
+                    <div className="flex items-center gap-4 flex-shrink-0">
+                      <div className="text-right">
+                        <p className="text-xl font-headline font-extrabold text-primary">{item.quantity}</p>
+                        <p className="text-[10px] font-bold text-outline-variant uppercase">{item.unit}</p>
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        <label className="text-[10px] font-bold text-outline uppercase tracking-wider">Unit Price</label>
+                        <div className="flex items-center gap-1">
+                          <span className="text-xs text-outline">{currency}</span>
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            placeholder="0.00"
+                            value={itemPrices[item.id]?.unitPrice || ''}
+                            onChange={(e) => setItemPrices((p) => ({ ...p, [item.id]: { unitPrice: e.target.value, currency } }))}
+                            className="w-24 text-sm px-2 py-1 rounded-lg bg-surface-container border border-outline-variant/30 outline-none focus:ring-1 focus:ring-primary text-right"
+                          />
+                        </div>
+                        {itemPrices[item.id]?.unitPrice && (
+                          <p className="text-[10px] text-primary font-bold">
+                            Total: {currency} {(parseFloat(itemPrices[item.id].unitPrice) * item.quantity).toFixed(2)}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
+              </div>
+              {/* Grand total */}
+              {Object.keys(itemPrices).length > 0 && (
+                <div className="p-5 bg-primary/5 border-t border-primary/10 flex justify-between items-center">
+                  <span className="font-bold text-sm text-on-surface">Grand Total</span>
+                  <span className="font-extrabold text-lg text-primary">
+                    {currency} {rfq.items?.reduce((sum, item) => {
+                      const p = parseFloat(itemPrices[item.id]?.unitPrice || 0)
+                      return sum + p * item.quantity
+                    }, 0).toFixed(2)}
+                  </span>
+                </div>
+              )}
+            </section>
+
+            {/* Quote Notes */}
+            <section className="bg-surface-container-low rounded-xl overflow-hidden">
+              <div className="p-5 border-b border-white/20 bg-white/40 flex items-center gap-3">
+                <span className="material-symbols-outlined text-primary">request_quote</span>
+                <h3 className="font-headline font-bold text-on-surface">Quotation Notes</h3>
+              </div>
+              <div className="p-5">
+                <textarea
+                  rows={3}
+                  value={quoteNotes}
+                  onChange={(e) => setQuoteNotes(e.target.value)}
+                  placeholder="Add notes to include in the quotation PDF sent to the customer..."
+                  className="w-full bg-surface-container-lowest border-none rounded-lg text-sm text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-primary p-4 outline-none resize-none"
+                />
               </div>
             </section>
 

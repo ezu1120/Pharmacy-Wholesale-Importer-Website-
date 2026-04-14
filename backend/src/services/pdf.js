@@ -54,32 +54,61 @@ function generateRFQPDF(rfq) {
     doc.moveTo(50, doc.y + 4).lineTo(doc.page.width - 50, doc.y + 4).strokeColor('#e7e8e9').stroke()
     doc.moveDown(0.8)
 
+    const hasPrice = (rfq.items || []).some((i) => i.unitPrice != null)
+    const currency = (rfq.items || [])[0]?.currency || 'USD'
+
     // Table header
-    const cols = { name: 50, brand: 230, qty: 360, unit: 420, notes: 470 }
+    const cols = hasPrice
+      ? { name: 50, brand: 200, qty: 330, unit: 385, price: 435, total: 500 }
+      : { name: 50, brand: 230, qty: 360, unit: 420, notes: 470 }
+
     const headerY = doc.y
     doc.rect(50, headerY - 4, doc.page.width - 100, 20).fill('#f3f4f5')
     doc.fillColor(muted).font('Helvetica-Bold').fontSize(8)
-    doc.text('PRODUCT NAME',  cols.name,  headerY, { width: 170 })
-    doc.text('BRAND',         cols.brand, headerY, { width: 120 })
-    doc.text('QTY',           cols.qty,   headerY, { width: 55 })
-    doc.text('UNIT',          cols.unit,  headerY, { width: 45 })
-    doc.text('NOTES',         cols.notes, headerY, { width: 80 })
+    doc.text('PRODUCT NAME', cols.name,  headerY, { width: 145 })
+    doc.text('BRAND',        cols.brand, headerY, { width: 125 })
+    doc.text('QTY',          cols.qty,   headerY, { width: 50 })
+    doc.text('UNIT',         cols.unit,  headerY, { width: 45 })
+    if (hasPrice) {
+      doc.text(`UNIT PRICE (${currency})`, cols.price, headerY, { width: 60 })
+      doc.text('TOTAL',      cols.total, headerY, { width: 60 })
+    } else {
+      doc.text('NOTES',      cols.notes, headerY, { width: 80 })
+    }
     doc.moveDown(1.2)
 
     const items = rfq.items || []
+    let grandTotal = 0
     items.forEach((item, i) => {
       const rowY = doc.y
-      if (i % 2 === 0) {
-        doc.rect(50, rowY - 2, doc.page.width - 100, 18).fill('#fafafa')
-      }
+      if (i % 2 === 0) doc.rect(50, rowY - 2, doc.page.width - 100, 18).fill('#fafafa')
       doc.fillColor(dark).font('Helvetica').fontSize(9)
-      doc.text(item.productName || item.product_name || '', cols.name,  rowY, { width: 170 })
-      doc.text(item.brand || '—',                           cols.brand, rowY, { width: 120 })
-      doc.text(String(item.quantity),                       cols.qty,   rowY, { width: 55 })
+      doc.text(item.productName || item.product_name || '', cols.name,  rowY, { width: 145 })
+      doc.text(item.brand || '—',                           cols.brand, rowY, { width: 125 })
+      doc.text(String(item.quantity),                       cols.qty,   rowY, { width: 50 })
       doc.text(item.unit || 'units',                        cols.unit,  rowY, { width: 45 })
-      doc.text(item.notes || '',                            cols.notes, rowY, { width: 80 })
+      if (hasPrice) {
+        const up = item.unitPrice != null ? parseFloat(item.unitPrice) : null
+        const lineTotal = up != null ? up * item.quantity : null
+        if (lineTotal != null) grandTotal += lineTotal
+        doc.text(up != null ? up.toFixed(2) : '—',              cols.price, rowY, { width: 60 })
+        doc.text(lineTotal != null ? lineTotal.toFixed(2) : '—', cols.total, rowY, { width: 60 })
+      } else {
+        doc.text(item.notes || '', cols.notes, rowY, { width: 80 })
+      }
       doc.moveDown(0.8)
     })
+
+    // Grand total row
+    if (hasPrice && grandTotal > 0) {
+      doc.moveDown(0.3)
+      const totalY = doc.y
+      doc.rect(50, totalY - 2, doc.page.width - 100, 22).fill(primary)
+      doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(10)
+      doc.text('GRAND TOTAL', cols.name, totalY + 4, { width: 380 })
+      doc.text(`${currency} ${grandTotal.toFixed(2)}`, cols.total, totalY + 4, { width: 60 })
+      doc.moveDown(1.2)
+    }
 
     doc.moveDown(0.5)
 
@@ -109,6 +138,15 @@ function generateRFQPDF(rfq) {
       doc.moveTo(50, doc.y + 4).lineTo(doc.page.width - 100, doc.y + 4).strokeColor('#e7e8e9').stroke()
       doc.moveDown(0.8)
       doc.fillColor(dark).font('Helvetica').fontSize(10).text(rfq.message, { width: doc.page.width - 100 })
+      doc.moveDown(0.5)
+    }
+
+    // ── Quote Notes ──────────────────────────────────────────────────────────
+    if (rfq.quoteNotes) {
+      doc.fillColor(primary).font('Helvetica-Bold').fontSize(12).text('Quotation Notes')
+      doc.moveTo(50, doc.y + 4).lineTo(doc.page.width - 100, doc.y + 4).strokeColor('#e7e8e9').stroke()
+      doc.moveDown(0.8)
+      doc.fillColor(dark).font('Helvetica').fontSize(10).text(rfq.quoteNotes, { width: doc.page.width - 100 })
       doc.moveDown(0.5)
     }
 

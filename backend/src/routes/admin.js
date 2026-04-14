@@ -68,7 +68,7 @@ router.get('/rfqs/:id', async (req, res, next) => {
 
     const rfq = rows[0]
     const [{ rows: items }, { rows: attachments }] = await Promise.all([
-      pool.query('SELECT * FROM rfq_items WHERE rfq_id = $1 ORDER BY id', [rfq.id]),
+      pool.query('SELECT id, product_name, brand, quantity, unit, notes, unit_price, currency FROM rfq_items WHERE rfq_id = $1 ORDER BY id', [rfq.id]),
       pool.query('SELECT * FROM rfq_attachments WHERE rfq_id = $1', [rfq.id]),
     ])
     rfq.items = items
@@ -117,6 +117,8 @@ router.patch('/rfqs/:id/notes', async (req, res, next) => {
 // ── POST /api/admin/rfqs/:id/respond — generate PDF + send quotation email ───
 router.post('/rfqs/:id/respond', async (req, res, next) => {
   try {
+    const { quoteNotes, itemPrices = {} } = req.body // itemPrices: { [rfqItemId]: { unitPrice, currency } }
+
     const { rows } = await pool.query(
       `SELECT r.*,
               COALESCE(u.full_name, r.guest_full_name) AS "customerName",
@@ -128,12 +130,25 @@ router.post('/rfqs/:id/respond', async (req, res, next) => {
     if (!rows.length) return res.status(404).json({ error: 'NOT_FOUND' })
 
     const rfq = rows[0]
+
+    // Save prices per item
+    for (const [itemId, pricing] of Object.entries(itemPrices)) {
+      await pool.query(
+        'UPDATE rfq_items SET unit_price = $1, currency = $2 WHERE id = $3 AND rfq_id = $4',
+        [pricing.unitPrice || null, pricing.currency || 'USD', itemId, rfq.id]
+      )
+    }
+
+    // Save quote notes
+    if (quoteNotes !== undefined) {
+      await pool.query('UPDATE rfqs SET quote_notes = $1 WHERE id = $2', [quoteNotes, rfq.id])
+    }
+
     const { rows: items } = await pool.query(
       'SELECT * FROM rfq_items WHERE rfq_id = $1 ORDER BY id', [rfq.id]
     )
     rfq.items = items
 
-    // Build PDF-friendly object
     const pdfData = {
       rfqNumber:   rfq.rfq_number,
       submittedAt: rfq.submitted_at,
@@ -144,21 +159,20 @@ router.post('/rfqs/:id/respond', async (req, res, next) => {
       city:         rfq.guest_city,
       country:      rfq.guest_country,
       message:      rfq.message,
+      quoteNotes:   quoteNotes || rfq.quote_notes,
       items:        items.map((i) => ({
         productName: i.product_name,
         brand:       i.brand,
         quantity:    i.quantity,
         unit:        i.unit,
         notes:       i.notes,
+        unitPrice:   i.unit_price,
+        currency:    i.currency || 'USD',
       })),
     }
 
     const pdfBuffer = await generateRFQPDF(pdfData)
-
-    // Send email with PDF attached
     await sendQuotationEmail(rfq.customerEmail, rfq.rfq_number, pdfBuffer)
-
-    // Update status
     await pool.query(
       "UPDATE rfqs SET status = 'QUOTATION_SENT', updated_at = NOW() WHERE id = $1",
       [rfq.id]
