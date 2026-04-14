@@ -736,19 +736,24 @@ export default function RFQ() {
   const submitMutation = useMutation({
     mutationFn: async (payload) => {
       const files = useRFQStore.getState()._pendingFiles || []
+      // Strip frontend-only fields before sending
+      const cleanPayload = {
+        ...payload,
+        products: payload.products.map(({ isService, ...rest }) => rest),
+      }
 
       if (files.length > 0) {
         const formData = new FormData()
-        formData.append('customerInfo', JSON.stringify(payload.customerInfo))
-        formData.append('products', JSON.stringify(payload.products))
-        formData.append('additionalInfo', JSON.stringify(payload.additionalInfo))
+        formData.append('customerInfo', JSON.stringify(cleanPayload.customerInfo))
+        formData.append('products', JSON.stringify(cleanPayload.products))
+        formData.append('additionalInfo', JSON.stringify(cleanPayload.additionalInfo))
         files.forEach((file) => formData.append('attachments', file))
         return api.post('/rfq', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         }).then((r) => r.data)
       }
 
-      return api.post('/rfq', payload).then((r) => r.data)
+      return api.post('/rfq', cleanPayload).then((r) => r.data)
     },
     onSuccess: (data) => {
       useRFQStore.getState()._pendingFiles = []
