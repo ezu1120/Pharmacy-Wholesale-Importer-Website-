@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSiteContent } from '../lib/useSiteContent'
+import useRFQStore from '../store/rfqStore'
 
 const DEFAULT_SERVICES = [
   { icon: 'local_shipping', title: 'Pharmaceutical Wholesale Supply', desc: 'We supply bulk pharmaceutical products directly to pharmacies, hospitals, clinics, and distributors at competitive wholesale prices.', features: ['Bulk order discounts', 'Flexible MOQ', 'Dedicated account manager', 'Priority stock allocation'], img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&q=80' },
@@ -20,6 +21,13 @@ const PROCESS = [
 export default function Services() {
   const services = useSiteContent('services', DEFAULT_SERVICES)
   const company  = useSiteContent('company_info', {})
+  const navigate = useNavigate()
+  const { addService } = useRFQStore()
+
+  const handleRequestService = (svc) => {
+    addService(svc)
+    navigate('/rfq')
+  }
 
   const STATS = [
     { value: company?.products  || '10,000+', label: 'Products in Catalog' },
@@ -94,10 +102,13 @@ export default function Services() {
                     </div>
                   ))}
                 </div>
-                <Link to="/rfq" className="signature-gradient text-white px-8 py-3 rounded-xl font-headline font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all inline-flex items-center gap-2">
+                <button
+                  onClick={() => handleRequestService(svc)}
+                  className="signature-gradient text-white px-8 py-3 rounded-xl font-headline font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all inline-flex items-center gap-2"
+                >
                   <span className="material-symbols-outlined text-lg">request_quote</span>
                   Request This Service
-                </Link>
+                </button>
               </div>
             </div>
           ))}

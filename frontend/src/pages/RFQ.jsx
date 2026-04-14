@@ -245,7 +245,14 @@ function Step2({ onNext, onBack }) {
                       <tr key={item.productId}>
                         <td className="px-6 py-6">
                           <div className="font-bold text-primary">{item.productName}</div>
-                          <div className="text-xs text-on-surface-variant italic">{item.brand}</div>
+                          <div className="text-xs text-on-surface-variant italic">
+                            {item.isService ? (
+                              <span className="inline-flex items-center gap-1 text-primary/70">
+                                <span className="material-symbols-outlined text-xs">build</span>
+                                Service
+                              </span>
+                            ) : item.brand}
+                          </div>
                         </td>
                         <td className="px-6 py-6">
                           <input
@@ -265,6 +272,8 @@ function Step2({ onNext, onBack }) {
                             <option>packs</option>
                             <option>vials</option>
                             <option>bottles</option>
+                            <option>service</option>
+                            <option>shipment</option>
                           </select>
                         </td>
                         <td className="px-6 py-6">

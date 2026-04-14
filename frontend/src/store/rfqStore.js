@@ -48,6 +48,27 @@ const useRFQStore = create(
           }
         }),
 
+      addService: (service) =>
+        set((state) => {
+          const serviceId = `svc-${service.title.replace(/\s+/g, '-').toLowerCase()}`
+          const exists = state.selectedProducts.find((p) => p.productId === serviceId)
+          if (exists) return state
+          return {
+            selectedProducts: [
+              ...state.selectedProducts,
+              {
+                productId: serviceId,
+                productName: service.title,
+                brand: 'PharmaLink Service',
+                quantity: 1,
+                unit: 'service',
+                notes: '',
+                isService: true,
+              },
+            ],
+          }
+        }),
+
       updateProduct: (productId, updates) =>
         set((state) => ({
           selectedProducts: state.selectedProducts.map((p) =>
