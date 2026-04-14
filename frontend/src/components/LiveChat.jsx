@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 export default function LiveChat() {
+  const location = useLocation()
+  // Hide on admin pages
+  if (location.pathname.startsWith('/admin')) return null
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
     { id: 1, sender: 'agent', text: 'Hello! I am Emily from PharmaLink support. How can I help you with your procurement today?' }

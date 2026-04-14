@@ -457,7 +457,7 @@ export default function RFQDetails() {
       </main>
 
       {/* Fixed footer */}
-      <footer className="fixed bottom-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-xl border-t border-slate-200/50 flex items-center justify-center px-6 z-50">
+      <footer className="fixed bottom-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-xl border-t border-slate-200/50 flex items-center justify-center px-6 z-[60]">
         <div className="max-w-5xl w-full flex items-center justify-between">
           <div className="hidden sm:block">
             <p className="text-xs font-bold text-outline uppercase tracking-widest">Workflow State</p>
