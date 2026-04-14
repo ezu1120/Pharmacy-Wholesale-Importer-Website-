@@ -2,15 +2,28 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import useRFQStore from '../store/rfqStore'
 import useAuthStore from '../store/authStore'
+import i18n from '../lib/i18n'
+
+const LANGUAGES = [
+  { code: 'en', label: 'EN', flag: '🇬🇧' },
+  { code: 'fr', label: 'FR', flag: '🇫🇷' },
+  { code: 'es', label: 'ES', flag: '🇪🇸' },
+]
 
 export default function Navbar() {
   const itemCount = useRFQStore((s) => s.selectedProducts.length)
   const { user, clearAuth } = useAuthStore()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
+  const [currentLang, setCurrentLang] = useState('en')
   const location = useLocation()
   const navigate = useNavigate()
   const profileRef = useRef(null)
+
+  const switchLang = (code) => {
+    setCurrentLang(code)
+    i18n.changeLanguage(code)
+  }
 
   useEffect(() => { setIsMobileMenuOpen(false) }, [location.pathname])
 
@@ -54,6 +67,23 @@ export default function Navbar() {
 
         {/* Right actions */}
         <div className="flex items-center gap-3 md:gap-4">
+          {/* Language switcher */}
+          <div className="hidden sm:flex items-center gap-1 bg-surface-container-high rounded-lg px-1 py-1">
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => switchLang(lang.code)}
+                className={`text-xs font-bold px-2 py-1 rounded-md transition-all ${
+                  currentLang === lang.code
+                    ? 'bg-white text-primary shadow-sm'
+                    : 'text-slate-500 hover:text-primary'
+                }`}
+              >
+                {lang.flag} {lang.label}
+              </button>
+            ))}
+          </div>
+
           {/* RFQ badge */}
           <Link to="/rfq" className="relative p-2 text-on-surface-variant hover:text-primary transition-colors">
             <span className="material-symbols-outlined">description</span>

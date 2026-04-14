@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useLocation } from 'react-router-dom'
 import api from '../lib/api'
@@ -16,6 +16,7 @@ const STATUS_LABEL = { NEW: 'Pending', UNDER_REVIEW: 'Under Review', QUOTATION_S
 export default function CustomerDashboard() {
   const { user, clearAuth } = useAuthStore()
   const location = useLocation()
+  const navigate = useNavigate()
   const newRfq = location.state?.newRfq // RFQ number passed after submission
   const { data, isLoading } = useQuery({
     queryKey: ['customer-rfqs'],
@@ -77,7 +78,7 @@ export default function CustomerDashboard() {
 
         <div className="px-4 pt-4 border-t border-outline-variant/10 mt-4">
           <button
-            onClick={clearAuth}
+            onClick={() => { clearAuth(); navigate('/login') }}
             className="flex items-center gap-2 text-sm text-slate-400 hover:text-error transition-colors w-full px-4 py-2"
           >
             <span className="material-symbols-outlined text-lg">logout</span>
