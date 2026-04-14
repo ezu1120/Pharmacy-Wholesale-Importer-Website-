@@ -68,7 +68,7 @@ router.get('/rfqs/:id', async (req, res, next) => {
 
     const rfq = rows[0]
     const [{ rows: items }, { rows: attachments }] = await Promise.all([
-      pool.query('SELECT id, product_name, brand, quantity, unit, notes, unit_price, currency FROM rfq_items WHERE rfq_id = $1 ORDER BY id', [rfq.id]),
+      pool.query('SELECT id, product_name, brand, quantity, unit, notes, unit_price AS "unitPrice", currency FROM rfq_items WHERE rfq_id = $1 ORDER BY id', [rfq.id]),
       pool.query('SELECT * FROM rfq_attachments WHERE rfq_id = $1', [rfq.id]),
     ])
     rfq.items = items
@@ -132,10 +132,13 @@ router.post('/rfqs/:id/respond', async (req, res, next) => {
     const rfq = rows[0]
 
     // Save prices per item
+    console.log('itemPrices received:', JSON.stringify(itemPrices))
     for (const [itemId, pricing] of Object.entries(itemPrices)) {
+      const price = pricing.unitPrice !== '' ? parseFloat(pricing.unitPrice) : null
+      console.log(`Saving item ${itemId}: price=${price}, currency=${pricing.currency}`)
       await pool.query(
         'UPDATE rfq_items SET unit_price = $1, currency = $2 WHERE id = $3 AND rfq_id = $4',
-        [pricing.unitPrice || null, pricing.currency || 'USD', itemId, rfq.id]
+        [price, pricing.currency || 'USD', itemId, rfq.id]
       )
     }
 

@@ -115,8 +115,8 @@ function generateRFQPDF(rfq) {
     y += 24
 
     const items = rfq.items || []
-    const hasPrice = items.some((i) => i.unitPrice != null && i.unitPrice !== '')
-    const currency = items[0]?.currency || 'USD'
+    const hasPrice = items.some((i) => i.unitPrice != null && i.unitPrice !== '' && parseFloat(i.unitPrice) > 0)
+    const currency = items.find((i) => i.currency)?.currency || 'USD'
 
     // Table header
     const tH = 24
@@ -152,7 +152,7 @@ function generateRFQPDF(rfq) {
       // Alternating rows
       doc.rect(M, y, tableW, rowH).fill(i % 2 === 0 ? white : '#f8faff')
 
-      const up = item.unitPrice != null && item.unitPrice !== '' ? parseFloat(item.unitPrice) : null
+      const up = (item.unitPrice != null && item.unitPrice !== '') ? parseFloat(item.unitPrice) : null
       const lineTotal = up != null ? up * item.quantity : null
       if (lineTotal != null) grandTotal += lineTotal
 

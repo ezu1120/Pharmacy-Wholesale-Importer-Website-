@@ -43,7 +43,7 @@ export default function RFQDetails() {
       // Pre-fill existing prices if already set
       const prices = {}
       rfq.items?.forEach((item) => {
-        if (item.unit_price) prices[item.id] = { unitPrice: item.unit_price, currency: item.currency || 'USD' }
+        if (item.unitPrice) prices[item.id] = { unitPrice: item.unitPrice, currency: item.currency || 'USD' }
       })
       setItemPrices(prices)
     }
