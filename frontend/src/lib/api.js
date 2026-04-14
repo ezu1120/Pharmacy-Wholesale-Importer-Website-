@@ -13,13 +13,19 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Handle 401 — clear auth and redirect
+// Handle 401 — clear auth and redirect only for API calls that require auth
 api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response?.status === 401) {
-      useAuthStore.getState().clearAuth()
-      window.location.href = '/login'
+      const url = err.config?.url || ''
+      // Only logout on protected routes, not public ones
+      const publicRoutes = ['/auth/', '/products', '/content', '/rfq']
+      const isPublic = publicRoutes.some((r) => url.includes(r))
+      if (!isPublic) {
+        useAuthStore.getState().clearAuth()
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(err)
   }

@@ -75,7 +75,7 @@ export default function Navbar() {
                     <p className="text-xs font-bold text-on-surface truncate">{user.fullName}</p>
                     <p className="text-xs text-on-surface-variant truncate">{user.email}</p>
                   </div>
-                  <Link to="/portal" onClick={() => setProfileOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-on-surface hover:bg-surface-container transition-colors">
+                  <Link to={user.role === 'admin' ? '/admin' : '/portal'} onClick={() => setProfileOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-on-surface hover:bg-surface-container transition-colors">
                     <span className="material-symbols-outlined text-base">dashboard</span>
                     My Dashboard
                   </Link>
@@ -112,7 +112,7 @@ export default function Navbar() {
               {user ? (
                 <div className="flex flex-col gap-3">
                   <p className="text-xs text-slate-400">{user.fullName}</p>
-                  <Link to="/portal" className="text-sm font-medium text-slate-700 flex items-center gap-2">
+                  <Link to={user.role === 'admin' ? '/admin' : '/portal'} className="text-sm font-medium text-slate-700 flex items-center gap-2">
                     <span className="material-symbols-outlined text-base">dashboard</span>My Dashboard
                   </Link>
                   <button onClick={() => { clearAuth(); navigate('/login') }} className="text-sm text-left text-red-500 flex items-center gap-2">
