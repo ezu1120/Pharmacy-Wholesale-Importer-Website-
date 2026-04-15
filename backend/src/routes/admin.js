@@ -68,7 +68,15 @@ router.get('/rfqs/:id', async (req, res, next) => {
 
     const rfq = rows[0]
     const [{ rows: items }, { rows: attachments }] = await Promise.all([
-      pool.query('SELECT id, product_name, brand, quantity, unit, notes, unit_price AS "unitPrice", currency FROM rfq_items WHERE rfq_id = $1 ORDER BY id', [rfq.id]),
+      pool.query(
+        `SELECT ri.id, ri.product_name, ri.brand, ri.quantity, ri.unit, ri.notes,
+                COALESCE(ri.unit_price, p.price) AS "unitPrice",
+                COALESCE(ri.currency, p.currency, 'USD') AS currency
+         FROM rfq_items ri
+         LEFT JOIN products p ON p.id = ri.product_id
+         WHERE ri.rfq_id = $1 ORDER BY ri.id`,
+        [rfq.id]
+      ),
       pool.query('SELECT * FROM rfq_attachments WHERE rfq_id = $1', [rfq.id]),
     ])
     rfq.items = items
@@ -239,6 +247,7 @@ router.get('/products', async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT id, name, generic_name AS "genericName", brand, category,
               package_size AS "packageSize", description, image_url AS "imageUrl",
+              price, currency,
               is_active AS "isActive", is_featured AS "isFeatured"
        FROM products ORDER BY name ASC`
     )
@@ -248,11 +257,11 @@ router.get('/products', async (req, res, next) => {
 
 router.post('/products', async (req, res, next) => {
   try {
-    const { name, genericName, brand, category, packageSize, description, imageUrl, isFeatured } = req.body
+    const { name, genericName, brand, category, packageSize, description, imageUrl, isFeatured, price, currency } = req.body
     const { rows } = await pool.query(
-      `INSERT INTO products (name, generic_name, brand, category, package_size, description, image_url, is_featured)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`,
-      [name, genericName, brand, category, packageSize, description, imageUrl, isFeatured || false]
+      `INSERT INTO products (name, generic_name, brand, category, package_size, description, image_url, is_featured, price, currency)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
+      [name, genericName, brand, category, packageSize, description, imageUrl, isFeatured || false, price || null, currency || 'USD']
     )
     res.status(201).json(rows[0])
   } catch (err) { next(err) }
@@ -260,11 +269,11 @@ router.post('/products', async (req, res, next) => {
 
 router.put('/products/:id', async (req, res, next) => {
   try {
-    const { name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured } = req.body
+    const { name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price, currency } = req.body
     await pool.query(
       `UPDATE products SET name=$1, generic_name=$2, brand=$3, category=$4, package_size=$5,
-       description=$6, image_url=$7, is_active=$8, is_featured=$9, updated_at=NOW() WHERE id=$10`,
-      [name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, req.params.id]
+       description=$6, image_url=$7, is_active=$8, is_featured=$9, price=$10, currency=$11, updated_at=NOW() WHERE id=$12`,
+      [name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price || null, currency || 'USD', req.params.id]
     )
     res.json({ success: true })
   } catch (err) { next(err) }

@@ -5,7 +5,7 @@ import AdminLayout from '../components/AdminLayout'
 
 const CATEGORIES = ['prescription', 'otc', 'medical-supplies', 'surgical', 'laboratory', 'personal-care']
 
-const EMPTY = { name: '', genericName: '', brand: '', category: 'prescription', packageSize: '', description: '', imageUrl: '', isActive: true, isFeatured: false }
+const EMPTY = { name: '', genericName: '', brand: '', category: 'prescription', packageSize: '', description: '', imageUrl: '', price: '', currency: 'USD', isActive: true, isFeatured: false }
 
 function ProductModal({ product, onClose, onSave, isSaving }) {
   const [form, setForm] = useState(product || EMPTY)
@@ -56,6 +56,21 @@ function ProductModal({ product, onClose, onSave, isSaving }) {
               {form.imageUrl && (
                 <img src={form.imageUrl} alt="preview" className="mt-2 h-24 w-24 object-cover rounded-xl" onError={(e) => e.target.style.display='none'} />
               )}
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-outline uppercase tracking-widest">Unit Price</label>
+              <input
+                type="number" min="0" step="0.01"
+                value={form.price} onChange={set('price')}
+                placeholder="0.00"
+                className="input-field"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-outline uppercase tracking-widest">Currency</label>
+              <select value={form.currency} onChange={set('currency')} className="input-field">
+                {['USD','EUR','GBP','AED','SAR'].map((c) => <option key={c}>{c}</option>)}
+              </select>
             </div>
             <div className="col-span-2 space-y-1.5">
               <label className="text-xs font-bold text-outline uppercase tracking-widest">Description</label>
@@ -226,6 +241,11 @@ export default function AdminProducts() {
                 <span className="inline-block px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase mb-4">
                   {product.category}
                 </span>
+                {product.price && (
+                  <p className="text-sm font-bold text-primary mb-4">
+                    {product.currency || 'USD'} {parseFloat(product.price).toFixed(2)}
+                  </p>
+                )}
 
                 {/* Actions */}
                 <div className="flex gap-2">

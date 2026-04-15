@@ -40,12 +40,17 @@ export default function RFQDetails() {
     if (rfq && notes === null) {
       setNotes(rfq.internal_notes || '')
       setQuoteNotes(rfq.quote_notes || '')
-      // Pre-fill existing prices if already set
+      // Pre-fill prices: use saved unit_price first, then fall back to product catalog price
       const prices = {}
       rfq.items?.forEach((item) => {
-        if (item.unitPrice) prices[item.id] = { unitPrice: item.unitPrice, currency: item.currency || 'USD' }
+        prices[item.id] = {
+          unitPrice: item.unitPrice ?? '',
+          currency: item.currency || 'USD',
+        }
       })
       setItemPrices(prices)
+      // Set global currency from first item
+      if (rfq.items?.[0]?.currency) setCurrency(rfq.items[0].currency)
     }
   }, [rfq])
 
