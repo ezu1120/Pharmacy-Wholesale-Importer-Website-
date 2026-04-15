@@ -37,8 +37,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_search ON products USING gin(
-  to_tsvector('english',
-    name || ' ' || COALESCE(generic_name,'') || ' ' || COALESCE(brand,''))
+  to_tsvector('english', name || ' ' || COALESCE(generic_name,'') || ' ' || COALESCE(brand,''))
 );
 
 -- RFQs
@@ -58,6 +57,7 @@ CREATE TABLE IF NOT EXISTS rfqs (
   message                 TEXT,
   status                  VARCHAR(30) NOT NULL DEFAULT 'NEW',
   internal_notes          TEXT,
+  quote_notes             TEXT,
   submitted_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at              TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -75,6 +75,8 @@ CREATE TABLE IF NOT EXISTS rfq_items (
   brand        VARCHAR(255),
   quantity     INTEGER NOT NULL CHECK (quantity > 0),
   unit         VARCHAR(50) NOT NULL DEFAULT 'units',
+  unit_price   DECIMAL(12,2),
+  currency     VARCHAR(10) DEFAULT 'USD',
   notes        TEXT
 );
 
@@ -115,7 +117,8 @@ CREATE TABLE IF NOT EXISTS site_content (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- RFQ sequence counter — prevents duplicate RFQ numbers under concurrent submissions
+-- RFQ sequence counter
 CREATE TABLE IF NOT EXISTS rfq_sequences (
   year     INTEGER PRIMARY KEY,
-  last_seq INTEGE
+  last_seq INTEGER NOT NULL DEFAULT 0
+);
