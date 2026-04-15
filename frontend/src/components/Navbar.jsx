@@ -1,18 +1,19 @@
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import useRFQStore from '../store/rfqStore'
 import useAuthStore from '../store/authStore'
 import i18n from '../lib/i18n'
 
 const LANGUAGES = [
-  { code: 'en', label: 'EN', flag: '🇬🇧' },
-  { code: 'fr', label: 'FR', flag: '🇫🇷' },
-  { code: 'es', label: 'ES', flag: '🇪🇸' },
+  { code: 'en', label: 'EN' },
+  { code: 'am', label: 'አማ' },
 ]
 
 export default function Navbar() {
   const itemCount = useRFQStore((s) => s.selectedProducts.length)
   const { user, clearAuth } = useAuthStore()
+  const { t } = useTranslation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const [currentLang, setCurrentLang] = useState('en')
@@ -35,11 +36,11 @@ export default function Navbar() {
   }, [])
 
   const NAV_LINKS = [
-    { to: '/products', label: 'Products' },
-    { to: '/services', label: 'Services' },
-    { to: '/about',    label: 'About' },
-    { to: '/contact',  label: 'Contact' },
-    { to: '/track',    label: 'Track RFQ' },
+    { to: '/products',   label: t('nav.products') },
+    { to: '/services',   label: t('nav.services') },
+    { to: '/about',      label: t('nav.about') },
+    { to: '/contact',    label: t('nav.contact') },
+    { to: '/track',      label: t('nav.track_rfq') },
   ]
 
   return (
@@ -79,7 +80,7 @@ export default function Navbar() {
                     : 'text-slate-500 hover:text-primary'
                 }`}
               >
-                {lang.flag} {lang.label}
+                {lang.label}
               </button>
             ))}
           </div>
@@ -107,11 +108,11 @@ export default function Navbar() {
                   </div>
                   <Link to={user.role === 'admin' ? '/admin' : '/portal'} onClick={() => setProfileOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-on-surface hover:bg-surface-container transition-colors">
                     <span className="material-symbols-outlined text-base">dashboard</span>
-                    My Dashboard
+                    {t('nav.my_dashboard')}
                   </Link>
                   <button onClick={() => { clearAuth(); navigate('/login') }} className="w-full flex items-center gap-2 px-4 py-2 text-sm text-error hover:bg-error/5 transition-colors">
                     <span className="material-symbols-outlined text-base">logout</span>
-                    Logout
+                    {t('nav.sign_out')}
                   </button>
                 </div>
               )}
@@ -119,10 +120,10 @@ export default function Navbar() {
           ) : (
             <div className="hidden sm:flex items-center gap-2">
               <Link to="/rfq" className="signature-gradient text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg font-headline font-bold text-xs md:text-sm transition-all active:scale-95 shadow-md whitespace-nowrap">
-                Request Quotation
+                {t('nav.request_quote')}
               </Link>
               <Link to="/login" className="text-sm font-semibold text-slate-600 hover:text-blue-900 px-4 py-2 rounded-lg transition-colors">
-                Sign In
+                {t('nav.sign_in')}
               </Link>
             </div>
           )}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import api from '../lib/api'
 import useRFQStore from '../store/rfqStore'
 
@@ -137,6 +138,7 @@ export default function Products() {
   const [selectedManufacturers, setSelectedManufacturers] = useState([])
   const category = searchParams.get('category') || ''
   const { addProduct, selectedProducts } = useRFQStore()
+  const { t } = useTranslation()
 
   const toggleManufacturer = (m) => {
     setSelectedManufacturers((prev) =>
@@ -178,7 +180,7 @@ export default function Products() {
         {/* Sidebar */}
         <aside className="hidden lg:flex flex-col w-64 flex-shrink-0">
           <div className="mb-8">
-            <h2 className="font-headline font-extrabold text-2xl tracking-tight text-primary">Categories</h2>
+            <h2 className="font-headline font-extrabold text-2xl tracking-tight text-primary">{t('products.categories_title')}</h2>
             <p className="text-on-surface-variant text-sm mt-1">Filter by Therapeutic Class</p>
           </div>
           <div className="space-y-1">
@@ -198,7 +200,7 @@ export default function Products() {
             ))}
           </div>
           <div className="mt-8">
-            <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant/70 mb-4">Manufacturer</h3>
+            <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant/70 mb-4">{t('products.manufacturer_title')}</h3>
             <div className="space-y-3">
               {MANUFACTURERS.map((m) => (
                 <label key={m} className="flex items-center gap-3 cursor-pointer group">
@@ -217,7 +219,7 @@ export default function Products() {
                 onClick={() => setSelectedManufacturers([])}
                 className="mt-4 text-xs text-error hover:underline font-medium"
               >
-                Clear filter
+                {t('products.clear_filter')}
               </button>
             )}
           </div>
@@ -227,10 +229,8 @@ export default function Products() {
         <section className="flex-grow">
           <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="font-headline font-extrabold text-5xl tracking-tighter text-on-surface mb-2">Our Products</h1>
-              <p className="text-on-surface-variant max-w-md">
-                Access our verified global inventory of pharmaceutical grade active ingredients and formulated medications.
-              </p>
+              <h1 className="font-headline font-extrabold text-5xl tracking-tighter text-on-surface mb-2">{t('products.title')}</h1>
+              <p className="text-on-surface-variant max-w-md">{t('products.subtitle')}</p>
             </div>
             <div className="relative w-full md:w-96 group">
               <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">
@@ -240,7 +240,7 @@ export default function Products() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by SKU, Generic or Brand..."
+                placeholder={t('products.search_placeholder')}
                 className="w-full bg-surface-container-high border-none rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all outline-none placeholder:text-on-surface-variant/60"
               />
             </div>

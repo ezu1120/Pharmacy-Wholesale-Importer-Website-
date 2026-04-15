@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useSiteContent } from '../lib/useSiteContent'
 import useRFQStore from '../store/rfqStore'
 
@@ -23,6 +24,7 @@ export default function Services() {
   const company  = useSiteContent('company_info', {})
   const navigate = useNavigate()
   const { addService } = useRFQStore()
+  const { t } = useTranslation()
 
   const handleRequestService = (svc) => {
     addService(svc)
@@ -107,7 +109,7 @@ export default function Services() {
                   className="signature-gradient text-white px-8 py-3 rounded-xl font-headline font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all inline-flex items-center gap-2"
                 >
                   <span className="material-symbols-outlined text-lg">request_quote</span>
-                  Request This Service
+                  {t('services.request_btn')}
                 </button>
               </div>
             </div>
