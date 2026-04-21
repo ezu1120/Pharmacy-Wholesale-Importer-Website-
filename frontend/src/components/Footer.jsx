@@ -4,73 +4,106 @@ import useAuthStore from '../store/authStore'
 export default function Footer() {
   const { user } = useAuthStore()
 
-  const NAV_LINKS = [
-    { to: '/',         label: 'Home' },
-    { to: '/about',    label: 'About' },
-    { to: '/products', label: 'Products' },
-    { to: '/services', label: 'Services' },
-    { to: '/contact',  label: 'Contact' },
-  ]
-
-  const SERVICE_LINKS = [
-    { to: '/rfq',     label: 'RFQ Generator' },
-    { to: '/compare', label: 'Product Comparison' },
-    { to: user?.role === 'admin' ? '/admin' : '/portal', label: 'Dashboard' },
-    ...(!user ? [{ to: '/register', label: 'Create Account' }] : []),
-  ]
-
-  const LEGAL_LINKS = ['Terms of Sale', 'Regulatory Compliance', 'MSDS Database', 'Privacy Policy']
-
   return (
-    <footer className="w-full border-t border-slate-200 bg-slate-900 text-slate-300">
-      <div className="max-w-screen-2xl mx-auto px-8 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
-        <div className="md:col-span-1">
-          <span className="font-headline font-bold text-white tracking-tighter text-2xl block mb-3">PharmaLink</span>
-          <p className="text-sm text-slate-400 leading-relaxed mb-6">
-            Trusted pharmaceutical wholesale supplier serving healthcare institutions worldwide.
-          </p>
-          <div className="flex gap-3">
-            {['language', 'mail', 'call'].map((icon) => (
-              <div key={icon} className="w-9 h-9 rounded-full bg-slate-700 hover:bg-primary transition-colors flex items-center justify-center cursor-pointer">
-                <span className="material-symbols-outlined text-sm text-slate-300">{icon}</span>
+    <footer className="bg-gray-900 text-gray-400">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+
+          {/* Brand */}
+          <div className="md:col-span-1">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 signature-gradient rounded-lg flex items-center justify-center">
+                <span className="material-symbols-outlined text-white text-base" style={{ fontVariationSettings: "'FILL' 1" }}>medication</span>
               </div>
+              <span className="font-bold text-white text-lg">PharmaLink Pro</span>
+            </div>
+            <p className="text-sm text-gray-500 leading-relaxed mb-5">
+              Trusted pharmaceutical wholesale supplier serving healthcare institutions worldwide since 2009.
+            </p>
+            <div className="flex gap-2">
+              {[
+                { icon: 'language', label: 'Website' },
+                { icon: 'mail',     label: 'Email' },
+                { icon: 'call',     label: 'Phone' },
+              ].map(({ icon, label }) => (
+                <button key={icon} title={label} className="w-8 h-8 rounded-lg bg-gray-800 hover:bg-primary transition-colors flex items-center justify-center">
+                  <span className="material-symbols-outlined text-sm text-gray-400 hover:text-white">{icon}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div>
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Company</p>
+            <div className="space-y-2.5">
+              {[
+                { to: '/',          label: 'Home' },
+                { to: '/about',     label: 'About Us' },
+                { to: '/services',  label: 'Services' },
+                { to: '/contact',   label: 'Contact' },
+              ].map(l => (
+                <Link key={l.to} to={l.to} className="block text-sm text-gray-500 hover:text-white transition-colors">{l.label}</Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Products */}
+          <div>
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Products</p>
+            <div className="space-y-2.5">
+              {[
+                { to: '/products',                          label: 'All Products' },
+                { to: '/products?category=prescription',    label: 'Prescription' },
+                { to: '/products?category=otc',             label: 'OTC Medicines' },
+                { to: '/products?category=medical-supplies',label: 'Medical Supplies' },
+                { to: '/categories',                        label: 'All Categories' },
+              ].map(l => (
+                <Link key={l.to} to={l.to} className="block text-sm text-gray-500 hover:text-white transition-colors">{l.label}</Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Account & Legal */}
+          <div>
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Account</p>
+            <div className="space-y-2.5">
+              {[
+                { to: user?.role === 'admin' ? '/admin' : '/portal', label: 'Dashboard' },
+                { to: '/portal/rfq',  label: 'Request Quote' },
+                { to: '/track',       label: 'Track RFQ' },
+                ...(!user ? [{ to: '/register', label: 'Create Account' }, { to: '/login', label: 'Sign In' }] : []),
+              ].map(l => (
+                <Link key={l.to} to={l.to} className="block text-sm text-gray-500 hover:text-white transition-colors">{l.label}</Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Certifications strip */}
+        <div className="border-t border-gray-800 pt-8 mb-6">
+          <div className="flex flex-wrap gap-4 items-center">
+            <span className="text-xs text-gray-600 uppercase tracking-widest font-semibold">Certified:</span>
+            {['WHO-GMP', 'FDA Registered', 'ISO 9001', 'GDP Compliant', 'IATA Certified'].map(cert => (
+              <span key={cert} className="px-3 py-1 bg-gray-800 rounded-full text-xs text-gray-400 font-medium">{cert}</span>
             ))}
           </div>
         </div>
 
-        <div>
-          <p className="font-headline font-bold text-xs uppercase tracking-widest text-slate-500 mb-5">Navigation</p>
-          <div className="space-y-3">
-            {NAV_LINKS.map((l) => (
-              <Link key={l.to} to={l.to} className="block text-sm text-slate-400 hover:text-white transition-colors">{l.label}</Link>
+        {/* Bottom bar */}
+        <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-xs text-gray-600">
+            © {new Date().getFullYear()} PharmaLink Wholesale. All rights reserved.
+          </p>
+          <div className="flex gap-4">
+            {[
+              { to: '/privacy', label: 'Privacy Policy' },
+              { to: '/terms',   label: 'Terms of Sale' },
+            ].map(l => (
+              <Link key={l.to} to={l.to} className="text-xs text-gray-600 hover:text-gray-400 transition-colors">{l.label}</Link>
             ))}
           </div>
         </div>
-
-        <div>
-          <p className="font-headline font-bold text-xs uppercase tracking-widest text-slate-500 mb-5">Services</p>
-          <div className="space-y-3">
-            {SERVICE_LINKS.map((l) => (
-              <Link key={l.to} to={l.to} className="block text-sm text-slate-400 hover:text-white transition-colors">{l.label}</Link>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <p className="font-headline font-bold text-xs uppercase tracking-widest text-slate-500 mb-5">Legal</p>
-          <div className="space-y-3">
-            {LEGAL_LINKS.map((l) => (
-              <Link key={l} to="#" className="block text-sm text-slate-400 hover:text-white transition-colors">{l}</Link>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-slate-700 px-8 py-5 max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-        <span className="font-headline font-bold text-slate-500 tracking-tighter">PharmaLink Wholesale</span>
-        <p className="text-[11px] uppercase tracking-widest text-slate-600">
-          {`© ${new Date().getFullYear()} PharmaLink Wholesale. All rights reserved.`}
-        </p>
       </div>
     </footer>
   )
