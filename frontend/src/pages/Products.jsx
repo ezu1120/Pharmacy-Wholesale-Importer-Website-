@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import api from '../lib/api'
@@ -46,6 +46,88 @@ const CATEGORIES = [
 ]
 
 const MANUFACTURERS = ['GlaxoSmithKline', 'Pfizer Inc.', 'Sanofi S.A.', 'Novartis AG']
+
+// ── Category Dropdown ─────────────────────────────────────────────────────────
+function CategoryDropdown({ categories, selected, onSelect }) {
+  const [open, setOpen] = useState(false)
+  const ref = React.useRef(null)
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const allCat   = categories[0]                    // { key: '', label: 'All Products' }
+  const subCats  = categories.slice(1)              // the 6 specific categories
+  const activeCat = categories.find(c => c.key === selected) || allCat
+
+  return (
+    <div ref={ref} className="relative">
+      {/* Trigger — "All Categories" button */}
+      <button
+        onClick={() => {
+          onSelect('')          // always reset to All when clicking the trigger
+          setOpen(o => !o)
+        }}
+        className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all border ${
+          open
+            ? 'bg-primary text-white border-primary shadow-md'
+            : 'bg-surface-container-low text-on-surface border-outline-variant/30 hover:border-primary/40 hover:bg-primary/5'
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined text-lg">{allCat.icon}</span>
+          <span>{allCat.label}</span>
+        </div>
+        <span className={`material-symbols-outlined text-lg transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
+          expand_more
+        </span>
+      </button>
+
+      {/* Dropdown list */}
+      {open && (
+        <div className="mt-2 w-full bg-white rounded-xl shadow-xl border border-outline-variant/20 overflow-hidden z-20">
+          {subCats.map((cat) => (
+            <button
+              key={cat.key}
+              onClick={() => { onSelect(cat.key); setOpen(false) }}
+              className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition-all text-left border-b border-slate-50 last:border-0 ${
+                selected === cat.key
+                  ? 'bg-primary/8 text-primary font-bold'
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-primary'
+              }`}
+            >
+              <span className={`material-symbols-outlined text-lg ${selected === cat.key ? 'text-primary' : 'text-slate-400'}`}>
+                {cat.icon}
+              </span>
+              <span>{cat.label}</span>
+              {selected === cat.key && (
+                <span className="ml-auto material-symbols-outlined text-primary text-base">check</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Active filter chip — shown when a sub-category is selected */}
+      {selected && (
+        <div className="mt-3 flex items-center gap-2 px-3 py-2 bg-primary/10 rounded-lg">
+          <span className="material-symbols-outlined text-primary text-sm">{activeCat.icon}</span>
+          <span className="text-xs font-bold text-primary flex-1">{activeCat.label}</span>
+          <button
+            onClick={() => onSelect('')}
+            className="text-primary/60 hover:text-primary transition-colors"
+            title="Clear filter"
+          >
+            <span className="material-symbols-outlined text-sm">close</span>
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
 
 function Toast({ message, onDone }) {
   useEffect(() => {
@@ -177,26 +259,19 @@ export default function Products() {
       <main className="pt-8 pb-32 px-8 max-w-[1600px] mx-auto flex gap-12">
         {/* Sidebar */}
         <aside className="hidden lg:flex flex-col w-64 flex-shrink-0 sticky top-24 self-start max-h-[calc(100vh-6rem)] overflow-y-auto">
-          <div className="mb-8">
+          <div className="mb-6">
             <h2 className="font-headline font-extrabold text-2xl tracking-tight text-primary">Categories</h2>
             <p className="text-on-surface-variant text-sm mt-1">Filter by Therapeutic Class</p>
           </div>
-          <div className="space-y-1">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.key}
-                onClick={() => setSearchParams(cat.key ? { category: cat.key } : {})}
-                className={`w-full flex items-center gap-3 p-3 rounded-lg text-sm transition-all text-left ${
-                  category === cat.key
-                    ? 'bg-blue-50 text-primary font-bold'
-                    : 'text-slate-600 hover:bg-slate-100'
-                }`}
-              >
-                <span className="material-symbols-outlined">{cat.icon}</span>
-                <span>{cat.label}</span>
-              </button>
-            ))}
-          </div>
+
+          {/* All Categories — dropdown trigger */}
+          <CategoryDropdown
+            categories={CATEGORIES}
+            selected={category}
+            onSelect={(key) => setSearchParams(key ? { category: key } : {})}
+          />
+
+          {/* Manufacturer filter */}
           <div className="mt-8">
             <h3 className="font-headline font-bold text-sm uppercase tracking-widest text-on-surface-variant/70 mb-4">Manufacturer</h3>
             <div className="space-y-3">
