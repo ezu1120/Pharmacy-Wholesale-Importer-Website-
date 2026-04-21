@@ -162,7 +162,7 @@ function Step2({ onNext, onBack }) {
                     <p className="text-xs font-semibold text-on-surface truncate">{p.name}</p>
                     <p className="text-[10px] text-outline truncate">{p.brand}</p>
                   </div>
-                  <button onClick={() => !added && addProduct(p)} disabled={added}
+                  <button onClick={() => !added && addProduct({ ...p, stockQuantity: p.stockQuantity || p.stock_quantity || 0 })} disabled={added || (p.stockQuantity === 0 && p.stock_quantity === 0)}
                     className={`ml-2 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all ${added ? 'bg-green-100 text-green-600' : 'bg-primary/10 text-primary hover:bg-primary hover:text-white'}`}>
                     <span className="material-symbols-outlined text-sm">{added ? 'check' : 'add'}</span>
                   </button>
@@ -191,13 +191,20 @@ function Step2({ onNext, onBack }) {
                   </div>
                   <div className="flex items-center gap-2">
                     <input type="number" min="1" value={item.quantity}
-                      onChange={e => updateProduct(item.productId, { quantity: parseInt(e.target.value) || 1 })}
+                      onChange={e => {
+                        const val = parseInt(e.target.value) || 1
+                        const max = item.stockQuantity || 9999
+                        updateProduct(item.productId, { quantity: Math.min(val, max) })
+                      }}
                       className="w-14 bg-surface-container-high rounded px-2 py-1 text-xs outline-none focus:ring-1 focus:ring-primary" />
                     <select value={item.unit} onChange={e => updateProduct(item.productId, { unit: e.target.value })}
                       className="bg-surface-container-high rounded px-2 py-1 text-xs outline-none flex-1">
                       <option>units</option><option>boxes</option><option>packs</option><option>vials</option><option>bottles</option>
                     </select>
                   </div>
+                  {item.stockQuantity > 0 && (
+                    <p className="text-[10px] text-outline mt-0.5">Max: {item.stockQuantity}</p>
+                  )}
                 </div>
               ))}
             </div>

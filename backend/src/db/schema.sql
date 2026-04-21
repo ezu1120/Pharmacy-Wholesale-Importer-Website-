@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS products (
   image_url    VARCHAR(500),
   price        DECIMAL(12,2),
   currency     VARCHAR(10) DEFAULT 'USD',
+  stock_quantity INTEGER NOT NULL DEFAULT 0,
   is_active    BOOLEAN NOT NULL DEFAULT true,
   is_featured  BOOLEAN NOT NULL DEFAULT false,
   created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),

@@ -247,7 +247,7 @@ router.get('/products', async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT id, name, generic_name AS "genericName", brand, category,
               package_size AS "packageSize", description, image_url AS "imageUrl",
-              price, currency,
+              price, currency, stock_quantity AS "stockQuantity",
               is_active AS "isActive", is_featured AS "isFeatured"
        FROM products ORDER BY name ASC`
     )
@@ -257,11 +257,11 @@ router.get('/products', async (req, res, next) => {
 
 router.post('/products', async (req, res, next) => {
   try {
-    const { name, genericName, brand, category, packageSize, description, imageUrl, isFeatured, price, currency } = req.body
+    const { name, genericName, brand, category, packageSize, description, imageUrl, isFeatured, price, currency, stockQuantity } = req.body
     const { rows } = await pool.query(
-      `INSERT INTO products (name, generic_name, brand, category, package_size, description, image_url, is_featured, price, currency)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
-      [name, genericName, brand, category, packageSize, description, imageUrl, isFeatured || false, price || null, currency || 'USD']
+      `INSERT INTO products (name, generic_name, brand, category, package_size, description, image_url, is_featured, price, currency, stock_quantity)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
+      [name, genericName, brand, category, packageSize, description, imageUrl, isFeatured || false, price || null, currency || 'USD', stockQuantity || 0]
     )
     res.status(201).json(rows[0])
   } catch (err) { next(err) }
@@ -269,11 +269,12 @@ router.post('/products', async (req, res, next) => {
 
 router.put('/products/:id', async (req, res, next) => {
   try {
-    const { name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price, currency } = req.body
+    const { name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price, currency, stockQuantity } = req.body
     await pool.query(
       `UPDATE products SET name=$1, generic_name=$2, brand=$3, category=$4, package_size=$5,
-       description=$6, image_url=$7, is_active=$8, is_featured=$9, price=$10, currency=$11, updated_at=NOW() WHERE id=$12`,
-      [name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price || null, currency || 'USD', req.params.id]
+       description=$6, image_url=$7, is_active=$8, is_featured=$9, price=$10, currency=$11,
+       stock_quantity=$12, updated_at=NOW() WHERE id=$13`,
+      [name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price || null, currency || 'USD', stockQuantity || 0, req.params.id]
     )
     res.json({ success: true })
   } catch (err) { next(err) }

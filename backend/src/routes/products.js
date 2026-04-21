@@ -7,7 +7,7 @@ const VALID_CATEGORIES = ['prescription', 'otc', 'medical-supplies', 'surgical',
 router.get('/', async (req, res, next) => {
   try {
     let { text, category, page = 1, limit = 24 } = req.query
-    page = Math.max(1, parseInt(page))
+    page  = Math.max(1, parseInt(page))
     limit = Math.min(100, Math.max(1, parseInt(limit)))
     const offset = (page - 1) * limit
 
@@ -31,12 +31,13 @@ router.get('/', async (req, res, next) => {
     const where = conditions.join(' AND ')
 
     const countResult = await pool.query(`SELECT COUNT(*) FROM products p WHERE ${where}`, params)
-    const totalCount = parseInt(countResult.rows[0].count)
+    const totalCount  = parseInt(countResult.rows[0].count)
 
     params.push(limit, offset)
     const { rows } = await pool.query(
       `SELECT p.id, p.name, p.generic_name AS "genericName", p.brand, p.category,
               p.package_size AS "packageSize", p.description, p.image_url AS "imageUrl",
+              p.price, p.currency, p.stock_quantity AS "stockQuantity",
               p.is_featured AS "isFeatured"
        FROM products p WHERE ${where} ORDER BY ${orderBy}
        LIMIT $${params.length - 1} OFFSET $${params.length}`,
@@ -52,7 +53,8 @@ router.get('/featured', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
       `SELECT id, name, generic_name AS "genericName", brand, category,
-              package_size AS "packageSize", description, image_url AS "imageUrl"
+              package_size AS "packageSize", description, image_url AS "imageUrl",
+              price, currency, stock_quantity AS "stockQuantity"
        FROM products WHERE is_active = true AND is_featured = true
        ORDER BY name ASC LIMIT 8`
     )
@@ -65,7 +67,8 @@ router.get('/:id', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
       `SELECT id, name, generic_name AS "genericName", brand, category,
-              package_size AS "packageSize", description, image_url AS "imageUrl"
+              package_size AS "packageSize", description, image_url AS "imageUrl",
+              price, currency, stock_quantity AS "stockQuantity"
        FROM products WHERE id = $1 AND is_active = true`,
       [req.params.id]
     )
@@ -74,20 +77,8 @@ router.get('/:id', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
-// GET /api/categories
 router.get('/meta/categories', async (req, res) => {
   res.json(VALID_CATEGORIES)
-})
-
-// GET /api/testimonials
-router.get('/meta/testimonials', async (req, res, next) => {
-  try {
-    const { rows } = await pool.query(
-      `SELECT id, customer_name AS "customerName", company_name AS "companyName", comment
-       FROM testimonials WHERE is_active = true ORDER BY sort_order ASC`
-    )
-    res.json(rows)
-  } catch (err) { next(err) }
 })
 
 module.exports = router

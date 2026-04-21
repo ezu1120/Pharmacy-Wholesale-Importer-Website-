@@ -5,7 +5,7 @@ import AdminLayout from '../components/AdminLayout'
 
 const CATEGORIES = ['prescription', 'otc', 'medical-supplies', 'surgical', 'laboratory', 'personal-care']
 
-const EMPTY = { name: '', genericName: '', brand: '', category: 'prescription', packageSize: '', description: '', imageUrl: '', price: '', currency: 'USD', isActive: true, isFeatured: false }
+const EMPTY = { name: '', genericName: '', brand: '', category: 'prescription', packageSize: '', description: '', imageUrl: '', price: '', currency: 'USD', stockQuantity: 0, isActive: true, isFeatured: false }
 
 function ProductModal({ product, onClose, onSave, isSaving }) {
   const [form, setForm] = useState(product || EMPTY)
@@ -71,6 +71,16 @@ function ProductModal({ product, onClose, onSave, isSaving }) {
               <select value={form.currency} onChange={set('currency')} className="input-field">
                 {['USD','EUR','GBP','AED','SAR'].map((c) => <option key={c}>{c}</option>)}
               </select>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-outline uppercase tracking-widest">Stock Quantity</label>
+              <input
+                type="number" min="0" step="1"
+                value={form.stockQuantity} onChange={set('stockQuantity')}
+                placeholder="0"
+                className="input-field"
+              />
+              <p className="text-[10px] text-outline">Units available in inventory. Customers cannot request more than this.</p>
             </div>
             <div className="col-span-2 space-y-1.5">
               <label className="text-xs font-bold text-outline uppercase tracking-widest">Description</label>
@@ -242,10 +252,15 @@ export default function AdminProducts() {
                   {product.category}
                 </span>
                 {product.price && (
-                  <p className="text-sm font-bold text-primary mb-4">
+                  <p className="text-sm font-bold text-primary mb-2">
                     {product.currency || 'USD'} {parseFloat(product.price).toFixed(2)}
                   </p>
                 )}
+                <div className="flex items-center gap-2 mb-4">
+                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${product.stockQuantity > 10 ? 'bg-green-50 text-green-700' : product.stockQuantity > 0 ? 'bg-amber-50 text-amber-700' : 'bg-red-50 text-red-600'}`}>
+                    {product.stockQuantity > 0 ? `${product.stockQuantity} in stock` : 'Out of stock'}
+                  </span>
+                </div>
 
                 {/* Actions */}
                 <div className="flex gap-2">

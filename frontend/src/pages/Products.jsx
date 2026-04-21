@@ -147,66 +147,74 @@ function Toast({ message, onDone }) {
 
 function ProductCard({ product, isAdded, onAdd }) {
   const [imgError, setImgError] = useState(false)
+  const stock = product.stockQuantity ?? product.stock_quantity ?? 0
+  const outOfStock = stock === 0
+
+  const stockBadge = outOfStock
+    ? { label: 'Out of Stock', cls: 'bg-red-50 text-red-600' }
+    : stock <= 10
+    ? { label: `Low Stock: ${stock} left`, cls: 'bg-amber-50 text-amber-700' }
+    : { label: `${stock} in stock`, cls: 'bg-green-50 text-green-700' }
 
   return (
-    <div className="bg-surface-container-lowest rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,63,135,0.08)] group border border-transparent hover:border-primary/10">
+    <div className={`bg-surface-container-lowest rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,63,135,0.08)] group border border-transparent hover:border-primary/10 ${outOfStock ? 'opacity-70' : ''}`}>
       {/* Image */}
-      <div className="aspect-[4/3] rounded-xl overflow-hidden mb-6 bg-surface-container-low relative">
+      <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-surface-container-low relative">
         {product.imageUrl && !imgError ? (
-          <img
-            src={product.imageUrl}
-            alt={product.name}
+          <img src={product.imageUrl} alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            onError={() => setImgError(true)}
-          />
+            onError={() => setImgError(true)} />
         ) : (
-          // Category-specific styled placeholder — looks professional without a real image
           (() => {
             const cfg = CATEGORY_CONFIG[product.category] || CATEGORY_CONFIG['prescription']
             return (
               <div className={`w-full h-full flex flex-col items-center justify-center gap-3 ${cfg.color}`}>
-                <span className={`material-symbols-outlined text-5xl ${cfg.iconColor}`} style={{ fontVariationSettings: "'FILL' 1" }}>
-                  {cfg.icon}
-                </span>
-                <span className={`text-[10px] font-bold uppercase tracking-widest ${cfg.iconColor} opacity-60`}>
-                  {cfg.label}
-                </span>
+                <span className={`material-symbols-outlined text-5xl ${cfg.iconColor}`} style={{ fontVariationSettings: "'FILL' 1" }}>{cfg.icon}</span>
+                <span className={`text-[10px] font-bold uppercase tracking-widest ${cfg.iconColor} opacity-60`}>{cfg.label}</span>
               </div>
             )
           })()
         )}
-        <span className="absolute top-4 right-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
-          In Stock
+        {/* Stock badge */}
+        <span className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold ${stockBadge.cls}`}>
+          {stockBadge.label}
         </span>
       </div>
 
       {/* Info */}
-      <div className="space-y-1 mb-6">
+      <div className="space-y-1 mb-4">
         <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest font-headline">{product.brand}</p>
-        <h3 className="font-headline font-bold text-xl text-on-surface leading-tight">{product.name}</h3>
+        <h3 className="font-headline font-bold text-lg text-on-surface leading-tight">{product.name}</h3>
         {product.genericName && (
-          <p className="text-sm text-on-surface-variant">
-            Generic: <span className="font-medium">{product.genericName}</span>
-          </p>
+          <p className="text-xs text-on-surface-variant">Generic: <span className="font-medium">{product.genericName}</span></p>
         )}
-        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-surface-container">
-          <span className="material-symbols-outlined text-sm text-on-surface-variant">inventory_2</span>
-          <span className="text-xs text-on-surface-variant">{product.packageSize}</span>
+        <div className="flex items-center justify-between mt-2 pt-2 border-t border-surface-container">
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-sm text-on-surface-variant">inventory_2</span>
+            <span className="text-xs text-on-surface-variant">{product.packageSize}</span>
+          </div>
+          {product.price && (
+            <span className="text-sm font-bold text-primary">{product.currency || 'USD'} {parseFloat(product.price).toFixed(2)}</span>
+          )}
         </div>
       </div>
 
       {/* Action */}
       <button
-        onClick={() => !isAdded && onAdd(product)}
-        disabled={isAdded}
-        className={`w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 ${
-          isAdded
+        onClick={() => !isAdded && !outOfStock && onAdd(product)}
+        disabled={isAdded || outOfStock}
+        className={`w-full py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all active:scale-95 ${
+          outOfStock
+            ? 'bg-surface-container text-outline cursor-not-allowed'
+            : isAdded
             ? 'bg-secondary-container text-on-secondary-container cursor-default'
             : 'border border-primary/20 text-primary hover:bg-primary hover:text-on-primary'
         }`}
       >
-        <span className="material-symbols-outlined text-lg">{isAdded ? 'check' : 'add_shopping_cart'}</span>
-        {isAdded ? 'Added to RFQ' : 'Add to RFQ'}
+        <span className="material-symbols-outlined text-lg">
+          {outOfStock ? 'remove_shopping_cart' : isAdded ? 'check' : 'add_shopping_cart'}
+        </span>
+        {outOfStock ? 'Out of Stock' : isAdded ? 'Added to RFQ' : 'Add to RFQ'}
       </button>
     </div>
   )
