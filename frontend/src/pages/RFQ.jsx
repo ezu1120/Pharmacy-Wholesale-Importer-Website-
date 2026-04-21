@@ -156,15 +156,30 @@ function Step2({ onNext, onBack }) {
           <div className="flex-1 overflow-y-auto border border-surface-container rounded-lg">
             {catalog.map(p => {
               const added = selectedProducts.some(s => s.productId === p.id)
+              const stock = p.stockQuantity || p.stock_quantity || 0
+              const outOfStock = stock === 0
               return (
-                <div key={p.id} className="flex items-center justify-between px-3 py-2 border-b border-surface-container last:border-0 hover:bg-surface-container-low">
-                  <div className="min-w-0">
+                <div key={p.id} className={`flex items-center justify-between px-3 py-2 border-b border-surface-container last:border-0 hover:bg-surface-container-low ${outOfStock ? 'opacity-50' : ''}`}>
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs font-semibold text-on-surface truncate">{p.name}</p>
-                    <p className="text-[10px] text-outline truncate">{p.brand}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-[10px] text-outline truncate">{p.brand}</p>
+                      {stock > 0 && (
+                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${stock <= 10 ? 'bg-amber-50 text-amber-700' : 'bg-green-50 text-green-700'}`}>
+                          {stock} left
+                        </span>
+                      )}
+                      {outOfStock && (
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-red-50 text-red-600">Out of stock</span>
+                      )}
+                    </div>
                   </div>
-                  <button onClick={() => !added && addProduct({ ...p, stockQuantity: p.stockQuantity || p.stock_quantity || 0 })} disabled={added || (p.stockQuantity === 0 && p.stock_quantity === 0)}
-                    className={`ml-2 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all ${added ? 'bg-green-100 text-green-600' : 'bg-primary/10 text-primary hover:bg-primary hover:text-white'}`}>
-                    <span className="material-symbols-outlined text-sm">{added ? 'check' : 'add'}</span>
+                  <button onClick={() => !added && !outOfStock && addProduct({ ...p, stockQuantity: stock })} disabled={added || outOfStock}
+                    className={`ml-2 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
+                      outOfStock ? 'bg-surface-container text-outline cursor-not-allowed' :
+                      added ? 'bg-green-100 text-green-600' : 'bg-primary/10 text-primary hover:bg-primary hover:text-white'
+                    }`}>
+                    <span className="material-symbols-outlined text-sm">{outOfStock ? 'block' : added ? 'check' : 'add'}</span>
                   </button>
                 </div>
               )
@@ -203,7 +218,12 @@ function Step2({ onNext, onBack }) {
                     </select>
                   </div>
                   {item.stockQuantity > 0 && (
-                    <p className="text-[10px] text-outline mt-0.5">Max: {item.stockQuantity}</p>
+                    <div className="flex items-center justify-between mt-1">
+                      <p className="text-[10px] text-outline">Max available: <span className="font-bold text-on-surface">{item.stockQuantity}</span></p>
+                      {item.quantity >= item.stockQuantity && (
+                        <span className="text-[9px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded-full">At limit</span>
+                      )}
+                    </div>
                   )}
                 </div>
               ))}
