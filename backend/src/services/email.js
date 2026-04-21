@@ -85,4 +85,27 @@ async function sendQuotationEmail(email, rfqNumber, pdfBuffer) {
   }
 }
 
-module.exports = { sendCustomerConfirmation, sendAdminNotification, sendQuotationEmail }
+module.exports = { sendCustomerConfirmation, sendAdminNotification, sendQuotationEmail, sendContactAutoReply }
+
+async function sendContactAutoReply(email, firstName) {
+  if (!process.env.SMTP_HOST || !process.env.SMTP_USER) {
+    console.log(`[EMAIL SKIPPED] Contact auto-reply to ${email}`)
+    return
+  }
+  try {
+    await transporter.sendMail({
+      from: `"PharmaLink Wholesale" <${process.env.SMTP_FROM}>`,
+      to: email,
+      subject: 'We received your message — PharmaLink Wholesale',
+      html: `
+        <h2>Thank you, ${firstName}!</h2>
+        <p>We have received your message and our team will get back to you within 1 business day.</p>
+        <p>If your enquiry is urgent, please call us at <strong>+44 (0) 20 7946 0123</strong> (Mon–Fri, 9am–6pm GMT).</p>
+        <br/>
+        <p>Best regards,<br/>PharmaLink Wholesale Team</p>
+      `,
+    })
+  } catch (err) {
+    console.error('[EMAIL ERROR] Contact auto-reply:', err.message)
+  }
+}

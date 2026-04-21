@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSiteContent } from '../lib/useSiteContent'
+import api from '../lib/api'
 
 const DEFAULT_CONTACT_INFO = [
   { icon: 'location_on', title: 'Headquarters',   line1: 'Medical Park West, Floor 14', line2: 'London, UK EC1A 4HQ' },
@@ -44,9 +45,15 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    await new Promise((r) => setTimeout(r, 900))
-    setSubmitted(true)
-    setLoading(false)
+    try {
+      await api.post('/contact', form)
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Contact form error:', err)
+      alert('Failed to send message. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
