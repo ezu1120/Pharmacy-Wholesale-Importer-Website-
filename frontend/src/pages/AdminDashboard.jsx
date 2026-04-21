@@ -52,17 +52,22 @@ function DonutChart({ segments, size = 140 }) {
 function BarChart({ data, height = 160 }) {
   const max = Math.max(...data.map((d) => d.value), 1)
   return (
-    <div className="flex items-end gap-2" style={{ height }}>
+    <div className="flex items-end gap-1.5" style={{ height }}>
       {data.map((d, i) => (
-        <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
-          <span className="text-[10px] font-bold text-on-surface opacity-0 group-hover:opacity-100 transition-opacity">
+        <div key={i} className="flex-1 flex flex-col items-center gap-1 group min-w-0">
+          {/* Value tooltip on hover */}
+          <span className="text-[10px] font-bold text-on-surface opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
             {d.value}
           </span>
           <div
-            className={`w-full rounded-t-lg transition-all duration-500 ${d.color}`}
-            style={{ height: `${(d.value / max) * (height - 24)}px`, minHeight: d.value > 0 ? '4px' : '0' }}
+            className={`w-full rounded-t-md transition-all duration-500 ${d.color}`}
+            style={{ height: `${(d.value / max) * (height - 32)}px`, minHeight: d.value > 0 ? '4px' : '0' }}
           />
-          <span className="text-[9px] font-bold text-outline uppercase tracking-wider text-center leading-tight">
+          {/* Label — truncated, full text on title hover */}
+          <span
+            title={d.label}
+            className="text-[9px] font-semibold text-outline uppercase tracking-wide text-center leading-tight w-full truncate px-0.5"
+          >
             {d.label}
           </span>
         </div>
@@ -157,14 +162,14 @@ export default function AdminDashboard() {
     <AdminLayout title="Dashboard" subtitle="Real-time overview of RFQ activity, products, and platform health.">
 
       {/* ── KPI Stats ─────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
-        <StatCard icon="description"    label="Total RFQs"       value={total}          color="bg-blue-50 text-blue-600"   />
-        <StatCard icon="fiber_new"      label="New"              value={newCount}       color="bg-blue-50 text-blue-600"   />
-        <StatCard icon="pending_actions"label="Under Review"     value={reviewCount}    color="bg-amber-50 text-amber-600" />
-        <StatCard icon="mark_email_read"label="Quotation Sent"   value={sentCount}      color="bg-green-50 text-green-600" />
-        <StatCard icon="task_alt"       label="Closed"           value={closedCount}    color="bg-slate-50 text-slate-500" />
-        <StatCard icon="inventory_2"    label="Products"         value={activeProducts} color="bg-purple-50 text-purple-600" />
-        <StatCard icon="format_quote"   label="Testimonials"     value={testimonialCount} color="bg-teal-50 text-teal-600" />
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 mb-8">
+        <StatCard icon="description"    label="Total RFQs"       value={total}            color="bg-blue-50 text-blue-600"     />
+        <StatCard icon="fiber_new"      label="New"              value={newCount}         color="bg-blue-50 text-blue-600"     />
+        <StatCard icon="pending_actions"label="Under Review"     value={reviewCount}      color="bg-amber-50 text-amber-600"   />
+        <StatCard icon="mark_email_read"label="Quotation Sent"   value={sentCount}        color="bg-green-50 text-green-600"   />
+        <StatCard icon="task_alt"       label="Closed"           value={closedCount}      color="bg-slate-50 text-slate-500"   />
+        <StatCard icon="inventory_2"    label="Products"         value={activeProducts}   color="bg-purple-50 text-purple-600" />
+        <StatCard icon="format_quote"   label="Testimonials"     value={testimonialCount} color="bg-teal-50 text-teal-600"     />
       </div>
 
       {/* ── Charts row ────────────────────────────────────────────────────── */}
@@ -183,50 +188,50 @@ export default function AdminDashboard() {
         </div>
 
         {/* Donut chart — status distribution */}
-        <div className="lg:col-span-3 bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
-          <h2 className="font-headline font-bold text-lg text-on-surface mb-4">Status Distribution</h2>
+        <div className="lg:col-span-4 bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
+          <h2 className="font-headline font-bold text-lg text-on-surface mb-5">Status Distribution</h2>
           {total > 0 ? (
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col items-center gap-5">
+              {/* Donut centred */}
               <div className="relative flex-shrink-0">
-                <DonutChart segments={donutSegments} size={120} />
+                <DonutChart segments={donutSegments} size={130} />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
-                    <p className="text-xl font-headline font-extrabold text-on-surface">{total}</p>
-                    <p className="text-[9px] text-outline uppercase">Total</p>
+                    <p className="text-2xl font-headline font-extrabold text-on-surface leading-none">{total}</p>
+                    <p className="text-[9px] text-outline uppercase tracking-wider mt-0.5">Total</p>
                   </div>
                 </div>
               </div>
-              <div className="space-y-2 flex-1">
+              {/* Legend — 2-column grid so labels never overflow */}
+              <div className="w-full grid grid-cols-2 gap-x-4 gap-y-2.5">
                 {[
-                  { label: 'New',            value: newCount,    color: 'bg-blue-500' },
-                  { label: 'Under Review',   value: reviewCount, color: 'bg-amber-500' },
-                  { label: 'Sent',           value: sentCount,   color: 'bg-green-500' },
-                  { label: 'Closed',         value: closedCount, color: 'bg-slate-400' },
+                  { label: 'New',            value: newCount,    color: 'bg-blue-500',  pct: total ? Math.round(newCount/total*100) : 0 },
+                  { label: 'Under Review',   value: reviewCount, color: 'bg-amber-500', pct: total ? Math.round(reviewCount/total*100) : 0 },
+                  { label: 'Sent',           value: sentCount,   color: 'bg-green-500', pct: total ? Math.round(sentCount/total*100) : 0 },
+                  { label: 'Closed',         value: closedCount, color: 'bg-slate-400', pct: total ? Math.round(closedCount/total*100) : 0 },
                 ].map((s) => (
-                  <div key={s.label} className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className={`w-2.5 h-2.5 rounded-full ${s.color}`} />
-                      <span className="text-xs text-on-surface-variant">{s.label}</span>
-                    </div>
-                    <span className="text-xs font-bold text-on-surface">{s.value}</span>
+                  <div key={s.label} className="flex items-center gap-2 min-w-0">
+                    <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${s.color}`} />
+                    <span className="text-xs text-on-surface-variant truncate flex-1">{s.label}</span>
+                    <span className="text-xs font-bold text-on-surface flex-shrink-0">{s.value}</span>
+                    <span className="text-[10px] text-outline flex-shrink-0">({s.pct}%)</span>
                   </div>
                 ))}
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-center h-32 text-on-surface-variant">
+            <div className="flex flex-col items-center justify-center h-40 text-on-surface-variant gap-2">
+              <span className="material-symbols-outlined text-4xl opacity-20">donut_large</span>
               <p className="text-sm">No RFQs yet</p>
             </div>
           )}
         </div>
 
         {/* Bar chart — products by category */}
-        <div className="lg:col-span-4 bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="font-headline font-bold text-lg text-on-surface">Products by Category</h2>
-              <p className="text-xs text-on-surface-variant">{activeProducts} active products</p>
-            </div>
+        <div className="lg:col-span-3 bg-surface-container-lowest rounded-2xl p-6 shadow-sm">
+          <div className="mb-6">
+            <h2 className="font-headline font-bold text-lg text-on-surface">By Category</h2>
+            <p className="text-xs text-on-surface-variant">{activeProducts} active products</p>
           </div>
           {catData.length > 0
             ? <BarChart data={catData} height={160} />
