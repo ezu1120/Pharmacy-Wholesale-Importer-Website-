@@ -166,7 +166,7 @@ function Step2({ onNext, onBack }) {
                       <p className="text-[10px] text-outline truncate">{p.brand}</p>
                       {stock > 0 && (
                         <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${stock <= 10 ? 'bg-amber-50 text-amber-700' : 'bg-green-50 text-green-700'}`}>
-                          {stock} left
+                          {stock} units left
                         </span>
                       )}
                       {outOfStock && (
@@ -208,7 +208,7 @@ function Step2({ onNext, onBack }) {
                     <input type="number" min="1" value={item.quantity}
                       onChange={e => {
                         const val = parseInt(e.target.value) || 1
-                        const max = item.stockQuantity || 9999
+                        const max = item.stockQuantity != null ? item.stockQuantity : 9999
                         updateProduct(item.productId, { quantity: Math.min(val, max) })
                       }}
                       className="w-14 bg-surface-container-high rounded px-2 py-1 text-xs outline-none focus:ring-1 focus:ring-primary" />

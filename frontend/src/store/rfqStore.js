@@ -43,6 +43,7 @@ const useRFQStore = create(
                 quantity: 1,
                 unit: 'units',
                 notes: '',
+                stockQuantity: product.stockQuantity ?? product.stock_quantity ?? 0,
               },
             ],
           }
