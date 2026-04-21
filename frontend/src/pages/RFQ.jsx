@@ -836,10 +836,23 @@ export default function RFQ() {
               updateUser(updated)
             } catch (_) {}
             setStep(2)
+            window.scrollTo({ top: 0, behavior: 'smooth' })
           }} />}
-          {currentStep === 2 && <Step2 onNext={() => setStep(3)} onBack={() => hasProfile ? setStep(2) : setStep(1)} />}
-          {currentStep === 3 && <Step3 onNext={() => setStep(4)} onBack={() => setStep(2)} />}
-          {currentStep === 4 && <Step4 onBack={() => setStep(3)} onSubmit={handleFinalSubmit} isLoading={submitMutation.isPending} isError={submitMutation.isError} errorMessage={submitMutation.error?.response?.data?.message || submitMutation.error?.message} />}
+          {currentStep === 2 && <Step2
+            onNext={() => { setStep(3); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            onBack={() => { hasProfile ? setStep(2) : setStep(1); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          />}
+          {currentStep === 3 && <Step3
+            onNext={() => { setStep(4); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            onBack={() => { setStep(2); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          />}
+          {currentStep === 4 && <Step4
+            onBack={() => { setStep(3); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+            onSubmit={handleFinalSubmit}
+            isLoading={submitMutation.isPending}
+            isError={submitMutation.isError}
+            errorMessage={submitMutation.error?.response?.data?.message || submitMutation.error?.message}
+          />}
         </div>
       </main>
 
@@ -855,7 +868,7 @@ export default function RFQ() {
               </div>
             </div>
             <div className="h-8 w-[1px] bg-outline-variant/30"></div>
-            <button onClick={() => setStep(3)} className="bg-primary text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg hover:rotate-12 transition-transform">
+            <button onClick={() => { setStep(3); window.scrollTo({ top: 0, behavior: 'smooth' }) }} className="bg-primary text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg hover:rotate-12 transition-transform">
               <span className="material-symbols-outlined">assignment_turned_in</span>
             </button>
           </div>
