@@ -1,0 +1,822 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact",
+    "track_rfq": "Track RFQ",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "request_quote": "Request Quote",
+    "sign_in": "Sign In",
+    "my_dashboard": "My Dashboard",
+    "sign_out": "Sign Out"
+  },
+  "hero": {
+    "title": "Trusted Pharmaceutical Wholesale & Import Solutions",
+    "subtitle": "Supplying quality medicines and medical products to pharmacies, hospitals, and clinics.",
+    "cta_rfq": "Request Quote",
+    "cta_products": "View Products"
+  },
+  "why": {
+    "title": "Why Choose Us",
+    "items": [
+      { "title": "Genuine Imported Products", "desc": "Direct sourcing from certified global manufacturers only." },
+      { "title": "Competitive Wholesale Pricing", "desc": "Economies of scale passed directly to our clients." },
+      { "title": "Fast Delivery", "desc": "Optimized distribution networks for rapid pharmaceutical turnaround." },
+      { "title": "Licensed & Certified", "desc": "Strict adherence to international health standards and regulations." },
+      { "title": "Experienced Team", "desc": "Dedicated professionals ensuring seamless pharmaceutical procurement." }
+    ]
+  },
+  "process": {
+    "title": "Our Procurement Process",
+    "steps": [
+      { "title": "Browse Catalog", "desc": "Explore our extensive verified medical inventory." },
+      { "title": "Add to RFQ", "desc": "Select products and specify your requirements." },
+      { "title": "Submit Request", "desc": "Provide facility credentials and distribution requirements." },
+      { "title": "Receive Quote", "desc": "Get a formalized quotation within 24 hours." }
+    ]
+  },
+  "products": {
+    "title": "Product Catalog",
+    "subtitle": "Explore our certified range of international pharmaceutical products.",
+    "search_placeholder": "Search by name, brand, or category...",
+    "add_to_rfq": "Add to RFQ",
+    "added": "Added to List",
+    "in_stock": "In Stock",
+    "no_results": "No products found",
+    "no_results_sub": "Try adjusting your search or selecting a different category.",
+    "summary_title": "RFQ Summary",
+    "items_selected_one": "{{count}} item selected",
+    "items_selected": "{{count}} items selected",
+    "review_quote": "Review Quote",
+    "est_priority": "Est. Priority",
+    "priority_urgent": "Urgent",
+    "categories_title": "Categories",
+    "manufacturer_title": "Manufacturer",
+    "clear_filter": "Clear Filters",
+    "category_labels": {
+      "all": "All Categories",
+      "prescription": "Prescription Medicines",
+      "otc": "OTC Medicines",
+      "medical": "Medical Supplies",
+      "surgical": "Surgical Products",
+      "laboratory": "Laboratory Equipment",
+      "personal": "Personal Care Products"
+    },
+    "category_desc": {
+      "prescription": "Specialized pharmaceutical products requiring professional prescription.",
+      "otc": "Quality healthcare products available for direct purchase.",
+      "medical": "Essential disposables and high-grade clinical supplies.",
+      "surgical": "Precision instruments for diverse surgical specialties.",
+      "laboratory": "Advanced diagnostic and testing equipment.",
+      "personal": "Clinical wellness and healthcare maintenance products."
+    },
+    "available": "Available",
+    "popular_products": "Popular Products"
+  },
+  "services": {
+    "title": "Comprehensive Healthcare Supply Services",
+    "subtitle": "From wholesale distribution to cold chain logistics — we cover every step.",
+    "request_btn": "Inquire About Service",
+    "cta_title": "Ready to Optimize Your Supply?",
+    "cta_subtitle": "Submit your first RFQ today and receive a competitive quote within 24 hours.",
+    "cta_btn": "Start RFQ Now"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Our procurement specialists are ready to assist you.",
+    "form_title": "Send a Message",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "company": "Company Name",
+    "department": "Department",
+    "message": "Message",
+    "send_btn": "Send Message",
+    "sending": "Sending...",
+    "success_title": "Message Sent!",
+    "success_desc": "Thank you for reaching out. We will respond within 24 hours.",
+    "get_in_touch": "Get In Touch",
+    "main_title": "Let's Secure Your Supply Chain",
+    "main_subtitle": "Our procurement experts are ready to assist with bulk orders, regular supplies, or specialized medical equipment imports.",
+    "info_title": "Contact Information",
+    "info_subtitle": "Reach out to our team for procurement inquiries, distribution support, or regulatory assistance.",
+    "faq_title": "Frequently Asked Questions",
+    "faq_subtitle": "Quick answers to common procurement questions.",
+    "process_title": "The Procurement Process",
+    "privacy_note": "Privacy Note",
+    "privacy_text": "Your information is protected and will only be used for official communications.",
+    "departments": {
+      "procurement": "Procurement & RFQ",
+      "logistics": "Fulfillment & Distribution",
+      "regulatory": "Regulatory Affairs",
+      "support": "Customer Support",
+      "other": "Other"
+    },
+    "info": {
+      "hq": { "title": "Headquarters", "line1": "Medical Park West, Floor 14", "line2": "London, UK EC1A 4HQ" },
+      "phone": { "title": "Phone Support", "line1": "+44 (0) 20 7946 0123", "line2": "Mon–Fri, 9am – 6pm GMT" },
+      "email": { "title": "Email", "line1": "support@pharmalinkwholesale.com", "line2": "procurement@pharmalinkwholesale.com" },
+      "hours": { "title": "Business Hours", "line1": "Monday – Friday: 9am – 6pm GMT", "line2": "Saturday: 10am – 2pm GMT" }
+    },
+    "faqs_list": [
+      { "q": "How quickly do you respond to RFQs?", "a": "We respond to all RFQ submissions within 4–24 business hours with a formal quotation." },
+      { "q": "What is the minimum order quantity?", "a": "MOQ varies by product. Many items have no minimum. Contact us for specific product requirements." },
+      { "q": "Do you manage international pharmaceutical logistics?", "a": "Yes. We operate across 50+ countries, managing all customs protocols and complex freight arrangements." },
+      { "q": "Are your products WHO-GMP certified?", "a": "All products in our catalog are sourced exclusively from WHO-GMP certified manufacturers." }
+    ]
+  },
+  "rfq": {
+    "title": "Request for Quotation",
+    "step1_title": "Customer Info",
+    "step2_title": "Product Selection",
+    "step3_title": "Order Details",
+    "step4_title": "Submit",
+    "full_name": "Full Name",
+    "company_name": "Company Name",
+    "business_type": "Business Type",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "country": "Country",
+    "city": "City",
+    "next": "Next Step",
+    "back": "Go Back",
+    "submit": "Submit RFQ",
+    "submitting": "Submitting...",
+    "cancel": "Cancel",
+    "find_products": "Find Products",
+    "search_products": "Search by name or brand...",
+    "delivery_date": "Requested Delivery Window",
+    "shipping_method": "Commercial Transport Method",
+    "message": "Additional Notes",
+    "upload": "Upload Documents",
+    "review_customer": "Customer Details",
+    "review_products": "Selected Products",
+    "account_required": "Account Required",
+    "account_desc": "Please sign in or create an account to process your RFQ.",
+    "create_account": "Create Account",
+    "sign_in": "Sign In",
+    "step": "Step",
+    "complete": "Complete",
+    "contact_header": "Primary Point of Contact",
+    "contact_subheader": "Provide the administrative details for the purchasing entity.",
+    "business_type_options": {
+      "select": "Select type...",
+      "pharmacy": "Retail Pharmacy Chain",
+      "hospital": "Public Hospital",
+      "clinic": "Private Clinic",
+      "distributor": "Wholesale Distributor",
+      "other": "Government Agency"
+    },
+    "placeholders": {
+      "full_name": "e.g. Dr. Julian Pierce",
+      "company_name": "e.g. Metro General Health",
+      "email": "j.pierce@metrohealth.org",
+      "phone": "+1 (555) 000-0000",
+      "country": "e.g. United States",
+      "city": "e.g. New York",
+      "notes": "Enter any specific storage requirements or delivery window preferences..."
+    },
+    "inventory": "Inventory",
+    "draft_title": "RFQ Draft Selection",
+    "no_items": "No products added yet.",
+    "no_items_desc": "Search and add products from the catalog on the left.",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "note": "Note",
+    "unit_options": {
+      "units": "units",
+      "boxes": "boxes",
+      "packs": "packs",
+      "vials": "vials",
+      "bottles": "bottles",
+      "service": "service",
+      "shipment": "shipment"
+    },
+    "logistics_title": "Logistics & Distribution",
+    "delivery_date_label": "Requested Delivery Window",
+    "shipping_method_label": "Preferred Transport Method",
+    "shipping_options": {
+      "select": "Select transport method...",
+      "standard": "Standard Ground (3-5 Business Days)",
+      "air": "Air Freight (Priority Express)",
+      "sea": "Ocean Freight (Global Cargo Container)",
+      "land": "Land Transport (Temperature-Controlled)"
+    },
+    "docs_title": "Verification Documents",
+    "docs_subtitle": "Upload any required prescriptions, clinic licenses, or specialized handling certifications.",
+    "drop_files": "Drop files here or click to upload",
+    "file_limit": "PDF, JPG, PNG (Max 10MB · up to 5 files)",
+    "special_inst": "Special Instructions",
+    "special_inst_placeholder": "Enter any specific storage requirements or delivery window preferences...",
+    "req_summary": "Request Summary",
+    "quality_assured": "Quality Assured",
+    "quality_assured_desc": "All clinical orders are verified by our pharmaceutical logistics team to ensure compliant cold-chain protocols and license validity.",
+    "one_step_left": "One step remaining",
+    "req_quotation": "Request Quotation",
+    "req_quotation_desc": "By submitting this RFQ, your request will be routed to our specialized clinical ops team for competitive pricing and availability verification.",
+    "compliance_checked": "Compliance-checked procurement",
+    "est_response": "Estimated quote response",
+    "est_time": "4 Hours",
+    "submission_failed": "Submission failed",
+    "back_to_step3": "Back to Step 3"
+  },
+  "cart": {
+    "summary": "RFQ Summary",
+    "item_selected": "{{count}} item selected",
+    "items_selected": "{{count}} items selected",
+    "review": "Review Quote"
+  },
+  "table": {
+    "no_products": "No products added yet.",
+    "search_hint": "Search and add products from the catalog above.",
+    "headers": {
+      "product": "Product",
+      "brand": "Brand",
+      "qty": "Qty",
+      "unit": "Unit",
+      "notes": "Notes"
+    },
+    "units": {
+      "units": "units",
+      "boxes": "boxes",
+      "packs": "packs",
+      "vials": "vials",
+      "bottles": "bottles"
+    },
+    "notes_placeholder": "Optional note..."
+  },
+  "stepper": {
+    "step": "Step {{n}}: {{name}}",
+    "complete": "Complete",
+    "steps": {
+      "contact": "Contact",
+      "products": "Products",
+      "logistics": "Logistics",
+      "review": "Review"
+    }
+  },
+  "compare": {
+    "title": "Comparative Analysis",
+    "subtitle": "Detailed technical comparison of active pharmaceutical ingredients and therapeutic alternatives.",
+    "export_pdf": "Export PDF",
+    "select_hint": "Select up to 4 products to compare",
+    "parameters": "Parameters",
+    "empty_title": "Select products above to compare",
+    "empty_desc": "Choose up to 4 products from the list above.",
+    "fields": {
+      "genericName": "Strength / Generic",
+      "packageSize": "Pack Size",
+      "brand": "Manufacturer",
+      "category": "Category",
+      "description": "Description"
+    },
+    "info": {
+      "verified": {
+        "title": "Verified Sources",
+        "desc": "All manufacturers are WHO-GMP certified."
+      },
+      "stock": {
+        "title": "Real-time Stock",
+        "desc": "Inventory synced every 15 minutes."
+      },
+      "cold_chain": {
+        "title": "Cold Chain Ready",
+        "desc": "IoT-monitored temperature-sensitive logistics."
+      }
+    },
+    "basket": {
+      "title": "{{count}} Items in RFQ Basket",
+      "subtitle": "Pending Quote",
+      "finalize": "Finalize RFQ"
+    }
+  },
+  "auth": {
+    "login_title": "Welcome Back",
+    "login_subtitle": "Sign in to your PharmaLink account",
+    "email": "Email",
+    "password": "Password",
+    "signing_in": "Signing in...",
+    "sign_in": "Sign In",
+    "no_account": "Don't have an account?",
+    "register": "Register",
+    "invalid": "Invalid email or password.",
+    "reg_title": "Create Account",
+    "reg_subtitle": "Join our pharmaceutical network",
+    "full_name": "Full Name",
+    "company_name": "Company Name",
+    "business_type": "Business Type",
+    "creating_account": "Creating account...",
+    "have_account": "Already have an account?",
+    "placeholders": {
+      "email": "you@company.com",
+      "password": "••••••••",
+      "full_name": "Dr. Jane Smith"
+    },
+    "validation": {
+      "email_req": "Email is required",
+      "email_invalid": "Valid email required",
+      "pass_req": "Password is required",
+      "pass_min": "Minimum 8 characters",
+      "name_req": "Full name required",
+      "pass_match": "Passwords do not match"
+    }
+  },
+  "admin": {
+    "rfqs": {
+      "title": "RFQ Management",
+      "subtitle": "Review, track, and process customer quote requests.",
+      "actions": {
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "confirm_delete": "Delete RFQ?",
+        "delete_desc": "This will permanently delete:",
+        "delete_warning": "All products, attachments, and notes will be removed. This cannot be undone."
+      },
+      "found": "{{count}} RFQs found",
+      "no_match": "No RFQs match your filters",
+      "status": {
+        "all": "All Statuses",
+        "new": "New Request",
+        "under_review": "Under Review",
+        "quotation_sent": "Quotation Sent",
+        "closed": "Closed"
+      },
+      "statuses": {
+        "NEW": "New Request",
+        "UNDER_REVIEW": "Under Review",
+        "QUOTATION_SENT": "Quotation Sent",
+        "CLOSED": "Closed"
+      },
+      "filters": {
+        "rfq_placeholder": "Search RFQ Number...",
+        "customer_placeholder": "Search Customer...",
+        "from_date": "From Date",
+        "to_date": "To Date",
+        "clear": "Clear Filters"
+      },
+      "table": {
+        "rfq_no": "RFQ No.",
+        "customer": "Customer",
+        "company": "Company",
+        "status": "Status",
+        "items": "Items",
+        "submitted": "Submitted On",
+        "actions": "Actions"
+      }
+    },
+    "dashboard": {
+      "title": "Operations Dashboard",
+      "subtitle": "Real-time overview of pharmaceutical procurement requests and logistics status.",
+      "volume": "RFQ Volume",
+      "volume_desc": "Last 7 days",
+      "distribution": "Status Distribution",
+      "cat_breakdown": "Products by Category",
+      "cat_desc": "{{count}} active products",
+      "recent_title": "Recent RFQs",
+      "view_all": "View All",
+      "empty_rfqs": "No RFQs yet",
+      "empty_products": "No products yet",
+      "funnel": {
+        "title": "Conversion Funnel",
+        "submitted": "Submitted",
+        "under_review": "Under Review",
+        "quoted": "Quoted",
+        "closed": "Closed"
+      },
+      "quick_actions": {
+        "title": "Quick Actions",
+        "all_rfqs": "All RFQs",
+        "products": "Products",
+        "content": "Content"
+      },
+      "health": {
+        "title": "Platform Health",
+        "database": "Database",
+        "api": "API",
+        "email": "Email",
+        "online": "Online",
+        "running": "Running",
+        "dev_mode": "Dev Mode"
+      },
+      "stats": {
+        "total": "Total RFQs",
+        "new": "New",
+        "review": "Under Review",
+        "sent": "Quotation Sent",
+        "closed": "Closed",
+        "products": "Products",
+        "testimonials": "Testimonials"
+      }
+    },
+    "layout": {
+      "portal_header": "Admin Portal",
+      "view_website": "View Website",
+      "sign_out": "Sign Out",
+      "admin_dashboard_link": "Admin Dashboard",
+      "nav": {
+        "dashboard": "Dashboard",
+        "rfqs": "Logistics Management",
+        "products": "Inventory Management",
+        "content": "Content"
+      }
+    },
+    "products": {
+      "title": "Products",
+      "subtitle": "Manage your pharmaceutical product catalog.",
+      "search_placeholder": "Search by name, brand, generic...",
+      "all_categories": "All Categories",
+      "add_product": "Add Product",
+      "edit_product": "Edit Product",
+      "new_product": "Add New Product",
+      "stats": {
+        "items": "products",
+        "active": "active",
+        "featured": "featured"
+      },
+      "inactive": "Inactive",
+      "empty": {
+        "title": "No products found",
+        "action": "Add your first product"
+      },
+      "form": {
+        "name": "Product Name *",
+        "generic": "Generic Name",
+        "brand": "Brand",
+        "category": "Category *",
+        "package": "Package Size",
+        "image": "Image URL",
+        "description": "Description",
+        "active": "Active",
+        "featured": "Featured on Homepage",
+        "saving": "Saving...",
+        "save": "Save Changes",
+        "placeholder_name": "e.g. Amoxicillin 500mg",
+        "placeholder_generic": "e.g. Amoxicillin Trihydrate",
+        "placeholder_brand": "e.g. GlaxoSmithKline",
+        "placeholder_package": "e.g. Box of 100 Capsules",
+        "placeholder_desc": "Short product description..."
+      },
+      "delete": {
+        "title": "Deactivate Product?",
+        "desc": "\"{{name}}\" will be hidden from the catalog. This can be undone by editing the product.",
+        "confirm": "Deactivate",
+        "deactivating": "Removing..."
+      }
+    },
+    "content": {
+      "title": "Content Management",
+      "subtitle": "All changes save to the database and appear live on the website immediately.",
+      "editing_badge": "Editing: {{label}} — appears on {{page}}.",
+      "save_guide": "Click \"Save to Database\" to make changes live on the website.",
+      "save_to_db": "Save to Database",
+      "saving": "Saving...",
+      "saved": "Saved",
+      "live_alert": "Changes are now live on the website",
+      "error_alert": "Save failed — check backend connection",
+      "tabs": {
+        "testimonials": "Testimonials",
+        "hero": "Hero Slides",
+        "company": "Company Info",
+        "why": "Why Choose Us",
+        "team": "Team",
+        "timeline": "Timeline",
+        "faq": "FAQ",
+        "contact": "Contact Info",
+        "services": "Services",
+        "categories": "Categories"
+      },
+      "sections": {
+        "testimonials": {
+          "title": "Testimonials",
+          "subtitle": "Shown on Home & About pages — changes are live immediately",
+          "add_new": "Add New",
+          "customer_name": "Customer Name *",
+          "company_role": "Company / Role",
+          "comment": "Comment *",
+          "add_btn": "Add Testimonial",
+          "adding": "Adding..."
+        },
+        "hero": {
+          "title": "Hero Slideshow",
+          "subtitle": "4 rotating slides on the Home page — saved to database",
+          "slide_count": "Slide {{n}}"
+        },
+        "company": {
+          "title": "Company Information",
+          "subtitle": "Used across Home, About, Contact, and Services pages",
+          "brand_identity": "Brand & Identity",
+          "contact_details": "Contact Details",
+          "stats": "Homepage Stats",
+          "mission_vision": "About Page — Mission & Vision"
+        },
+        "faq": {
+          "add_btn": "Add FAQ"
+        }
+      }
+    },
+    "chat": {
+      "title": "PharmaLink Support",
+      "agent": "Emily",
+      "active": "Emily is active now",
+      "greeting": "Hello! I am Emily from PharmaLink support. How can I help you today?",
+      "guest": "Guest",
+      "today": "Today",
+      "placeholder": "Send a message..."
+    },
+    "details": {
+      "back": "Back to RFQs",
+      "reference": "RFQ Reference",
+      "products_title": "Requested Products",
+      "quoted_items": "items",
+      "unit_price": "Unit Price",
+      "grand_total": "Grand Total",
+      "quote_notes_title": "Quotation Notes",
+      "quote_notes_placeholder": "Add notes to include in the quotation PDF sent to the customer...",
+      "internal_notes_title": "Internal Notes",
+      "internal_notes_placeholder": "Add private notes for the fulfillment team...",
+      "special_instructions": "Special Instructions",
+      "documents_title": "Submitted Documents",
+      "documents_count": "file",
+      "documents_count_plural": "files",
+      "no_documents": "No documents submitted with this RFQ.",
+      "customer": {
+        "title": "Customer",
+        "name": "Name",
+        "company": "Company",
+        "business": "Business Type",
+        "email": "Email",
+        "phone": "Phone",
+        "location": "Location"
+      },
+      "delivery_by": "Target Delivery",
+      "shipping": "Transport Method",
+      "change_status": "Change Status",
+      "save_notes": "Save Notes",
+      "saving": "Saving...",
+      "saved": "Saved",
+      "export_pdf": "Export PDF",
+      "send_quotation": "Send Quotation",
+      "sending": "Sending...",
+      "sent": "Sent",
+      "sent_success": "Quotation email sent successfully to {{email}}",
+      "price_error": "Please fill in the unit price for all items before sending a quotation."
+    }
+  },
+  "track_rfq": {
+    "title": "Track Your RFQ",
+    "subtitle": "Enter your RFQ reference number to check the current status of your quotation request.",
+    "placeholder": "e.g. RFQ-2026-0001",
+    "button": "Track",
+    "not_found": "RFQ not found",
+    "not_found_desc": "No RFQ found with number {{rfqNumber}}. Please check the number and try again.",
+    "reference": "RFQ Reference",
+    "submitted_on": "Submitted: {{date}}",
+    "timeline": "Status Timeline",
+    "current_status": "Current",
+    "est_response": "Estimated Response Time",
+    "est_desc": "Our team typically responds within 4–24 hours during business days (Mon–Fri, 9am–6pm GMT).",
+    "track_another": "Track Another RFQ",
+    "submit_new": "Submit New RFQ",
+    "help_text": "Your RFQ number was sent to your email after submission. It looks like RFQ-2026-0001",
+    "steps": [
+      { "title": "Step 1", "desc": "RFQ received by our team" },
+      { "title": "Step 2", "desc": "Under review by specialists" },
+      { "title": "Step 3", "desc": "Quotation sent to your email" }
+    ]
+  },
+  "rfq_success": {
+    "title": "RFQ Submitted Successfully!",
+    "subtitle": "Your request for quotation has been received. Our procurement team will review it and respond within 4–24 hours.",
+    "ref_label": "Your RFQ Reference Number",
+    "ref_desc": "Save this number to track your request status.",
+    "next_steps_title": "What Happens Next?",
+    "next_steps": [
+      { "title": "Confirmation Email Sent", "desc": "A confirmation email with your RFQ details has been sent to your email address." },
+      { "title": "Team Review", "desc": "Our procurement specialists will review your request and check product availability." },
+      { "title": "Formal Quotation", "desc": "You will receive a formal quotation with pricing and delivery terms within 4–24 hours." },
+      { "title": "Order Confirmation", "desc": "Review and approve the quotation to proceed with your order." }
+    ],
+    "status": "Status",
+    "download": "Download RFQ Copy",
+    "track": "Track This RFQ",
+    "history": "View RFQ History",
+    "questions": "Questions? Contact us at"
+  },
+  "customer": {
+    "dashboard": {
+      "welcome": "Welcome back, {{name}}",
+      "tagline": "Managing your pharmaceutical procurement with clinical precision.",
+      "stats": {
+        "pending": "Pending RFQs",
+        "quoted": "Quotes Received",
+        "total": "Total RFQs",
+        "active_badge": "ACTIVE"
+      },
+      "history_title": "RFQ History",
+      "no_rfqs": "No RFQs yet.",
+      "submit_first": "Submit your first RFQ",
+      "new_rfq": "New RFQ",
+      "nav": {
+        "menu": "Menu",
+        "dashboard": "Dashboard",
+        "new_rfq": "New RFQ",
+        "catalog": "Product Catalog",
+        "compare": "Compare",
+        "sign_out": "Sign out"
+      },
+      "mobile_nav": {
+        "home": "Home",
+        "rfq": "RFQ",
+        "products": "Products",
+        "compare": "Compare"
+      }
+    },
+    "details": {
+      "title": "RFQ Details",
+      "back": "Back to Dashboard",
+      "download": "Download PDF",
+      "summary": {
+        "submitted": "Submitted",
+        "products": "Products",
+        "delivery": "Target Delivery",
+        "shipping": "Transport"
+      },
+      "products_title": "Requested Products",
+      "instructions": "Special Instructions",
+      "documents": "Uploaded Documents",
+      "quota_ready": "Quotation Ready",
+      "quota_ready_desc": "A formal quotation has been sent to your email. Download the PDF above to review pricing and terms."
+    }
+  },
+  "footer": {
+    "tagline": "Trusted pharmaceutical wholesale and import solutions for global healthcare facilities.",
+    "navigation": "Navigation",
+    "services": "Services",
+    "legal": "Legal",
+    "rfq_generator": "RFQ Generator",
+    "comparison": "Product Comparison",
+    "create_account": "Create Account",
+    "rights": "All rights reserved.",
+    "terms": "Terms of Sale",
+    "privacy": "Privacy Policy"
+  },
+  "home": {
+    "about_title": "The Essential Bridge in Healthcare Supply Chains",
+    "about_p1": "PharmaLink Pro operates at the intersection of medical necessity and logistical precision. As a licensed global wholesaler, we remove the complexities of international pharmaceutical procurement.",
+    "mission_title": "Our Mission",
+    "mission_text": "To make pharmaceutical procurement transparent, efficient, and accessible for every healthcare institution worldwide.",
+    "vision_title": "Our Vision",
+    "vision_text": "A world where no patient goes without medicine due to supply chain failures or procurement inefficiencies.",
+    "featured": {
+      "title": "Featured Products"
+    },
+    "featured_title": "Featured Products",
+    "testimonials_title": "Trusted by Healthcare Leaders",
+    "contact_title": "Let's Secure Your Supply Chain",
+    "contact_subtitle": "Our procurement experts are ready to assist with bulk orders, regular supplies, or specialized medical equipment imports.",
+    "form": {
+      "title": "Send a Quick Message",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send Message"
+    },
+    "categories_title": "Specialized Categories",
+    "categories_subtitle": "Streamlined procurement for every medical department.",
+    "view_all_categories": "Browse All Categories",
+    "licensed_title": "Fully Licensed",
+    "licensed_sub": "Global Export Permits",
+    "cold_chain_title": "Cold Chain Managed",
+    "cold_chain_sub": "Temperature Controlled"
+  },
+  "about": {
+    "badge": "Our Story",
+    "title": "The Essential Bridge in Healthcare Supply Chains",
+    "subtitle": "Since 2009, PharmaLink has connected medical institutions worldwide with precision-sourced pharmaceuticals, surgical supplies, and laboratory equipment.",
+    "cta_rfq": "Request Quotation",
+    "cta_products": "View Products",
+    "years_exp": "Years of Experience",
+    "countries": "Countries Served",
+    "products_catalog": "Products in Catalog",
+    "accuracy_rate": "Order Accuracy Rate",
+    "mission_vision_title": "Precision-Sourced. Compliance-First. Globally Delivered.",
+    "mission_vision_p1": "PharmaLink Pro operates at the intersection of medical necessity and logistical precision. As a licensed global wholesaler, we remove the complexities of international pharmaceutical procurement.",
+    "mission_vision_p2": "Our commitment to Regulatory Compliance ensures that every SKU in our catalog meets rigorous international standards, including WHO, FDA, and EMA guidelines. We prioritize clinical integrity from origin to delivery.",
+    "fully_licensed": "Fully Licensed",
+    "fully_licensed_sub": "Global Export Permits",
+    "cold_chain": "Cold Chain",
+    "cold_chain_sub": "Temperature Controlled",
+    "values_title": "Our Core Values",
+    "values_subtitle": "The principles that guide every decision we make.",
+    "timeline_title": "15 Years of Growth",
+    "timeline_subtitle": "Key milestones in our journey to becoming a global pharmaceutical leader.",
+    "team_title": "Leadership Team",
+    "team_subtitle": "The people behind PharmaLink's global operations.",
+    "cert_title": "Certifications & Accreditations",
+    "cert_subtitle": "Every product we distribute is backed by internationally recognized certifications and rigorous quality controls.",
+    "trusted_title": "Trusted by Healthcare Leaders",
+    "partner_title": "Ready to Partner with PharmaLink?",
+    "partner_subtitle": "Join thousands of healthcare institutions that trust PharmaLink for their pharmaceutical procurement needs.",
+    "partner_cta_contact": "Contact Us",
+    "values": {
+      "compliance": { "title": "Regulatory Compliance", "desc": "Strict adherence to international pharmaceutical standards and safety protocols." },
+      "cold_chain": { "title": "Cold Chain Integrity", "desc": "Advanced temperature-controlled logistics for sensitive medical products." },
+      "partnerships": { "title": "Global Partnerships", "desc": "Strong relationships with leading manufacturers to ensure reliable supply." },
+      "efficiency": { "title": "Operational Efficiency", "desc": "Streamlined procurement processes and rapid global distribution." }
+    },
+    "team": {
+      "ceo": { "role": "CEO & Founder", "bio": "Leading PharmaLink with 20+ years of healthcare logistics experience." },
+      "regulatory": { "name": "Dr. Amara Okoro", "role": "Regulatory Director", "bio": "Ensuring all imports meet international farmacopeia standards." },
+      "qa": { "name": "James Chen", "role": "Head of Quality", "bio": "Overseeing rigorous inspection protocols for all medical supplies." },
+      "logistics": { "name": "Sarah Williams", "role": "Logistics Manager", "bio": "Expert in global cold chain and pharmaceutical supply movements." }
+    },
+    "certifications": {
+      "who_gmp": { "label": "WHO GMP", "sub": "Good Manufacturing Practice" },
+      "fda": { "label": "FDA Approved", "sub": "U.S. Food & Drug Admin" },
+      "ema": { "label": "EMA Certified", "sub": "European Medicines Agency" },
+      "iso": { "label": "ISO 9001:2015", "sub": "Quality Management" },
+      "iata": { "label": "IATA CEIV", "sub": "Pharma Air Logistics" },
+      "gdp": { "label": "Good Dist. Practice", "sub": "Storage & Transport" }
+    },
+    "timeline": {
+      "2009": { "title": "Founded in Addis Ababa", "desc": "PharmaLink was established with a focus on local pharmaceutical gaps." },
+      "2012": { "title": "Regional Expansion", "desc": "Started cross-border operations within East African healthcare markets." },
+      "2015": { "title": "Import License Milestone", "desc": "Obtained major international import permits for specialty medications." },
+      "2018": { "title": "Digital Transformation", "desc": "Launched the industry-leading RFQ portal for medical institutions." },
+      "2021": { "title": "Global Cold Chain Center", "desc": "Opened our state-of-the-art temperature-controlled logistics hub." },
+      "2024": { "title": "Next Gen Healthcare", "desc": "Expanding into personalized medicine and advanced surgical robotics." }
+    }
+  },
+  "services_page": {
+    "badge": "What We Offer",
+    "title": "End-to-End Pharmaceutical Supply Services",
+    "subtitle": "From wholesale supply and international import to cold chain logistics and regulatory support — we cover every step of the pharmaceutical procurement journey.",
+    "list_title": "Everything You Need in One Partner",
+    "process_title": "How Our Service Works",
+    "process_subtitle": "Simple Process",
+    "cta_title": "Ready to get started?",
+    "cta_subtitle": "Submit your first RFQ today and receive a competitive quotation from our procurement specialists within 24 hours.",
+    "cta_btn": "Submit RFQ Now",
+    "cta_contact": "Contact Us",
+    "list": {
+      "wholesale": {
+        "title": "Pharmaceutical Wholesale Supply",
+        "desc": "We supply bulk pharmaceutical products directly to pharmacies, hospitals, clinics, and distributors at competitive wholesale prices.",
+        "f1": "Bulk order discounts", "f2": "Flexible MOQ", "f3": "Dedicated account manager", "f4": "Priority stock allocation"
+      },
+      "import": {
+        "title": "International Import & Export",
+        "desc": "Licensed pharmaceutical importer with global sourcing capabilities. We handle all regulatory documentation, customs clearance, and international freight.",
+        "f1": "WHO-GMP certified sources", "f2": "Full customs clearance", "f3": "Import/export licensing", "f4": "Multi-country sourcing"
+      },
+      "cold_chain": {
+        "title": "Cold Chain Logistics",
+        "desc": "Specialized temperature-controlled storage and distribution for biologics, vaccines, and temperature-sensitive pharmaceuticals. IoT-monitored throughout the entire supply chain.",
+        "f1": "2–8°C compliance", "f2": "IoT temperature monitoring", "f3": "Validated cold rooms", "f4": "Real-time tracking"
+      },
+      "rfq": {
+        "title": "RFQ & Quotation Management",
+        "desc": "Our digital RFQ platform allows healthcare institutions to submit structured quotation requests for multiple products simultaneously. Receive formal quotations within 4–24 hours.",
+        "f1": "Multi-product RFQ", "f2": "Digital quotation delivery", "f3": "4–24h response time", "f4": "PDF quotation download"
+      },
+      "regulatory": {
+        "title": "Regulatory & Compliance Support",
+        "desc": "Our regulatory affairs team assists clients with product registration, import permits, and compliance documentation for all major international markets.",
+        "f1": "Product registration support", "f2": "Import permit assistance", "f3": "WHO/FDA/EMA compliance", "f4": "Certificate of Analysis"
+      },
+      "support": {
+        "title": "After-Sales & Technical Support",
+        "desc": "Dedicated customer support team available for order tracking, product queries, documentation requests, and post-delivery support. Available Monday–Friday, 9am–6pm GMT.",
+        "f1": "Dedicated account manager", "f2": "Order tracking portal", "f3": "Documentation requests", "f4": "Technical product queries"
+      }
+    },
+    "process_steps": [
+      { "title": "Submit RFQ", "desc": "Use our digital RFQ wizard to specify products, quantities, and delivery requirements." },
+      { "title": "Quotation Review", "desc": "Our team reviews your request and prepares a competitive formal quotation within 4–24 hours." },
+      { "title": "Order Confirmation", "desc": "Approve the quotation and confirm your order. We handle all procurement and logistics." },
+      { "title": "Delivery & Documentation", "desc": "Receive your order with full regulatory documentation, CoA, and delivery confirmation." }
+    ]
+  },
+  "categories_page": {
+    "badge": "Product Catalog",
+    "title": "Specialized Categories for Every Medical Department",
+    "subtitle": "From prescription medicines to laboratory equipment — streamlined procurement for pharmacies, hospitals, clinics, and distributors worldwide.",
+    "browse_all": "Browse All Products",
+    "process_badge": "Simple Process",
+    "process_title": "How to Order from Any Category",
+    "custom_title": "Can't find what you need?",
+    "custom_subtitle": "Our procurement specialists can source any pharmaceutical product globally. Submit a custom RFQ and we'll find it for you.",
+    "submit_custom": "Submit Custom RFQ"
+  },
+  "toast": {
+    "added": "Added to RFQ"
+  }
+}

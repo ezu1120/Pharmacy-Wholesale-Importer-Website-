@@ -8,18 +8,22 @@ const useAuthStore = create(
       user: null,
       accessToken: null,
 
-      setAuth: async (user, accessToken) => {
+      setAuth: (user, accessToken) => {
         // Clear RFQ store when a new user logs in to avoid data leaking between accounts
         try { localStorage.removeItem('rfq-draft') } catch (_) {}
-        // Set basic auth first so api calls work
+        // Set auth synchronously so navigation and ProtectedRoute work immediately
         set({ user, accessToken })
-        // Fetch full profile (includes companyName, phone, etc.)
-        try {
-          const { data } = await api.get('/customer/profile', {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          })
-          set({ user: { ...user, ...data } })
-        } catch (_) {}
+        // Fetch full profile in the background to enrich with companyName, phone, etc.
+        // Never overwrite role — that comes from the JWT and must stay authoritative
+        api.get('/customer/profile', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }).then(({ data }) => {
+          set((state) => ({
+            user: { ...data, role: state.user?.role ?? user.role },
+          }))
+        }).catch(() => {
+          // Profile fetch failing is non-fatal — user is already authenticated
+        })
       },
 
       updateUser: (updates) => set((state) => ({ user: { ...state.user, ...updates } })),

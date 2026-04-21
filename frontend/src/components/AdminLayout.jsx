@@ -3,10 +3,12 @@ import { useState, useEffect, useRef } from 'react'
 import useAuthStore from '../store/authStore'
 
 const NAV = [
-  { to: '/admin',          icon: 'dashboard',     label: 'Dashboard' },
-  { to: '/admin/rfqs',     icon: 'request_quote', label: 'RFQ Management' },
-  { to: '/admin/products', icon: 'inventory_2',   label: 'Products' },
-  { to: '/admin/content',  icon: 'edit_note',     label: 'Content' },
+  { to: '/admin',           icon: 'dashboard',       label: 'Dashboard' },
+  { to: '/admin/rfqs',      icon: 'request_quote',   label: 'RFQ Management' },
+  { to: '/admin/products',  icon: 'inventory_2',     label: 'Products' },
+  { to: '/admin/content',   icon: 'edit_note',       label: 'Content' },
+  { to: '/admin/chat',      icon: 'chat',            label: 'Live Chat' },
+  { to: '/admin/messages',  icon: 'mark_email_read', label: 'Contact Messages' },
 ]
 
 export default function AdminLayout({ children, title, subtitle }) {

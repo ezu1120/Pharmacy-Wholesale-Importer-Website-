@@ -1,0 +1,822 @@
+{
+  "nav": {
+    "home": "መነሻ",
+    "products": "ምርቶች",
+    "categories": "ምድቦች",
+    "services": "አገልግሎቶች",
+    "about": "ስለ እኛ",
+    "contact": "ያግኙን",
+    "track_rfq": "RFQ ይከታተሉ",
+    "dashboard": "ዳሽቦርድ",
+    "logout": "ውጣ",
+    "request_quote": "ዋጋ ጠይቅ",
+    "sign_in": "ግባ",
+    "my_dashboard": "የእኔ ዳሽቦርድ",
+    "sign_out": "ውጣ"
+  },
+  "hero": {
+    "title": "የታመነ የፋርማሲ ጅምላ እና የማስመጣት መፍትሄዎች",
+    "subtitle": "ለፋርማሲዎች፣ ሆስፒታሎች እና ክሊኒኮች ጥራት ያላቸው መድሃኒቶች እናቀርባለን።",
+    "cta_rfq": "ዋጋ ጠይቅ",
+    "cta_products": "ምርቶችን ይመልከቱ"
+  },
+  "why": {
+    "title": "ለምን እኛን ይምረጡ",
+    "items": [
+      { "title": "ትክክለኛ የተመጣ ምርቶች", "desc": "ከተረጋገጡ አምራቾች ቀጥታ ምንጭ ብቻ።" },
+      { "title": "ተወዳዳሪ የጅምላ ዋጋ", "desc": "የሚቆጠቡ ወጪዎች ለደንበኞቻችን ቀጥታ ይተላለፋሉ።" },
+      { "title": "ቅድሚያ ሎጂስቲክስ", "desc": "ፈጣን የፋርማሲ ዙር ለማምጣት የተመቻቹ የስርጭት መረቦች።" },
+      { "title": "ፈቃድ ያለው እና የተረጋገጠ", "desc": "ለክልላዊ የጤና ባለስልጣናት ጥብቅ ተገዥነት።" },
+      { "title": "ልምድ ያለው ቡድን", "desc": "ቀልጣፋ የፋርማሲ ግዥ የሚያረጋግጡ ሙያተኞች።" }
+    ]
+  },
+  "process": {
+    "title": "የግዥ ሂደት",
+    "steps": [
+      { "title": "ምርቶችን ያስሱ", "desc": "የ10,000+ SKU ካታሎጋችንን ያስሱ።" },
+      { "title": "ወደ RFQ ጨምር", "desc": "ምርቶችን እና መጠኖችን ይምረጡ።" },
+      { "title": "RFQ ያስገቡ", "desc": "የተቋሙን መረጃዎች እና የስርጭት ፍላጎቶችን ያቅርቡ።" },
+      { "title": "ዋጋ ይቀበሉ", "desc": "በ24 ሰዓት ውስጥ ይፋዊ ዋጋ ያግኙ።" }
+    ]
+  },
+  "products": {
+    "title": "ምርቶቻችን",
+    "subtitle": "የተረጋገጠ ዓለም አቀፍ የፋርማሲ ምርቶቻችንን ያግኙ።",
+    "search_placeholder": "በ SKU፣ ጄኔሪክ ወይም ብራንድ ይፈልጉ...",
+    "add_to_rfq": "ወደ RFQ ጨምር",
+    "added": "ወደ RFQ ተጨምሯል",
+    "in_stock": "አለ",
+    "no_results": "ምርቶች አልተገኙም",
+    "no_results_sub": "ፍለጋዎን ይቀይሩ ወይም ሌላ ምድብ ይምረጡ።",
+    "summary_title": "የRFQ ማጠቃለያ",
+    "items_selected_one": "{{count}} ምርት ተመርጧል",
+    "items_selected": "{{count}} ምርቶች ተመርጠዋል",
+    "review_quote": "ዋጋውን ይገምግሙ",
+    "est_priority": "የተገመተ ቅድሚያ",
+    "priority_urgent": "አስቸኳይ",
+    "categories_title": "ምድቦች",
+    "manufacturer_title": "አምራች",
+    "clear_filter": "ማጣሪያ አጽዳ",
+    "category_labels": {
+      "all": "ሁሉም ምድቦች",
+      "prescription": "የመድሃኒት ማዘዣ መድሃኒቶች",
+      "otc": "OTC መድሃኒቶች",
+      "medical": "የህክምና አቅርቦቶች",
+      "surgical": "የቀዶ ጥገና ምርቶች",
+      "laboratory": "የላቦራቶሪ መሳሪያዎች",
+      "personal": "የግል እንክብካቤ ምርቶች"
+    },
+    "category_desc": {
+      "prescription": "ሙያዊ የመድሃኒት ማዘዣ የሚያስፈልጋቸው ልዩ የፋርማሲ ምርቶች።",
+      "otc": "ቀጥታ ለመግዛት የሚገኙ ጥራት ያላቸው የጤና ምርቶች።",
+      "medical": "አስፈላጊ የሚጣሉ እና ከፍተኛ ደረጃ ያላቸው የክሊኒክ አቅርቦቶች።",
+      "surgical": "ለተለያዩ የቀዶ ጥገና አይነቶች የሚሆኑ ትክክለኛ መሳሪያዎች።",
+      "laboratory": "የላቀ የምርመራ እና የሙከራ መሳሪያዎች።",
+      "personal": "ለዕለታዊ አጠቃቀም የሚሆኑ የጤና መጠበቂያ ምርቶች።"
+    },
+    "available": "ይገኛል",
+    "popular_products": "ታዋቂ ምርቶች"
+  },
+  "services": {
+    "title": "ሁሉን አቀፍ የፋርማሲ አቅርቦት አገልግሎቶች",
+    "subtitle": "ከጅምላ አቅርቦት እስከ ቀዝቃዛ ሰንሰለት ሎጂስቲክስ — እያንዳንዱ ደረጃ እንሸፍናለን።",
+    "request_btn": "ይህን አገልግሎት ጠይቅ",
+    "cta_title": "ለመጀመር ዝግጁ ነዎት?",
+    "cta_subtitle": "ዛሬ የመጀመሪያ RFQ ያስገቡ እና በ24 ሰዓት ውስጥ ተወዳዳሪ ዋጋ ያግኙ።",
+    "cta_btn": "RFQ አሁን ያስገቡ"
+  },
+  "contact": {
+    "title": "ያግኙን",
+    "subtitle": "የግዥ ስፔሻሊስቶቻችን ለመርዳት ዝግጁ ናቸው።",
+    "form_title": "መልዕክት ይላኩ",
+    "first_name": "የመጀመሪያ ስም",
+    "last_name": "የአባት ስም",
+    "email": "ኢሜይል አድራሻ",
+    "phone": "ስልክ ቁጥር",
+    "company": "የኩባንያ ስም",
+    "department": "ክፍል",
+    "message": "መልዕክት",
+    "send_btn": "መልዕክት ላክ",
+    "sending": "እየተላከ...",
+    "success_title": "መልዕክቱ ተልኳል!",
+    "success_desc": "ስለ ተወሰዱ እናመሰግናለን። በ24 ሰዓት ውስጥ ምላሽ እንሰጣለን።",
+    "get_in_touch": "ያግኙን",
+    "main_title": "የአቅርቦት ሰንሰለትዎን እናረጋግጥ",
+    "main_subtitle": "የግዥ ባለሙያዎቻችን ለጅምላ ትዕዛዞች፣ ለመደበኛ አቅርቦቶች ወይም ለልዩ የህክምና መሳሪያዎች ግዥ ዝግጁ ናቸው።",
+    "info_title": "የግንኙነት መረጃ",
+    "info_subtitle": "ለግዥ ጥያቄዎች፣ ለስርጭት ድጋፍ ወይም ለቁጥጥር ድጋፍ ቡድናችንን ያነጋግሩ።",
+    "faq_title": "ተደጋግሞ የሚጠየቁ ጥያቄዎች",
+    "faq_subtitle": "ለተለመዱ የግዥ ጥያቄዎች ፈጣን መልሶች።",
+    "process_title": "የግዥ ሂደት",
+    "privacy_note": "የግላዊነት ማስታወሻ",
+    "privacy_text": "የእርስዎ መረጃ የተጠበቀ ነው እና ለኦፊሴላዊ ግንኙነቶች ብቻ ይውላል።",
+    "departments": {
+      "procurement": "ግዥ እና RFQ",
+      "logistics": "ፍፃሜ እና ስርጭት",
+      "regulatory": "የቁጥጥር ጉዳዮች",
+      "support": "የደንበኛ ድጋፍ",
+      "other": "ሌላ"
+    },
+    "info": {
+      "hq": { "title": "ዋና መስሪያ ቤት", "line1": "ሜዲካል ፓርክ ዌስት፣ ፎቅ 14", "line2": "ለንደን፣ ዩኬ EC1A 4HQ" },
+      "phone": { "title": "የስልክ ድጋፍ", "line1": "+44 (0) 20 7946 0123", "line2": "ከሰኞ-አርብ፣ ከጥዋቱ 3 - 12 ሰዓት (GMT)" },
+      "email": { "title": "ኢሜይል", "line1": "support@pharmalinkwholesale.com", "line2": "procurement@pharmalinkwholesale.com" },
+      "hours": { "title": "የስራ ሰዓታት", "line1": "ከሰኞ - አርብ፡ ከጥዋቱ 3 - 12 ሰዓት (GMT)", "line2": "ቅዳሜ፡ ከጥዋቱ 4 - 8 ሰዓት (GMT)" }
+    },
+    "faqs_list": [
+      { "q": "ለ RFQs ምን ያህል በፍጥነት ምላሽ ይሰጣሉ?", "a": "ለሁሉም የ RFQ ማቅረቢያዎች በ 4-24 የስራ ሰዓታት ውስጥ መደበኛ የዋጋ ዝርዝር ምላሽ እንሰጣለን።" },
+      { "q": "ዝቅተኛው የትዕዛዝ መጠን (MOQ) ስንት ነው?", "a": "MOQ እንደ ምርቱ ይለያያል። ብዙ ምርቶች ዝቅተኛ መጠን የላቸውም። ለተወሰኑ የምርት ፍላጎቶች ያግኙን።" },
+      { "q": "ዓለም አቀፍ የፋርማሲ ሎጂስቲክስን ያስተዳድራሉ?", "a": "አዎ። በ50+ አገሮች ውስጥ እንሰራለን፣ ሁሉንም የጉምሩክ ፕሮቶኮሎችን እና ውስብስብ የጭነት ዝግጅቶችን እናስተዳድራለን።" },
+      { "q": "ምርቶቻችሁ WHO-GMP የተረጋገጡ ናቸው?", "a": "በካታሎጋችን ውስጥ ያሉ ሁሉም ምርቶች የተገኙት ከ WHO-GMP የተረጋገጡ አምራቾች ብቻ ነው።" }
+    ]
+  },
+  "rfq": {
+    "title": "የዋጋ ጥያቄ",
+    "step1_title": "የደንበኛ መረጃ",
+    "step2_title": "ምርት ምርጫ",
+    "step3_title": "ተጨማሪ ዝርዝሮች",
+    "step4_title": "ይገምግሙ እና ያስገቡ",
+    "full_name": "ሙሉ ስም",
+    "company_name": "የኩባንያ ስም",
+    "business_type": "የንግድ አይነት",
+    "email": "ኢሜይል አድራሻ",
+    "phone": "ስልክ ቁጥር",
+    "country": "አገር",
+    "city": "ከተማ",
+    "next": "ቀጣይ ደረጃ",
+    "back": "ተመለስ",
+    "submit": "RFQ ያስገቡ",
+    "submitting": "እየተላከ...",
+    "cancel": "ሰርዝ",
+    "find_products": "ምርቶችን ፈልጉ",
+    "search_products": "በስም፣ ብራንድ ወይም SKU ይፈልጉ...",
+    "delivery_date": "የተፈለገው የማድረሻ ጊዜ",
+    "shipping_method": "የሚፈለግ የጭነት ዘዴ",
+    "message": "ተጨማሪ መልዕክት",
+    "upload": "ሰነዶችን ይጫኑ",
+    "review_customer": "የደንበኛ ዝርዝሮች",
+    "review_products": "የተጠየቁ ምርቶች",
+    "account_required": "መለያ ያስፈልጋል",
+    "account_desc": "የእርስዎን RFQ ለማስኬድ እባክዎ ይግቡ ወይም መለያ ይፍጠሩ።",
+    "create_account": "መለያ ፍጠር",
+    "sign_in": "ግባ",
+    "step": "ደረጃ",
+    "complete": "ተጠናቋል",
+    "contact_header": "ዋና የግንኙነት ነጥብ",
+    "contact_subheader": "ለግዥው አካል አስተዳደራዊ ዝርዝሮችን ያቅርቡ።",
+    "business_type_options": {
+      "select": "ዓይነት ይምረጡ...",
+      "pharmacy": "የችርቻሮ ፋርማሲ ሰንሰለት",
+      "hospital": "የመንግስት ሆስፒታል",
+      "clinic": "የግል ክሊኒክ",
+      "distributor": "የጅምላ አከፋፋይ",
+      "other": "የመንግስት ኤጀንሲ"
+    },
+    "placeholders": {
+      "full_name": "ለምሳሌ፦ ዶ/ር ጁሊያን ፒርስ",
+      "company_name": "ለምሳሌ፦ ሜትሮ አጠቃላይ ጤና",
+      "email": "j.pierce@metrohealth.org",
+      "phone": "+251 (9) 00-00-00-00",
+      "country": "ለምሳሌ፦ ኢትዮጵያ",
+      "city": "ለምሳሌ፦ አዲስ አበባ",
+      "notes": "ማንኛውንም የተለየ የማከማቻ መስፈርቶች ወይም የማድረሻ ጊዜ ምርጫዎችን ያስገቡ..."
+    },
+    "inventory": "ክምችት",
+    "draft_title": "የ RFQ ረቂቅ ምርጫ ዝርዝር",
+    "no_items": "እስካሁን ምንም ምርት አልተመረጠም።",
+    "no_items_desc": "በግራ በኩል ካለው ካታሎግ ውስጥ ምርቶችን ይፈልጉ እና ይጨምሩ።",
+    "quantity": "ብዛት",
+    "unit": "መለኪያ",
+    "note": "ማስታወሻ",
+    "unit_options": {
+      "units": "ፍሬ",
+      "boxes": "ሳጥን",
+      "packs": "ፓክ",
+      "vials": "ቫያል",
+      "bottles": "ጠርሙስ",
+      "service": "አገልግሎት",
+      "shipment": "ጭነት"
+    },
+    "logistics_title": "ሎጂስቲክስ እና ስርጭት",
+    "delivery_date_label": "የተፈለገው የማድረሻ ጊዜ",
+    "shipping_method_label": "ተመራጭ የማጓጓዣ ዘዴ",
+    "shipping_options": {
+      "select": "የማጓጓዣ ዘዴ ይምረጡ...",
+      "standard": "መደበኛ የየብስ (ከ3-5 የሥራ ቀናት)",
+      "air": "የአየር ጭነት (ቅድሚያ ኤክስፕረስ)",
+      "sea": "በባህር ማጓጓዣ (ዓለም አቀፍ ካርጎ ኮንቴይነር)",
+      "land": "የየብስ ትራንስፖርት (የሙቀት መጠን የተመጠነ)"
+    },
+    "docs_title": "የማረጋገጫ ሰነዶች",
+    "docs_subtitle": "ማንኛውንም አስፈላጊ የሐኪም ትእዛዝ፣ የክሊኒክ ፈቃዶች ወይም የልዩ አያያዝ የምስክር ወረቀቶችን ይጫኑ።",
+    "drop_files": "ፋይሎችን እዚህ ይጣሉ ወይም ለመጫን ጠቅ ያድርጉ",
+    "file_limit": "PDF, JPG, PNG (ከ10MB አይበልጥም · እስከ 5 ፋይሎች)",
+    "special_inst": "ልዩ መመሪያዎች",
+    "special_inst_placeholder": "ማንኛውንም የተለየ የማከማቻ መስፈርቶች ወይም የማድረሻ ምርጫዎችን ያስገቡ...",
+    "req_summary": "የጥያቄ ማጠቃለያ",
+    "quality_assured": "ጥራት የተረጋገጠ",
+    "quality_assured_desc": "ሁሉም ትዕዛዞች የቁጥጥር ደረጃዎችን እና የጥራት ቁጥጥርን ለማረጋገጥ በባለሙያ ቡድናችን ይረጋገጣሉ።",
+    "one_step_left": "አንድ ደረጃ ብቻ ቀርቷል",
+    "req_quotation": "የዋጋ ጥያቄ",
+    "req_quotation_desc": "ይህንን RFQ በማስገባት፣ ጥያቄዎ ለተወዳዳሪ ዋጋ እና ተገኝነት ማረጋገጫ ወደ ተወሰነ ቡድናችን ይላካል።",
+    "compliance_checked": "ተገዢነት የተረጋገጠ ግዥ",
+    "est_response": "የተገመተው የዋጋ ምላሽ ጊዜ",
+    "est_time": "4 ሰዓታት",
+    "submission_failed": "ማስገባት አልተቻለም",
+    "back_to_step3": "ወደ ደረጃ 3 ይመለሱ"
+  },
+  "cart": {
+    "summary": "የRFQ ማጠቃለያ",
+    "item_selected": "{{count}} ምርት ተመርጧል",
+    "items_selected": "{{count}} ምርቶች ተመርጠዋል",
+    "review": "ዋጋውን ይገምግሙ"
+  },
+  "table": {
+    "no_products": "እስካሁን ምንም ምርት አልተጨመረም።",
+    "search_hint": "ከላይ ካለው ካታሎግ ውስጥ ምርቶችን ይፈልጉ እና ያክሉ።",
+    "headers": {
+      "product": "ምርት",
+      "brand": "ብራንድ",
+      "qty": "ብዛት",
+      "unit": "ዩኒት",
+      "notes": "ማስታወሻዎች"
+    },
+    "units": {
+      "units": "ዩኒቶች",
+      "boxes": "ሳጥኖች",
+      "packs": "ፓኮች",
+      "vials": "ቪያልስ",
+      "bottles": "ጠርሙሶች"
+    },
+    "notes_placeholder": "አማራጭ ማስታወሻ..."
+  },
+  "stepper": {
+    "step": "ደረጃ {{n}}፡ {{name}}",
+    "complete": "ተጠናቋል",
+    "steps": {
+      "contact": "እውቂያ",
+      "products": "ምርቶች",
+      "logistics": "ሎጂስቲክስ",
+      "review": "ክለሳ"
+    }
+  },
+  "compare": {
+    "title": "ንጽጽር ትንተና",
+    "subtitle": "የፋርማሲ ምርቶች እና የሕክምና አማራጮች ዝርዝር የቴክኒክ ንጽጽር።",
+    "export_pdf": "PDF ላክ",
+    "select_hint": "ለማነጻጸር እስከ 4 ምርቶችን ይምረጡ",
+    "parameters": "መለኪያዎች",
+    "empty_title": "ለማነጻጸር ምርቶችን ይምረጡ",
+    "empty_desc": "ከላይ ካለው ዝርዝር ውስጥ እስከ 4 ምርቶችን ይምረጡ።",
+    "fields": {
+      "genericName": "ጥንካሬ / ጄኔሪክ",
+      "packageSize": "የፓክ መጠን",
+      "brand": "አምራች",
+      "category": "ምድብ",
+      "description": "መግለጫ"
+    },
+    "info": {
+      "verified": {
+        "title": "የተረጋገጡ ምንጮች",
+        "desc": "ሁሉም አምራቾች WHO-GMP የተረጋገጡ ናቸው።"
+      },
+      "stock": {
+        "title": "የእውነተኛ ጊዜ ክምችት",
+        "desc": "ክምችት በየ15 ደቂቃው ይዘመናል።"
+      },
+      "cold_chain": {
+        "title": "ቀዝቃዛ ሰንሰለት ዝግጁ",
+        "desc": "በአዮቲ (IoT) የሚቆጣጠር የሙቀት መጠን ስሜታዊ ሎጂስቲክስ።"
+      }
+    },
+    "basket": {
+      "title": "{{count}} ምርቶች በRFQ ቅርጫት ውስጥ",
+      "subtitle": "በመጠባበቅ ላይ ያለ የዋጋ ጥያቄ",
+      "finalize": "RFQ ጨርስ"
+    }
+  },
+  "auth": {
+    "login_title": "እንኳን ደህና መጡ",
+    "login_subtitle": "ወደ PharmaLink መለያዎ ይግቡ",
+    "email": "ኢሜይል",
+    "password": "የይለፍ ቃል",
+    "signing_in": "በመግባት ላይ...",
+    "sign_in": "ግባ",
+    "no_account": "መለያ የለዎትም?",
+    "register": "ተመዝገብ",
+    "invalid": "የተሳሳተ ኢሜይል ወይም የይለፍ ቃል፡፡",
+    "reg_title": "መለያ ይፍጠሩ",
+    "reg_subtitle": "የፋርማሲ አውታረ መረባችንን ይቀላቀሉ",
+    "full_name": "ሙሉ ስም",
+    "company_name": "የኩባንያ ስም",
+    "business_type": "የንግድ ዓይነት",
+    "creating_account": "መለያ በመፍጠር ላይ...",
+    "have_account": "ቀድሞውኑ መለያ አለዎት?",
+    "placeholders": {
+      "email": "you@company.com",
+      "password": "••••••••",
+      "full_name": "ዶ/ር ጃን ስሚዝ"
+    },
+    "validation": {
+      "email_req": "ኢሜይል ያስፈልጋል",
+      "email_invalid": "ትክክለኛ ኢሜይል ያስፈልጋል",
+      "pass_req": "የይለፍ ቃል ያስፈልጋል",
+      "pass_min": "ቢያንስ 8 ቁምፊዎች",
+      "name_req": "ሙሉ ስም ያስፈልጋል",
+      "pass_match": "የይለፍ ቃሎች አይዛመዱም"
+    }
+  },
+  "admin": {
+    "rfqs": {
+      "title": "የRFQ አስተዳደር",
+      "subtitle": "የደንበኛ የዋጋ ጥያቄዎችን ይገምግሙ፣ ይከታተሉ እና ያስተዳድሩ።",
+      "actions": {
+        "view": "ተመልከት",
+        "edit": "አርትዕ",
+        "delete": "ሰርዝ",
+        "cancel": "ተወው",
+        "confirm_delete": "RFQ ይሰረዝ?",
+        "delete_desc": "ይህ የሚከተለውን በቋሚነት ይሰርዛል፡",
+        "delete_warning": "ሁሉም ምርቶች፣ ተያያዥ ፋይሎች እና ማስታወሻዎች ይወገዳሉ። ይህ ሊመለስ አይችልም።"
+      },
+      "found": "{{count}} RFQs ተገኝተዋል",
+      "no_match": "ከእርስዎ ማጣሪያዎች ጋር የሚዛመድ RFQ የለም",
+      "status": {
+        "all": "ሁሉም ሁኔታዎች",
+        "new": "አዲስ ጥያቄ",
+        "under_review": "በመገምገም ላይ",
+        "quotation_sent": "የዋጋ ዝርዝር ተልኳል",
+        "closed": "ተዘግቷል"
+      },
+      "statuses": {
+        "NEW": "አዲስ ጥያቄ",
+        "UNDER_REVIEW": "በመገምገም ላይ",
+        "QUOTATION_SENT": "የዋጋ ዝርዝር ተልኳል",
+        "CLOSED": "ተዘግቷል"
+      },
+      "filters": {
+        "rfq_placeholder": "የRFQ ቁጥር ይፈልጉ...",
+        "customer_placeholder": "ደንበኛ ይፈልጉ...",
+        "from_date": "ከቀን",
+        "to_date": "እስከ ቀን",
+        "clear": "ማጣሪያዎችን አጽዳ"
+      },
+      "table": {
+        "rfq_no": "የRFQ ቁጥር",
+        "customer": "ደንበኛ",
+        "company": "ኩባንያ",
+        "status": "ሁኔታ",
+        "items": "ምርቶች",
+        "submitted": "የገባበት ቀን",
+        "actions": "ድርጊቶች"
+      }
+    },
+    "dashboard": {
+      "title": "የክንዋኔዎች ዳሽቦርድ",
+      "subtitle": "የፋርማሲ ግዥ ጥያቄዎች እና የሎጂስቲክስ ሁኔታ የእውነተኛ ጊዜ አጠቃላይ እይታ።",
+      "volume": "የRFQ መጠን",
+      "volume_desc": "ያለፉት 7 ቀናት",
+      "distribution": "የሁኔታ ስርጭት",
+      "cat_breakdown": "ምርቶች በምድብ",
+      "cat_desc": "{{count}} ገባሪ ምርቶች",
+      "recent_title": "የቅርብ ጊዜ RFQs",
+      "view_all": "ሁሉንም ተመልከት",
+      "empty_rfqs": "ገና ምንም RFQ የለም",
+      "empty_products": "ገና ምንም ምርቶች የሉም",
+      "funnel": {
+        "title": "የልወጣ መስመር (Funnel)",
+        "submitted": "የገባው",
+        "under_review": "በግምገማ ላይ",
+        "quoted": "የዋጋ ጥያቄ የተሰጠ",
+        "closed": "ተዘግቷል"
+      },
+      "quick_actions": {
+        "title": "ፈጣን እርምጃዎች",
+        "all_rfqs": "ሁሉም RFQs",
+        "products": "ምርቶች",
+        "content": "ይዘት"
+      },
+      "health": {
+        "title": "የፕላትፎርም ጤና",
+        "database": "ዳታቤዝ",
+        "api": "API",
+        "email": "ኢሜይል",
+        "online": "ኦንላይን",
+        "running": "በመስራት ላይ",
+        "dev_mode": "በልማት ሁነታ"
+      },
+      "stats": {
+        "total": "ጠቅላላ RFQs",
+        "new": "አዲስ",
+        "review": "በግምገማ ላይ",
+        "sent": "የዋጋ ጥያቄ ተልኳል",
+        "closed": "ተዘግቷል",
+        "products": "ምርቶች",
+        "testimonials": "ምስክርነቶች"
+      }
+    },
+    "layout": {
+      "portal_header": "የአስተዳዳሪ ፖርታል",
+      "view_website": "ድህረ ገጹን ተመልከት",
+      "sign_out": "ውጣ",
+      "admin_dashboard_link": "የአስተዳዳሪ ዳሽቦርድ",
+      "nav": {
+        "dashboard": "ዳሽቦርድ",
+        "rfqs": "የሎጂስቲክስ አስተዳደር",
+        "products": "የንብረት ዝርዝር አስተዳደር",
+        "content": "ይዘት"
+      }
+    },
+    "products": {
+      "title": "ምርቶች",
+      "subtitle": "የፋርማሲ ምርቶች ካታሎግዎን ያስተዳድሩ።",
+      "search_placeholder": "በስም፣ በብራንድ፣ በጄኔሪክ ይፈልጉ...",
+      "all_categories": "ሁሉም ምድቦች",
+      "add_product": "ምርት አክል",
+      "edit_product": "ምርት ያርትዑ",
+      "new_product": "አዲስ ምርት አክል",
+      "stats": {
+        "items": "ምርቶች",
+        "active": "ንቁ",
+        "featured": "ተለይተው የቀረቡ"
+      },
+      "inactive": "በስራ ላይ ያልሆነ",
+      "empty": {
+        "title": "ምንም ምርት አልተገኘም",
+        "action": "የመጀመሪያዎን ምርት ያክሉ"
+      },
+      "form": {
+        "name": "የምርት ስም *",
+        "generic": "ጄኔሪክ ስም",
+        "brand": "ብራንድ",
+        "category": "ምድብ *",
+        "package": "የጥቅል መጠን",
+        "image": "የምስል URL",
+        "description": "መግለጫ",
+        "active": "ንቁ",
+        "featured": "በመነሻ ገጽ ላይ ይታይ",
+        "saving": "በማስቀመጥ ላይ...",
+        "save": "ለውጦችን አስቀምጥ",
+        "placeholder_name": "ለምሳሌ፦ Amoxicillin 500mg",
+        "placeholder_generic": "ለምሳሌ፦ Amoxicillin Trihydrate",
+        "placeholder_brand": "ለምሳሌ፦ GlaxoSmithKline",
+        "placeholder_package": "ለምሳሌ፦ Box of 100 Capsules",
+        "placeholder_desc": "አጭር የምርት መግለጫ..."
+      },
+      "delete": {
+        "title": "ምርቱን ያሰናክሉ?",
+        "desc": "\"{{name}}\" ከካታሎግ ውስጥ ይደበቃል። ይህንን ምርቱን በማርትዕ መቀየር ይቻላል።",
+        "confirm": "አሰናክል",
+        "deactivating": "በማስወገድ ላይ..."
+      }
+    },
+    "content": {
+      "title": "የይዘት አስተዳደር",
+      "subtitle": "ሁሉም ለውጦች በመረጃ ቋቱ (database) ውስጥ ተቀምጠው ወዲያውኑ በድረ-ገጹ ላይ በቀጥታ ይታያሉ።",
+      "editing_badge": "በማርትዕ ላይ፡ {{label}} — በ{{page}} ላይ ይታያል።",
+      "save_guide": "ለውጦቹን በድረ-ገጹ ላይ ተግባራዊ ለማድረግ \"በመረጃ ቋት ውስጥ አስቀምጥ\" የሚለውን ይጫኑ።",
+      "save_to_db": "በመረጃ ቋት ውስጥ አስቀምጥ",
+      "saving": "በማስቀመጥ ላይ...",
+      "saved": "ተቀምጧል",
+      "live_alert": "ለውጦች አሁን በድረ-ገጹ ላይ በቀጥታ እየታዩ ነው",
+      "error_alert": "ማስቀመጥ አልተቻለም — የኋለኛ ክፍል (backend) ግንኙነትን ያረጋግጡ",
+      "tabs": {
+        "testimonials": "ምስክርነቶች",
+        "hero": "የመነሻ ምስሎች",
+        "company": "የኩባንያ መረጃ",
+        "why": "ለምን እኛን ይመርጣሉ",
+        "team": "ቡድን",
+        "timeline": "የኩባንያ ታሪክ",
+        "faq": "ተዘውትረው የሚጠየቁ ጥያቄዎች",
+        "contact": "የእውቂያ መረጃ",
+        "services": "አገልግሎቶች",
+        "categories": "ምድቦች"
+      },
+      "sections": {
+        "testimonials": {
+          "title": "ምስክርነቶች",
+          "subtitle": "በመነሻ እና ስለ እኛ ገጾች ላይ የሚታይ — ለውጦች ወዲያውኑ ተግባራዊ ይሆናሉ",
+          "add_new": "አዲስ ያክሉ",
+          "customer_name": "የደንበኛ ስም *",
+          "company_role": "ኩባንያ / ሚና",
+          "comment": "አስተያየት *",
+          "add_btn": "ምስክርነት አክል",
+          "adding": "በማከል ላይ..."
+        },
+        "hero": {
+          "title": "የመነሻ ተንቀሳቃሽ ምስሎች",
+          "subtitle": "በመነሻ ገጽ ላይ የሚሽከረከሩ 4 ምስሎች — በመረጃ ቋት ውስጥ የተቀመጡ",
+          "slide_count": "ምስል {{n}}"
+        },
+        "company": {
+          "title": "የኩባንያ መረጃ",
+          "subtitle": "በመነሻ፣ ስለ እኛ፣ እውቂያ እና አገልግሎቶች ገጾች ላይ ጥቅም ላይ የሚውል",
+          "brand_identity": "ብራንድ እና ማንነት",
+          "contact_details": "የእውቂያ ዝርዝሮች",
+          "stats": "የመነሻ ገጽ ስታቲስቲክስ",
+          "mission_vision": "ስለ እኛ ገጽ — ተልዕኮ እና ራዕይ"
+        },
+        "faq": {
+          "add_btn": "ጥያቄ አክል"
+        }
+      }
+    },
+    "chat": {
+      "title": "PharmaLink ድጋፍ",
+      "agent": "Emily",
+      "active": "Emily አሁን መስመር ላይ ናት",
+      "greeting": "ሰላም! እኔ ኤሚሊ ከPharmaLink ድጋፍ ነኝ። ዛሬ እንዴት ልረዳዎ እችላለሁ?",
+      "guest": "እንግዳ",
+      "today": "ዛሬ",
+      "placeholder": "መልዕክት ይላኩ..."
+    },
+    "details": {
+      "back": "ወደ RFQs ይመለሱ",
+      "reference": "የRFQ ማጣቀሻ",
+      "products_title": "ተፈላጊ ምርቶች",
+      "quoted_items": "ምርቶች",
+      "unit_price": "የአንዱ ዋጋ",
+      "grand_total": "አጠቃላይ ድምር",
+      "quote_notes_title": "የዋጋ ዝርዝር ማስታወሻዎች",
+      "quote_notes_placeholder": "ለደንበኛው በሚላከው የዋጋ ዝርዝር PDF ላይ የሚካተቱ ማስታወሻዎችን እዚህ ያክሉ...",
+      "internal_notes_title": "የውስጥ ማስታወሻዎች",
+      "internal_notes_placeholder": "ለትእዛዝ አፈፃፀም ቡድኑ የግል ማስታወሻዎችን እዚህ ያክሉ...",
+      "special_instructions": "ልዩ መመሪያዎች",
+      "documents_title": "የገቡ ሰነዶች",
+      "documents_count": "ፋይል",
+      "documents_count_plural": "ፋይሎች",
+      "no_documents": "ከዚህ RFQ ጋር የተያያዘ ሰነድ የለም።",
+      "customer": {
+        "title": "ደንበኛ",
+        "name": "ስም",
+        "company": "ኩባንያ",
+        "business": "የንግድ ዓይነት",
+        "email": "ኢሜይል",
+        "phone": "ስልክ",
+        "location": "አድራሻ"
+      },
+      "delivery_by": "ታላሚ ማድረሻ",
+      "shipping": "የማጓጓዣ ዘዴ",
+      "change_status": "ሁኔታውን ቀይር",
+      "save_notes": "ማስታወሻዎችን አስቀምጥ",
+      "saving": "በማስቀመጥ ላይ...",
+      "saved": "ተቀምጧል",
+      "export_pdf": "PDF ላክ",
+      "send_quotation": "የዋጋ ዝርዝር ላክ",
+      "sending": "በመላክ ላይ...",
+      "sent": "ተልኳል",
+      "sent_success": "የዋጋ ዝርዝር ኢሜይል በተሳካ ሁኔታ ወደ {{email}} ተልኳል",
+      "price_error": "እባክዎ የዋጋ ዝርዝር ከመላክዎ በፊት ለሁሉም ምርቶች የአንዱን ዋጋ ይሙሉ"
+    }
+  },
+  "track_rfq": {
+    "title": "የእርስዎን RFQ ይከታተሉ",
+    "subtitle": "የዋጋ ጥያቄዎን ወቅታዊ ሁኔታ ለማረጋገጥ የRFQ ማጣቀሻ ቁጥርዎን ያስገቡ።",
+    "placeholder": "ምሳሌ፡ RFQ-2026-0001",
+    "button": "ተከታተል",
+    "not_found": "RFQ አልተገኘም",
+    "not_found_desc": "በቁጥር {{rfqNumber}} የተመዘገበ RFQ አልተገኘም። እባክዎ ቁጥሩን አረጋግጠው እንደገና ይሞክሩ።",
+    "reference": "የRFQ ማጣቀሻ",
+    "submitted_on": "የገባው በ፡ {{date}}",
+    "timeline": "የሁኔታ የጊዜ መስመር",
+    "current_status": "የአሁኑ",
+    "est_response": "የሚገመት የምላሽ ጊዜ",
+    "est_desc": "ቡድናችን ብዙውን ጊዜ በስራ ቀናት (ከሰኞ-አርብ፣ ከ3-12 ሰዓት) ውስጥ ከ4-24 ሰዓታት ባለው ጊዜ ውስጥ ምላሽ ይሰጣል።",
+    "track_another": "ሌላ RFQ ይከታተሉ",
+    "submit_new": "አዲስ RFQ ያስገቡ",
+    "help_text": "የእርስዎ የRFQ ቁጥር ካስገቡ በኋላ ወደ ኢሜይልዎ ተልኳል። እንደ RFQ-2026-0001 ያለ ነው።",
+    "steps": [
+      { "title": "ደረጃ 1", "desc": "RFQ በቡድናችን ደርሷል" },
+      { "title": "ደረጃ 2", "desc": "በባለሙያዎች በመገምገም ላይ" },
+      { "title": "ደረጃ 3", "desc": "የዋጋ ዝርዝር ወደ ኢሜይልዎ ተልኳል" }
+    ]
+  },
+  "rfq_success": {
+    "title": "RFQ በተሳካ ሁኔታ ገብቷል!",
+    "subtitle": "የዋጋ ጥያቄዎ ደርሶናል። የግዥ ቡድናችን ይገመግመዋል እና ከ4-24 ሰዓታት ውስጥ ምላሽ ይሰጣል።",
+    "ref_label": "የእርስዎ RFQ ማጣቀሻ ቁጥር",
+    "ref_desc": "የጥያቄዎን ሁኔታ ለመከታተል ይህንን ቁጥር ያስቀምጡ።",
+    "next_steps_title": "ቀጥሎ ምን ይከሰታል?",
+    "next_steps": [
+      { "title": "የማረጋገጫ ኢሜይል ተልኳል", "desc": "የRFQ ዝርዝሮችን የያዘ የማረጋገጫ ኢሜይል ወደ ኢሜይል አድራሻዎ ተልኳል።" },
+      { "title": "የቡድን ግምገማ", "desc": "የግዥ ባለሙያዎቻችን ጥያቄዎን ይገመግማሉ እና የምርቱን መገኘት ያረጋግጣሉ።" },
+      { "title": "መደበኛ የዋጋ ዝርዝር", "desc": "ዋጋን እና የአቅርቦት ሁኔታዎችን የያዘ መደበኛ የዋጋ ዝርዝር ከ4-24 ሰዓታት ውስጥ ይደርሰዎታል።" },
+      { "title": "የትዕዛዝ ማረጋገጫ", "desc": "በትዕዛዝዎ ለመቀጠል የዋጋ ዝርዝሩን ይገምግሙ እና ያጽድቁ።" }
+    ],
+    "status": "ሁኔታ",
+    "download": "የRFQ ቅጂ ያውርዱ",
+    "track": "ይህንን RFQ ይከታተሉ",
+    "history": "የRFQ ታሪክን ተመልከት",
+    "questions": "ጥያቄዎች አሉዎት? እዚህ ያግኙን："
+  },
+  "customer": {
+    "dashboard": {
+      "welcome": "እንኳን ደህና መጡ፣ {{name}}",
+      "tagline": "የመድኃኒት ግዥዎን በክሊኒካዊ ትክክለኛነት ማስተዳደር።",
+      "stats": {
+        "pending": "በሂደት ላይ ያሉ RFQs",
+        "quoted": "የደረሱ የዋጋ ዝርዝሮች",
+        "total": "አጠቃላይ RFQs",
+        "active_badge": "ንቁ"
+      },
+      "history_title": "የRFQ ታሪክ",
+      "no_rfqs": "እስካሁን ምንም RFQ የለም።",
+      "submit_first": "የመጀመሪያዎን RFQ ያስገቡ",
+      "new_rfq": "አዲስ RFQ",
+      "nav": {
+        "menu": "ምናሌ",
+        "dashboard": "ዳሽቦርድ",
+        "new_rfq": "አዲስ RFQ",
+        "catalog": "የምርት ካታሎግ",
+        "compare": "አወዳድር",
+        "sign_out": "ውጣ"
+      },
+      "mobile_nav": {
+        "home": "መነሻ",
+        "rfq": "RFQ",
+        "products": "ምርቶች",
+        "compare": "አወዳድር"
+      }
+    },
+    "details": {
+      "title": "የRFQ ዝርዝሮች",
+      "back": "ወደ ዳሽቦርድ ይመለሱ",
+      "download": "PDF አውርድ",
+      "summary": {
+        "submitted": "የገባው",
+        "products": "ምርቶች",
+        "delivery": "ታላሚ ማድረሻ",
+        "shipping": "ማጓጓዣ"
+      },
+      "products_title": "ተፈላጊ ምርቶች",
+      "instructions": "ልዩ መመሪያዎች",
+      "documents": "የተጫኑ ሰነዶች",
+      "quota_ready": "የዋጋ ዝርዝር ዝግጁ ነው",
+      "quota_ready_desc": "መደበኛ የዋጋ ዝርዝር ወደ ኢሜይልዎ ተልኳል። ዋጋዎችን እና ደንቦችን ለመገምገም ከላይ ያለውን PDF ያውርዱ።"
+    }
+  },
+  "footer": {
+    "tagline": "ለዓለም አቀፍ የጤና ተቋማት የሚታመን የፋርማሲ ጅምላ እና የማስመጣት መፍትሄዎች።",
+    "navigation": "ዳሰሳ",
+    "services": "አገልግሎቶች",
+    "legal": "ህጋዊ",
+    "rfq_generator": "RFQ ጀነሬተር",
+    "comparison": "ምርት ማወዳደሪያ",
+    "create_account": "መለያ ፍጠር",
+    "rights": "መብቱ በህግ የተጠበቀ ነው።",
+    "terms": "የሽያጭ ውሎች",
+    "privacy": "የግላዊነት ፖሊሲ"
+  },
+  "home": {
+    "about_title": "በጤና እንክብካቤ አቅርቦት ሰንሰለት ውስጥ አስፈላጊ ድልድይ",
+    "about_p1": "PharmaLink Pro በሕክምና አስፈላጊነት እና በሎጂስቲክስ ትክክለኛነት መገናኛ ላይ ይሰራል። እንደ ፈቃድ ያለው ዓለም አቀፍ የጅምላ አከፋፋይ፣ የዓለም አቀፍ የመድኃኒት ግዥ ውስብስብ ነገሮችን እናስወግዳለን።",
+    "mission_title": "ተልዕኳችን",
+    "mission_text": "ለመላው ዓለም ጤና ተቋማት የመድኃኒት ግዥ ግልጽ፣ ቀልጣፋ እና ተደራሽ እንዲሆን ማድረግ።",
+    "vision_title": "ራዕያችን",
+    "vision_text": "በአቅርቦት ሰንሰለት ውድቀት ወይም በግዥ ድክመት ምክንያት ምንም ዓይነት ታካሚ ያለ መድኃኒት የማይቀርበት ዓለም ማየት።",
+    "featured": {
+      "title": "ተለይተው የቀረቡ ምርቶች"
+    },
+    "featured_title": "ተለይተው የቀረቡ ምርቶች",
+    "testimonials_title": "በጤና እንክብካቤ መሪዎች የታመነ",
+    "contact_title": "የአቅርቦት ሰንሰለትዎን እናረጋግጥ",
+    "contact_subtitle": "የግዥ ባለሙያዎቻችን ለጅምላ ትዕዛዞች፣ ለመደበኛ አቅርቦቶች ወይም ለልዩ የሕክምና መሣሪያዎች አስመጪዎች እርስዎን ለመርዳት ዝግጁ ናቸው።",
+    "form": {
+      "title": "ፈጣን መልዕክት ይላኩ",
+      "first_name": "ስም",
+      "last_name": "የአያት ስም",
+      "email": "ኢሜይል",
+      "message": "መልዕክት",
+      "send": "መልዕክት ይላኩ"
+    },
+    "categories_title": "ልዩ ምድቦች",
+    "categories_subtitle": "ለእያንዳንዱ የሕክምና ክፍል የተሳለጠ ግዥ።",
+    "view_all_categories": "ሁሉንም ምድቦች ያስሱ",
+    "licensed_title": "ሙሉ በሙሉ ፈቃድ ያለው",
+    "licensed_sub": "ዓለም አቀፍ የወጪ ንግድ ፈቃዶች",
+    "cold_chain_title": "ቀዝቃዛ ሰንሰለት",
+    "cold_chain_sub": "በሙቀት ቁጥጥር ስር ያለ"
+  },
+  "about": {
+    "badge": "የእኛ ታሪክ",
+    "title": "በጤና አጠባበቅ አቅርቦት ሰንሰለት ውስጥ አስፈላጊ ድልድይ",
+    "subtitle": "ከ2009 ጀምሮ ፋርማሊንክ በዓለም ዙሪያ ያሉ የሕክምና ተቋማትን በትክክል ከተገኙ ፋርማሲዩቲካልስ፣ የቀዶ ጥገና አቅርቦቶች እና የላቦራቶሪ መሣሪያዎች ጋር አገናኝቷል።",
+    "cta_rfq": "የዋጋ ጥያቄ",
+    "cta_products": "ምርቶችን ይመልከቱ",
+    "years_exp": "የልምድ ዓመታት",
+    "countries": "የሚገለገሉ አገሮች",
+    "products_catalog": "በካታሎግ ውስጥ ያሉ ምርቶች",
+    "accuracy_rate": "የትዕዛዝ ትክክለኛነት መጠን",
+    "mission_vision_title": "በትክክል የተገኘ። ደንቦችን የጠበቀ። በዓለም ዙሪያ የቀረበ።",
+    "mission_vision_p1": "ፋርማሊንክ ፕሮ በሕክምና አስፈላጊነት እና በሎጂስቲክስ ትክክለኛነት መስቀለኛ መንገድ ላይ ይሠራል። እንደ ፈቃድ ያለው ዓለም አቀፍ ጅምላ ሻጭ፣ ዓለም አቀፍ የፋርማሲ ግዥ ውስብስብ ነገሮችን እናስወግዳለን።",
+    "mission_vision_p2": "ለደንቦችን ተገዥነት ያለን ቁርጠኝነት በካታሎጋችን ውስጥ ያለው እያንዳንዱ ምርት WHO፣ FDA እና EMA መመሪያዎችን ጨምሮ ጥብቅ ዓለም አቀፍ ደረጃዎችን ማሟላቱን ያረጋግጣል። ከምንጩ እስከ ማድረሻ የክሊኒካዊ ታማኝነትን እናስቀድማለን።",
+    "fully_licensed": "ሙሉ በሙሉ ፈቃድ ያለው",
+    "fully_licensed_sub": "ዓለም አቀፍ የወጪ ንግድ ፈቃዶች",
+    "cold_chain": "ቀዝቃዛ ሰንሰለት",
+    "cold_chain_sub": "በሙቀት ቁጥጥር ስር ያለ",
+    "values_title": "የእኛ ዋና እሴቶች",
+    "values_subtitle": "እያንዳንዱን ውሳኔ የሚመሩ መርሆዎች።",
+    "timeline_title": "የ15 ዓመታት ዕድገይ",
+    "timeline_subtitle": "ዓለም አቀፍ የፋርማሲ መሪ ለመሆን ባደረግነው ጉዞ ውስጥ ዋና ዋና ክስተቶች።",
+    "team_title": "የአመራር ቡድን",
+    "team_subtitle": "ከፋርማሊንክ ዓለም አቀፍ ድርጊቶች በስተጀርባ ያሉት ሰዎች።",
+    "cert_title": "የብቃት ማረጋገጫዎች",
+    "cert_subtitle": "የምናሰራጨው እያንዳንዱ ምርት በዓለም አቀፍ ደረጃ በሚታወቁ የምስክር ወረቀቶች እና ጥብቅ የጥራት ቁጥጥሮች የተደገፈ ነው።",
+    "trusted_title": "በጤና አጠባበቅ መሪዎች የታመነ",
+    "partner_title": "ከፋርማሊንክ ጋር ለመሥራት ዝግጁ ነዎት?",
+    "partner_subtitle": "ለፋርማሲ ግዥ ፍላጎቶቻቸው ፋርማሊንክን የሚያምኑ በሺዎች የሚቆጠሩ የጤና ተቋማትን ይቀላቀሉ።",
+    "partner_cta_contact": "ያግኙን",
+    "values": {
+      "compliance": { "title": "የደንብ ተገዥነት", "desc": "ዓለም አቀፍ የፋርማሲዩቲካል ደረጃዎችን እና የደህንነት ደንቦችን በጥብቅ መከተል።" },
+      "cold_chain": { "title": "የቀዝቃዛ ሰንሰለት ታማኝነት", "desc": "ለስሜታዊ የሕክምና ምርቶች የላቀ የሙቀት መጠን ቁጥጥር የሚደረግበት ሎጂስቲክስ።" },
+      "partnerships": { "title": "ዓለም አቀፍ ሽርክናዎች", "desc": "አስተማማኝ አቅርቦትን ለማረጋገጥ ከዋና ዋና አምራቾች ጋር ጠንካራ ግንኙነት።" },
+      "efficiency": { "title": "የሥራ ብቃት", "desc": "የተሳለጠ የግዥ ሂደቶች እና ፈጣን ዓለም አቀፍ ስርጭት።" }
+    },
+    "team": {
+      "ceo": { "role": "ዋና ሥራ አስፈፃሚ እና መስራች", "bio": "ከ20 ዓመታት በላይ የጤና አጠባበቅ ሎጂስቲክስ ልምድ ያለው።" },
+      "regulatory": { "name": "ዶ/ር አማራ ኦኮሮ", "role": "የቁጥጥር ዳይሬክተር", "bio": "ሁሉም አስመጪዎች ዓለም አቀፍ የፋርማኮፒያ ደረጃዎችን ማሟላታቸውን ማረጋገጥ።" },
+      "qa": { "name": "ጄምስ ቼን", "role": "የጥራት ኃላፊ", "bio": "ለሁሉም የሕክምና አቅርቦቶች ጥብቅ የፍተሻ ደንቦችን መቆጣጠር።" },
+      "logistics": { "name": "ሳራ ዊሊያምስ", "role": "የሎጂስቲክስ ሥራ አስኪያጅ", "bio": "በዓለም አቀፍ ቀዝቃዛ ሰንሰለት እና በፋርማሲዩቲካል አቅርቦት ላይ ባለሙያ።" }
+    },
+    "certifications": {
+      "who_gmp": { "label": "WHO GMP", "sub": "ጥሩ የማምረቻ ልምምድ" },
+      "fda": { "label": "FDA Approved", "sub": "የዩኤስ የምግብ እና የመድኃኒት አስተዳደር" },
+      "ema": { "label": "EMA Certified", "sub": "የአውሮፓ የመድኃኒት ኤጀንሲ" },
+      "iso": { "label": "ISO 9001:2015", "sub": "የጥራት አስተዳደር" },
+      "iata": { "label": "IATA CEIV", "sub": "የፋርማሲ አየር ሎጂስቲክስ" },
+      "gdp": { "label": "Good Dist. Practice", "sub": "ማከማቻ እና መጓጓዣ" }
+    },
+    "timeline": {
+      "2009": { "title": "በአዲስ አበባ ተመሠረተ", "desc": "ፋርማሊንክ በአገር በቀል የፋርማሲዩቲካል ክፍተቶች ላይ ትኩረት በማድረግ ተቋቋመ።" },
+      "2012": { "title": "የክልል መስፋፋት", "desc": "በምስራቅ አፍሪካ የጤና አጠባበቅ ገበያዎች ውስጥ ድንበር ተሻጋሪ ስራዎችን ጀመረ።" },
+      "2015": { "title": "የማስመጣት ፈቃድ ምዕራፍ", "desc": "ለልዩ መድሃኒቶች ዋና ዓለም አቀፍ የማስመጣት ፈቃዶችን አግኝቷል።" },
+      "2018": { "title": "ዲጂታል ትራንስፎርሜሽን", "desc": "ለሕክምና ተቋማት ኢንዱስትሪ መሪ የሆነውን የRFQ ፖርታልን ጀመረ።" },
+      "2021": { "title": "ዓለም አቀፍ የቀዝቃዛ ሰንሰለት ማዕከል", "desc": "ዘመናዊ የሙቀት መጠን ቁጥጥር የሚደረግበት የሎጂስቲክስ ማዕከላችንን ከፈተ።" },
+      "2024": { "title": "ቀጣዩ ትውልድ ጤና አጠባበቅ", "desc": "ወደ ግላዊ ሕክምና እና የላቀ የቀዶ ጥገና ሮቦቲክስ መስፋፋት።" }
+    }
+  },
+  "services_page": {
+    "badge": "የምናቀርባቸው አገልግሎቶች",
+    "title": "ከዳር እስከ ዳር የፋርማሲ አቅርቦት አገልግሎቶች",
+    "subtitle": "ከጅምላ አቅርቦት እና ከዓለም አቀፍ ማስመጣት እስከ ቀዝቃዛ ሰንሰለት ሎጂስቲክስ እና የቁጥጥር ድጋፍ - የፋርማሲ ግዥ ጉዞ እያንዳንዱን ደረጃ እንሸፍናለን።",
+    "list_title": "በአንድ አጋር ውስጥ የሚፈልጉትን ሁሉ",
+    "process_title": "አገልግሎታችን እንዴት እንደሚሰራ",
+    "process_subtitle": "ቀላል ሂደት",
+    "cta_title": "ለመጀመር ዝግጁ ነዎት?",
+    "cta_subtitle": "ዛሬ የመጀመሪያ RFQ ያስገቡ እና በ24 ሰዓት ውስጥ ከግዥ ስፔሻሊስቶቻችን ተወዳዳሪ ዋጋ ያግኙ።",
+    "cta_btn": "RFQ አሁን ያስገቡ",
+    "cta_contact": "ያግኙን",
+    "list": {
+      "wholesale": {
+        "title": "የፋርማሲ ጅምላ አቅርቦት",
+        "desc": "ጥራት ያላቸው የፋርማሲ ምርቶችን ለፋርማሲዎች፣ ሆስፒታሎች፣ ክሊኒኮች እና አከፋፋዮች በተወዳዳሪ የጅምላ ዋጋ እናቀርባለን።",
+        "f1": "የጅምላ ቅናሾች", "f2": "ተለዋዋጭ MOQ", "f3": "የወሰነ የደንበኛ ስራ አስኪያጅ", "f4": "ለክምችት ቅድሚያ መስጠት"
+      },
+      "import": {
+        "title": "ዓለም አቀፍ ማስመጣት እና ኤክስፖርት",
+        "desc": "ዓለም አቀፍ የግዥ አቅም ያለን ፈቃድ ያለው አስመጪ ነን። ሁሉንም የቁጥጥር ሰነዶች፣ የጉምሩክ ክሊራንስ እና ዓለም አቀፍ ጭነት እንይዛለን።",
+        "f1": "WHO-GMP የተረጋገጡ ምንጮች", "f2": "ሙሉ የጉምሩክ ክሊራንስ", "f3": "የማስመጣት/ኤክስፖርት ፈቃድ", "f4": "ከበርካታ አገሮች ግዥ"
+      },
+      "cold_chain": {
+        "title": "የቀዝቃዛ ሰንሰለት (Cold Chain) ሎጂስቲክስ",
+        "desc": "ለክትባቶች እና ለሙቀት ስሱ መድኃኒቶች ልዩ የሙቀት ቁጥጥር ያለው ማከማቻ እና ስርጭት። በአዮቲ (IoT) የሚከታተል አቅርቦት ሰንሰለት።",
+        "f1": "ከ2–8°C ተገዢነት", "f2": "በአዮቲ የሙቀት ክትትል", "f3": "የተረጋገጡ ቀዝቃዛ ክፍሎች", "f4": "የእውነተኛ ጊዜ ክትትል"
+      },
+      "rfq": {
+        "title": "የRFQ እና የዋጋ ዝርዝር አስተዳደር",
+        "desc": "የእኛ ዲጂታል የRFQ ፕላትፎርም የጤና ተቋማት ለበርካታ ምርቶች በአንድ ጊዜ የዋጋ ጥያቄ እንዲያቀርቡ ያስችላቸዋል። በ4-24 ሰዓታት ውስጥ መደበኛ የዋጋ ዝርዝር ያግኙ።",
+        "f1": "የባለብዙ ምርት RFQ", "f2": "ዲጂታል የዋጋ ዝርዝር አቅርቦት", "f3": "ከ4-24ሰ የምላሽ ጊዜ", "f4": "PDF የዋጋ ዝርዝር ማውረድ"
+      },
+      "regulatory": {
+        "title": "የቁጥጥር እና የተገዢነት ድጋፍ",
+        "desc": "የእኛ የቁጥጥር ጉዳዮች ቡድን ለምርት ምዝገባ፣ ለማስመጣት ፈቃድ እና ለተገዢነት ሰነዶች ደንበኞችን ይረዳል።",
+        "f1": "የምርት ምዝገባ ድጋፍ", "f2": "የማስመጣት ፈቃድ እገዛ", "f3": "WHO/FDA/EMA ተገዢነት", "f4": "የምርመራ የምስክር ወረቀት (CoA)"
+      },
+      "support": {
+        "title": "ከሽያጭ በኋላ እና ቴክኒካዊ ድጋፍ",
+        "desc": "ለትዕዛዝ ክትትል፣ ለምርት ጥያቄዎች እና ለሰነድ ፍላጎቶች ዝግጁ የሆነ የደንበኛ ድጋፍ ቡድን። ከሰኞ-አርብ፣ ከጥዋቱ 3-12 ሰዓት (GMT) ይገኛል።",
+        "f1": "የወሰነ የደንበኛ ስራ አስኪያጅ", "f2": "የትዕዛዝ መከታተያ ፖርታል", "f3": "የሰነድ ጥያቄዎች", "f4": "የቴክኒክ ምርት ጥያቄዎች"
+      }
+    },
+    "process_steps": [
+      { "title": "RFQ ያስገቡ", "desc": "ምርቶችን፣ መጠኖችን እና የማድረሻ ፍላጎቶችን ለመለየት የእኛን ዲጂታል RFQ ይጠቀሙ።" },
+      { "title": "የዋጋ ዝርዝር ግምገማ", "desc": "ቡድናችን ጥያቄዎን ይገመግማል እና በ 4-24 ሰዓታት ውስጥ ተወዳዳሪ መደበኛ የዋጋ ዝርዝር ያዘጋጃል።" },
+      { "title": "ትዕዛዝ ማረጋገጫ", "desc": "የዋጋ ዝርዝሩን ያጽድቁ እና ትዕዛዝዎን ያረጋግጡ። ሁሉንም ግዥ እና ሎጂስቲክስ እንይዛለን።" },
+      { "title": "ማድረስ እና ሰነዶች", "desc": "ትዕዛዝዎን ከሙሉ የቁጥጥር ሰነዶች፣ CoA እና የማድረሻ ማረጋገጫ ጋር ይቀበሉ።" }
+    ]
+  },
+  "categories_page": {
+    "badge": "የምርት ካታሎግ",
+    "title": "ለእያንዳንዱ የሕክምና ክፍል ልዩ ምድቦች",
+    "subtitle": "በሐኪም ትእዛዝ ከሚሰጡ መድኃኒቶች እስከ ላቦራቶሪ መሣሪያዎች - ለፋርማሲዎች፣ ሆስፒታሎች፣ ክሊኒኮች እና አከፋፋዮች የተሳለጠ ግዥ።",
+    "browse_all": "ሁሉንም ምርቶች ይመልከቱ",
+    "process_badge": "ቀላል ሂደት",
+    "process_title": "ከማንኛውም ምድብ እንዴት ማዘዝ እንደሚቻል",
+    "custom_title": "የሚፈልጉትን ማግኘት አልቻሉም?",
+    "custom_subtitle": "የግዥ ባለሙያዎቻችን ማንኛውንም የፋርማሲ ምርት በዓለም አቀፍ ደረጃ ሊያቀርቡ ይችላሉ። ብጁ RFQ ያስገቡ እና እንፈልግልዎታለን።",
+    "submit_custom": "ብጁ RFQ ያስገቡ"
+  },
+  "toast": {
+    "added": "RFQ ውስጥ ተጨምሯል"
+  }
+}

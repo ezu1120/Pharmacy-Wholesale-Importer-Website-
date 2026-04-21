@@ -21,13 +21,10 @@ export default function Login() {
   const mutation = useMutation({
     mutationFn: (data) => api.post('/auth/login', data).then((r) => r.data),
     onSuccess: (data) => {
+      // setAuth is now synchronous — state is committed before navigate() runs
       setAuth(data.user, data.accessToken)
-      // If came from RFQ page, go back there; otherwise go to portal/admin
-      if (redirect) {
-        navigate(redirect)
-      } else {
-        navigate(data.user.role === 'admin' ? '/admin' : '/portal')
-      }
+      const dest = redirect || (data.user.role === 'admin' ? '/admin' : '/portal')
+      navigate(dest, { replace: true })
     },
   })
 
@@ -63,6 +60,9 @@ export default function Login() {
         <p className="text-center text-sm text-on-surface-variant mt-6">
           Don't have an account?{' '}
           <Link to="/register" className="text-primary font-bold hover:underline">Register</Link>
+        </p>
+        <p className="text-center text-sm text-on-surface-variant mt-3">
+          <Link to="/forgot-password" className="text-primary hover:underline">Forgot password?</Link>
         </p>
       </div>
     </div>
