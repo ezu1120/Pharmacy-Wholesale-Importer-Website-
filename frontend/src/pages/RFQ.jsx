@@ -66,13 +66,25 @@ function Step1({ onNext }) {
   })
   const onSubmit = (data) => { setCustomerInfo(data); onNext(data) }
 
+  // Scroll to first error field when validation fails
+  const onError = (errs) => {
+    const firstKey = Object.keys(errs)[0]
+    if (firstKey) {
+      const el = document.querySelector(`[name="${firstKey}"]`)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        el.focus()
+      }
+    }
+  }
+
   return (
     <div className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm">
       <div className="mb-8">
         <h2 className="text-xl font-bold text-on-surface mb-2 font-headline">Primary Point of Contact</h2>
         <p className="text-sm text-on-surface-variant">Provide the administrative details for the purchasing entity.</p>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {[
             { name: 'fullName', label: 'Full Name', placeholder: 'e.g. Dr. Julian Pierce', type: 'text' },
@@ -83,15 +95,25 @@ function Step1({ onNext }) {
             { name: 'city', label: 'City', placeholder: 'e.g. New York', type: 'text' },
           ].map((f) => (
             <div key={f.name} className="space-y-2">
-              <label className="block text-xs font-bold text-outline uppercase tracking-widest ml-1">{f.label}</label>
-              <input {...register(f.name)} type={f.type} placeholder={f.placeholder} className="input-field" />
-              {errors[f.name] && <p className="text-xs text-error ml-1">{errors[f.name].message}</p>}
+              <label className="block text-xs font-bold text-outline uppercase tracking-widest ml-1">{f.label} <span className="text-error">*</span></label>
+              <input
+                {...register(f.name)}
+                type={f.type}
+                placeholder={f.placeholder}
+                className={`input-field ${errors[f.name] ? 'ring-2 ring-error border-error' : ''}`}
+              />
+              {errors[f.name] && (
+                <p className="text-xs text-error ml-1 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">error</span>
+                  {errors[f.name].message}
+                </p>
+              )}
             </div>
           ))}
           <div className="space-y-2">
-            <label className="block text-xs font-bold text-outline uppercase tracking-widest ml-1">Business Type</label>
+            <label className="block text-xs font-bold text-outline uppercase tracking-widest ml-1">Business Type <span className="text-error">*</span></label>
             <div className="relative">
-              <select {...register('businessType')} className="input-field appearance-none">
+              <select {...register('businessType')} className={`input-field appearance-none ${errors.businessType ? 'ring-2 ring-error border-error' : ''}`}>
                 <option value="">Select type...</option>
                 <option value="pharmacy">Retail Pharmacy Chain</option>
                 <option value="hospital">Public Hospital</option>
@@ -101,7 +123,12 @@ function Step1({ onNext }) {
               </select>
               <span className="material-symbols-outlined absolute right-4 top-3 text-on-surface-variant pointer-events-none">expand_more</span>
             </div>
-            {errors.businessType && <p className="text-xs text-error ml-1">{errors.businessType.message}</p>}
+            {errors.businessType && (
+              <p className="text-xs text-error ml-1 flex items-center gap-1">
+                <span className="material-symbols-outlined text-sm">error</span>
+                {errors.businessType.message}
+              </p>
+            )}
           </div>
         </div>
         <div className="bg-blue-50/50 p-4 rounded-xl flex items-start space-x-3 border border-blue-100/20">
@@ -124,6 +151,17 @@ function Step1({ onNext }) {
 function Step2({ onNext, onBack }) {
   const { selectedProducts, addProduct, updateProduct, removeProduct } = useRFQStore()
   const [search, setSearch] = useState('')
+  const [showError, setShowError] = useState(false)
+
+  const handleNext = () => {
+    if (selectedProducts.length === 0) {
+      setShowError(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    setShowError(false)
+    onNext()
+  }
 
   // Static fallback products — shown when backend is offline
   const STATIC_PRODUCTS = [
@@ -157,6 +195,13 @@ function Step2({ onNext, onBack }) {
 
   return (
     <div>
+      {/* Error banner */}
+      {showError && (
+        <div className="mb-6 p-4 bg-error-container text-on-error-container rounded-xl flex items-center gap-3 border border-error/20">
+          <span className="material-symbols-outlined text-error text-xl flex-shrink-0">error</span>
+          <p className="text-sm font-semibold">Please add at least one product to your RFQ before proceeding.</p>
+        </div>
+      )}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
         {/* Left: Search */}
         <div className="xl:col-span-5 flex flex-col gap-6">
@@ -310,9 +355,8 @@ function Step2({ onNext, onBack }) {
         <div className="flex items-center gap-4">
           <button className="hidden md:block px-6 py-3 rounded-xl text-on-surface-variant font-semibold hover:bg-surface-container-high transition-all">Save as Draft</button>
           <button
-            onClick={onNext}
-            disabled={selectedProducts.length === 0}
-            className="flex items-center gap-2 px-8 py-3 rounded-xl signature-gradient text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all disabled:opacity-50"
+            onClick={handleNext}
+            className="flex items-center gap-2 px-8 py-3 rounded-xl signature-gradient text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all"
           >
             Next Step <span className="material-symbols-outlined">arrow_forward</span>
           </button>
@@ -325,6 +369,27 @@ function Step2({ onNext, onBack }) {
 function Step3({ onNext, onBack }) {
   const { additionalInfo, setAdditionalInfo, selectedProducts, customerInfo } = useRFQStore()
   const [files, setFiles] = useState([])
+  const [errors, setErrors] = useState({})
+
+  const validate = () => {
+    const errs = {}
+    if (!additionalInfo.requestedDeliveryDate) errs.deliveryDate = 'Preferred delivery date is required'
+    if (!additionalInfo.shippingMethod)        errs.shippingMethod = 'Please select a shipping method'
+    return errs
+  }
+
+  const handleNext = () => {
+    const errs = validate()
+    setErrors(errs)
+    if (Object.keys(errs).length > 0) {
+      // Scroll to first error
+      const firstErrKey = Object.keys(errs)[0]
+      const el = document.getElementById(`step3-${firstErrKey}`)
+      if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.focus() }
+      return
+    }
+    onNext()
+  }
 
   const handleFileChange = (e) => {
     const selected = Array.from(e.target.files)
@@ -356,23 +421,45 @@ function Step3({ onNext, onBack }) {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-sm font-bold text-on-surface-variant ml-1">Preferred Delivery Date</label>
+              <label className="text-sm font-bold text-on-surface-variant ml-1">Preferred Delivery Date <span className="text-error">*</span></label>
               <div className="relative">
-                <input type="date" value={additionalInfo.requestedDeliveryDate} onChange={(e) => setAdditionalInfo({ requestedDeliveryDate: e.target.value })} className="input-field appearance-none" />
+                <input
+                  id="step3-deliveryDate"
+                  type="date"
+                  value={additionalInfo.requestedDeliveryDate}
+                  onChange={(e) => { setAdditionalInfo({ requestedDeliveryDate: e.target.value }); setErrors(p => ({ ...p, deliveryDate: '' })) }}
+                  className={`input-field appearance-none ${errors.deliveryDate ? 'ring-2 ring-error border-error' : ''}`}
+                />
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline pointer-events-none">calendar_today</span>
               </div>
+              {errors.deliveryDate && (
+                <p className="text-xs text-error ml-1 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">error</span>{errors.deliveryDate}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-bold text-on-surface-variant ml-1">Shipping Method</label>
+              <label className="text-sm font-bold text-on-surface-variant ml-1">Shipping Method <span className="text-error">*</span></label>
               <div className="relative">
-                <select value={additionalInfo.shippingMethod} onChange={(e) => setAdditionalInfo({ shippingMethod: e.target.value })} className="input-field appearance-none">
-                  <option value="">Standard (3-5 Business Days)</option>
+                <select
+                  id="step3-shippingMethod"
+                  value={additionalInfo.shippingMethod}
+                  onChange={(e) => { setAdditionalInfo({ shippingMethod: e.target.value }); setErrors(p => ({ ...p, shippingMethod: '' })) }}
+                  className={`input-field appearance-none ${errors.shippingMethod ? 'ring-2 ring-error border-error' : ''}`}
+                >
+                  <option value="">Select shipping method...</option>
+                  <option value="standard">Standard (3-5 Business Days)</option>
                   <option value="air">Express (Next Day)</option>
                   <option value="sea">Sea Freight</option>
                   <option value="land">Cold Chain (Temperature Regulated)</option>
                 </select>
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline pointer-events-none">expand_more</span>
               </div>
+              {errors.shippingMethod && (
+                <p className="text-xs text-error ml-1 flex items-center gap-1">
+                  <span className="material-symbols-outlined text-sm">error</span>{errors.shippingMethod}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -483,7 +570,7 @@ function Step3({ onNext, onBack }) {
         </button>
         <div className="flex items-center gap-4">
           <span className="hidden md:block text-xs font-bold text-outline">One step remaining</span>
-          <button onClick={onNext} className="px-10 py-3 rounded-xl signature-gradient text-white font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+          <button onClick={handleNext} className="px-10 py-3 rounded-xl signature-gradient text-white font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
             Next Step <span className="material-symbols-outlined text-lg">arrow_forward</span>
           </button>
         </div>
