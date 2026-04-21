@@ -77,13 +77,13 @@ function Step1({ onNext }) {
   }
 
   return (
-    <div className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm">
-      <div className="mb-8">
-        <h2 className="text-xl font-bold text-on-surface mb-2 font-headline">Primary Point of Contact</h2>
-        <p className="text-sm text-on-surface-variant">Provide the administrative details for the purchasing entity.</p>
+    <div className="bg-surface-container-lowest rounded-xl p-5 shadow-sm">
+      <div className="mb-3">
+        <h2 className="text-base font-bold text-on-surface font-headline">Primary Point of Contact</h2>
+        <p className="text-xs text-on-surface-variant">Provide the administrative details for the purchasing entity.</p>
       </div>
-      <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
             { name: 'fullName', label: 'Full Name', placeholder: 'e.g. Dr. Julian Pierce', type: 'text' },
             { name: 'companyName', label: 'Company Name', placeholder: 'e.g. Metro General Health', type: 'text' },
@@ -92,13 +92,13 @@ function Step1({ onNext }) {
             { name: 'country', label: 'Country', placeholder: 'e.g. United States', type: 'text' },
             { name: 'city', label: 'City', placeholder: 'e.g. New York', type: 'text' },
           ].map((f) => (
-            <div key={f.name} className="space-y-2">
+            <div key={f.name} className="space-y-1">
               <label className="block text-xs font-bold text-outline uppercase tracking-widest ml-1">{f.label} <span className="text-error">*</span></label>
               <input
                 {...register(f.name)}
                 type={f.type}
                 placeholder={f.placeholder}
-                className={`input-field ${errors[f.name] ? 'ring-2 ring-error border-error' : ''}`}
+                className={`input-field py-2 text-sm ${errors[f.name] ? 'ring-2 ring-error border-error' : ''}`}
               />
               {errors[f.name] && (
                 <p className="text-xs text-error ml-1 flex items-center gap-1">
@@ -108,10 +108,10 @@ function Step1({ onNext }) {
               )}
             </div>
           ))}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label className="block text-xs font-bold text-outline uppercase tracking-widest ml-1">Business Type <span className="text-error">*</span></label>
             <div className="relative">
-              <select {...register('businessType')} className={`input-field appearance-none ${errors.businessType ? 'ring-2 ring-error border-error' : ''}`}>
+              <select {...register('businessType')} className={`input-field py-2 text-sm appearance-none ${errors.businessType ? 'ring-2 ring-error border-error' : ''}`}>
                 <option value="">Select type...</option>
                 <option value="pharmacy">Retail Pharmacy Chain</option>
                 <option value="hospital">Public Hospital</option>
@@ -129,16 +129,16 @@ function Step1({ onNext }) {
             )}
           </div>
         </div>
-        <div className="bg-blue-50/50 p-4 rounded-xl flex items-start space-x-3 border border-blue-100/20">
-          <span className="material-symbols-outlined text-primary text-xl">info</span>
-          <p className="text-sm text-blue-900 leading-relaxed">
-            <span className="font-bold">Privacy Note:</span> Your data is protected under HIPAA compliance standards. Information provided here will only be used for order processing and official communications.
+        <div className="bg-blue-50/50 p-3 rounded-lg flex items-start space-x-2 border border-blue-100/20">
+          <span className="material-symbols-outlined text-primary text-base">info</span>
+          <p className="text-xs text-blue-900 leading-relaxed">
+            <span className="font-bold">Privacy Note:</span> Your data is protected and used only for order processing.
           </p>
         </div>
-        <div className="flex items-center justify-between">
-          <Link to="/" className="px-8 py-3 text-on-surface-variant font-bold hover:bg-surface-container-low rounded-xl transition-all">Cancel</Link>
-          <button type="submit" className="signature-gradient text-white font-bold px-10 py-3 rounded-xl shadow-lg flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
-            Next Step <span className="material-symbols-outlined">arrow_forward</span>
+        <div className="flex items-center justify-between pt-1">
+          <Link to="/" className="px-5 py-2 text-sm text-on-surface-variant font-bold hover:bg-surface-container-low rounded-lg transition-all">Cancel</Link>
+          <button type="submit" className="signature-gradient text-white font-bold px-8 py-2.5 rounded-lg shadow-md text-sm flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+            Next Step <span className="material-symbols-outlined text-base">arrow_forward</span>
           </button>
         </div>
       </form>
@@ -578,17 +578,15 @@ function Step3({ onNext, onBack }) {
 function Step4({ onBack, onSubmit, isLoading, isError, errorMessage }) {
   const { customerInfo, selectedProducts, additionalInfo } = useRFQStore()
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <div className="lg:col-span-8 space-y-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="lg:col-span-8 space-y-3">
         {/* Customer Details */}
-        <section className="bg-surface-container-low rounded-xl p-8">
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">account_balance</span>
-              <h2 className="text-xl font-bold text-on-surface font-headline">Customer Details</h2>
-            </div>
+        <section className="bg-surface-container-low rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="material-symbols-outlined text-primary text-base">account_balance</span>
+            <h2 className="text-sm font-bold text-on-surface uppercase tracking-wider">Customer Details</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6">
             {[
               { label: 'Organization', value: customerInfo.companyName },
               { label: 'Business Type', value: customerInfo.businessType },
@@ -599,37 +597,35 @@ function Step4({ onBack, onSubmit, isLoading, isError, errorMessage }) {
             ].map((f) => f.value && (
               <div key={f.label}>
                 <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">{f.label}</p>
-                <p className="text-lg font-medium text-on-surface">{f.value}</p>
+                <p className="text-sm font-semibold text-on-surface">{f.value}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Products */}
-        <section className="bg-surface-container-low rounded-xl p-8">
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">medical_services</span>
-              <h2 className="text-xl font-bold text-on-surface font-headline">Requested Inventory</h2>
-            </div>
+        <section className="bg-surface-container-low rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="material-symbols-outlined text-primary text-base">medical_services</span>
+            <h2 className="text-sm font-bold text-on-surface uppercase tracking-wider">Requested Inventory</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="text-on-surface-variant border-b border-outline-variant/20">
-                  <th className="py-4 font-semibold text-sm uppercase tracking-wider">Product Description</th>
-                  <th className="py-4 font-semibold text-sm uppercase tracking-wider text-right px-4">Brand</th>
-                  <th className="py-4 font-semibold text-sm uppercase tracking-wider text-right">Quantity</th>
+                  <th className="py-2 font-semibold text-xs uppercase tracking-wider">Product Description</th>
+                  <th className="py-2 font-semibold text-xs uppercase tracking-wider text-right px-3">Brand</th>
+                  <th className="py-2 font-semibold text-xs uppercase tracking-wider text-right">Quantity</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/10">
                 {selectedProducts.map((item) => (
                   <tr key={item.productId}>
-                    <td className="py-5 font-bold text-on-surface">{item.productName}</td>
-                    <td className="py-5 text-right px-4">
+                    <td className="py-2 font-bold text-on-surface text-sm">{item.productName}</td>
+                    <td className="py-2 text-right px-3">
                       <span className="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold">{item.brand}</span>
                     </td>
-                    <td className="py-5 text-right font-mono font-bold text-on-surface">{item.quantity} {item.unit}</td>
+                    <td className="py-2 text-right font-mono font-bold text-on-surface text-sm">{item.quantity} {item.unit}</td>
                   </tr>
                 ))}
               </tbody>
@@ -639,22 +635,22 @@ function Step4({ onBack, onSubmit, isLoading, isError, errorMessage }) {
 
         {/* Logistics */}
         {(additionalInfo.requestedDeliveryDate || additionalInfo.shippingMethod) && (
-          <section className="bg-surface-container-low rounded-xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="material-symbols-outlined text-primary">local_shipping</span>
-              <h2 className="text-xl font-bold text-on-surface font-headline">Logistics &amp; Handling</h2>
+          <section className="bg-surface-container-low rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="material-symbols-outlined text-primary text-base">local_shipping</span>
+              <h2 className="text-sm font-bold text-on-surface uppercase tracking-wider">Logistics</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-3">
               {additionalInfo.requestedDeliveryDate && (
-                <div className="bg-surface-container-lowest p-6 rounded-lg">
-                  <h3 className="text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-2">Delivery Date</h3>
-                  <p className="font-bold text-on-surface">{additionalInfo.requestedDeliveryDate}</p>
+                <div className="bg-surface-container-lowest p-3 rounded-lg">
+                  <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Delivery Date</h3>
+                  <p className="text-sm font-bold text-on-surface">{additionalInfo.requestedDeliveryDate}</p>
                 </div>
               )}
               {additionalInfo.shippingMethod && (
-                <div className="bg-surface-container-lowest p-6 rounded-lg">
-                  <h3 className="text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-2">Shipping Method</h3>
-                  <p className="font-bold text-on-surface capitalize">{additionalInfo.shippingMethod}</p>
+                <div className="bg-surface-container-lowest p-3 rounded-lg">
+                  <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Shipping Method</h3>
+                  <p className="text-sm font-bold text-on-surface capitalize">{additionalInfo.shippingMethod}</p>
                 </div>
               )}
             </div>
@@ -663,10 +659,10 @@ function Step4({ onBack, onSubmit, isLoading, isError, errorMessage }) {
 
         {/* Attachments */}
         {additionalInfo.attachmentNames?.length > 0 && (
-          <section className="bg-surface-container-low rounded-xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="material-symbols-outlined text-primary">attach_file</span>
-              <h2 className="text-xl font-bold text-on-surface font-headline">Attachments ({additionalInfo.attachmentNames.length})</h2>
+          <section className="bg-surface-container-low rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="material-symbols-outlined text-primary text-base">attach_file</span>
+              <h2 className="text-sm font-bold text-on-surface uppercase tracking-wider">Attachments ({additionalInfo.attachmentNames.length})</h2>
             </div>
             <div className="space-y-3">
               {additionalInfo.attachmentNames.map((name, i) => (
@@ -681,10 +677,10 @@ function Step4({ onBack, onSubmit, isLoading, isError, errorMessage }) {
 
         {/* Message */}
         {additionalInfo.message && (
-          <section className="bg-surface-container-low rounded-xl p-8">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="material-symbols-outlined text-primary">chat_bubble</span>
-              <h2 className="text-xl font-bold text-on-surface font-headline">Special Instructions</h2>
+          <section className="bg-surface-container-low rounded-xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="material-symbols-outlined text-primary text-base">chat_bubble</span>
+              <h2 className="text-sm font-bold text-on-surface uppercase tracking-wider">Special Instructions</h2>
             </div>
             <p className="text-on-surface-variant leading-relaxed">{additionalInfo.message}</p>
           </section>
@@ -692,13 +688,13 @@ function Step4({ onBack, onSubmit, isLoading, isError, errorMessage }) {
       </div>
 
       {/* Sidebar */}
-      <div className="lg:col-span-4 space-y-6">
-        <div className="bg-primary p-8 rounded-2xl text-on-primary shadow-xl shadow-primary/20 sticky top-24">
-          <h3 className="text-2xl font-bold mb-4 font-headline">Request Quotation</h3>
-          <p className="text-on-primary-container text-sm leading-relaxed mb-8">
-            By submitting this RFQ, your request will be routed to our specialized clinical ops team for competitive pricing and availability verification.
+      <div className="lg:col-span-4 space-y-3">
+        <div className="bg-primary p-5 rounded-xl text-on-primary shadow-lg shadow-primary/20 sticky top-20">
+          <h3 className="text-base font-bold mb-2 font-headline">Request Quotation</h3>
+          <p className="text-on-primary-container text-xs leading-relaxed mb-4">
+            Your request will be routed to our clinical ops team for competitive pricing and availability verification.
           </p>
-          <div className="space-y-4 mb-8">
+          <div className="space-y-2 mb-4">
             <div className="flex items-center gap-3">
               <span className="material-symbols-outlined text-on-primary-container">verified_user</span>
               <span className="text-xs font-medium">Compliance-checked procurement</span>
@@ -722,11 +718,11 @@ function Step4({ onBack, onSubmit, isLoading, isError, errorMessage }) {
           <button
             onClick={onSubmit}
             disabled={isLoading}
-            className="w-full signature-gradient text-on-primary py-4 rounded-xl font-bold text-lg hover:scale-[1.02] active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2 mb-4 disabled:opacity-70"
+            className="w-full signature-gradient text-on-primary py-3 rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 mb-3 disabled:opacity-70"
           >
             {isLoading ? 'Submitting...' : 'Submit RFQ'} <span className="material-symbols-outlined">send</span>
           </button>
-          <button onClick={onBack} className="w-full bg-white/10 hover:bg-white/20 text-on-primary py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2">
+          <button onClick={onBack} className="w-full bg-white/10 hover:bg-white/20 text-on-primary py-2 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2">
             <span className="material-symbols-outlined text-sm">arrow_back</span> Back to Step 3
           </button>
         </div>
