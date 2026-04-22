@@ -44,6 +44,7 @@ const useRFQStore = create(
                 unit: 'units',
                 notes: '',
                 stockQuantity: product.stockQuantity ?? product.stock_quantity ?? 0,
+                stockError: false,
               },
             ],
           }
@@ -74,6 +75,13 @@ const useRFQStore = create(
         set((state) => ({
           selectedProducts: state.selectedProducts.map((p) =>
             p.productId === productId ? { ...p, ...updates } : p
+          ),
+        })),
+
+      setProductStockError: (productId, hasError) =>
+        set((state) => ({
+          selectedProducts: state.selectedProducts.map((p) =>
+            p.productId === productId ? { ...p, stockError: hasError } : p
           ),
         })),
 

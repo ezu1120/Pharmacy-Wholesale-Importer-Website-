@@ -5,7 +5,7 @@ import AdminLayout from '../components/AdminLayout'
 
 const CATEGORIES = ['prescription', 'otc', 'medical-supplies', 'surgical', 'laboratory', 'personal-care']
 
-const EMPTY = { name: '', genericName: '', brand: '', category: 'prescription', packageSize: '', description: '', imageUrl: '', price: '', currency: 'USD', stockQuantity: 0, isActive: true, isFeatured: false }
+const EMPTY = { name: '', genericName: '', brand: '', category: 'prescription', packageSize: '', dosageForm: '', countryOfOrigin: '', description: '', imageUrl: '', price: '', currency: 'USD', stockQuantity: 0, isActive: true, isFeatured: false }
 
 function ProductModal({ product, onClose, onSave, isSaving }) {
   const [form, setForm] = useState(product || EMPTY)
@@ -49,6 +49,14 @@ function ProductModal({ product, onClose, onSave, isSaving }) {
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-outline uppercase tracking-widest">Package Size</label>
               <input value={form.packageSize} onChange={set('packageSize')} placeholder="e.g. Box of 100 Capsules" className="input-field" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-outline uppercase tracking-widest">Dosage Form</label>
+              <input value={form.dosageForm} onChange={set('dosageForm')} placeholder="e.g. Tablet, Capsule, Injection, Syrup" className="input-field" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-outline uppercase tracking-widest">Country of Origin</label>
+              <input value={form.countryOfOrigin} onChange={set('countryOfOrigin')} placeholder="e.g. Germany, India, USA" className="input-field" />
             </div>
             <div className="col-span-2 space-y-1.5">
               <label className="text-xs font-bold text-outline uppercase tracking-widest">Image URL</label>

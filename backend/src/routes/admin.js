@@ -19,7 +19,7 @@ router.get('/rfqs', async (req, res, next) => {
     const conditions = []
     const params = []
 
-    // FIX: use $${params.length} not ${params.length}
+    // FIX: use ${params.length} not ${params.length}
     if (rfqNumber)    { params.push(`%${rfqNumber}%`);    conditions.push(`r.rfq_number ILIKE $${params.length}`) }
     if (customerName) { params.push(`%${customerName}%`); conditions.push(`(COALESCE(u.full_name, r.guest_full_name) ILIKE $${params.length})`) }
     if (companyName)  { params.push(`%${companyName}%`);  conditions.push(`(COALESCE(u.company_name, r.guest_company) ILIKE $${params.length})`) }
@@ -70,10 +70,11 @@ router.get('/rfqs/:id', async (req, res, next) => {
     const [{ rows: items }, { rows: attachments }] = await Promise.all([
       pool.query(
         `SELECT ri.id, ri.product_name, ri.brand, ri.quantity, ri.unit, ri.notes,
-                COALESCE(ri.unit_price, p.price)        AS "unitPrice",
-                COALESCE(ri.currency,  p.currency, 'USD') AS currency
+                COALESCE(ri.unit_price, p.price, p2.price)          AS "unitPrice",
+                COALESCE(ri.currency,  p.currency, p2.currency, 'USD') AS currency
          FROM rfq_items ri
-         LEFT JOIN products p ON p.id = ri.product_id
+         LEFT JOIN products p  ON p.id   = ri.product_id
+         LEFT JOIN products p2 ON p2.name = ri.product_name AND p2.is_active = true
          WHERE ri.rfq_id = $1 ORDER BY ri.id`,
         [rfq.id]
       ),
@@ -248,7 +249,8 @@ router.get('/products', async (req, res, next) => {
       `SELECT id, name, generic_name AS "genericName", brand, category,
               package_size AS "packageSize", description, image_url AS "imageUrl",
               price, currency, stock_quantity AS "stockQuantity",
-              is_active AS "isActive", is_featured AS "isFeatured"
+              is_active AS "isActive", is_featured AS "isFeatured",
+              dosage_form AS "dosageForm", country_of_origin AS "countryOfOrigin"
        FROM products ORDER BY name ASC`
     )
     res.json(rows)
@@ -257,11 +259,11 @@ router.get('/products', async (req, res, next) => {
 
 router.post('/products', async (req, res, next) => {
   try {
-    const { name, genericName, brand, category, packageSize, description, imageUrl, isFeatured, price, currency, stockQuantity } = req.body
+    const { name, genericName, brand, category, packageSize, description, imageUrl, isFeatured, price, currency, stockQuantity, dosageForm, countryOfOrigin } = req.body
     const { rows } = await pool.query(
-      `INSERT INTO products (name, generic_name, brand, category, package_size, description, image_url, is_featured, price, currency, stock_quantity)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
-      [name, genericName, brand, category, packageSize, description, imageUrl, isFeatured || false, price || null, currency || 'USD', stockQuantity || 0]
+      `INSERT INTO products (name, generic_name, brand, category, package_size, description, image_url, is_featured, price, currency, stock_quantity, dosage_form, country_of_origin)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,
+      [name, genericName, brand, category, packageSize, description, imageUrl, isFeatured || false, price || null, currency || 'USD', stockQuantity || 0, dosageForm || null, countryOfOrigin || null]
     )
     res.status(201).json(rows[0])
   } catch (err) { next(err) }
@@ -269,12 +271,12 @@ router.post('/products', async (req, res, next) => {
 
 router.put('/products/:id', async (req, res, next) => {
   try {
-    const { name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price, currency, stockQuantity } = req.body
+    const { name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price, currency, stockQuantity, dosageForm, countryOfOrigin } = req.body
     await pool.query(
       `UPDATE products SET name=$1, generic_name=$2, brand=$3, category=$4, package_size=$5,
        description=$6, image_url=$7, is_active=$8, is_featured=$9, price=$10, currency=$11,
-       stock_quantity=$12, updated_at=NOW() WHERE id=$13`,
-      [name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price || null, currency || 'USD', stockQuantity || 0, req.params.id]
+       stock_quantity=$12, updated_at=NOW(), dosage_form=$14, country_of_origin=$15 WHERE id=$13`,
+      [name, genericName, brand, category, packageSize, description, imageUrl, isActive, isFeatured, price || null, currency || 'USD', stockQuantity || 0, req.params.id, dosageForm || null, countryOfOrigin || null]
     )
     res.json({ success: true })
   } catch (err) { next(err) }

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useSiteContent } from '../lib/useSiteContent'
 
 // ─── Fallback Data ────────────────────────────────────────────────────────────
@@ -57,34 +58,39 @@ export default function About() {
   ]
   return (
     <div className="bg-background text-on-surface font-body">
+      <Helmet>
+        <title>About Us — PharmaLink Pro Pharmaceutical Wholesale</title>
+        <meta name="description" content="Since 2009, PharmaLink has connected medical institutions worldwide with precision-sourced pharmaceuticals, surgical supplies, and laboratory equipment." />
+        <link rel="canonical" href="https://pharmalinkwholesale.com/about" />
+      </Helmet>
 
       {/* ── 1. Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[600px] flex items-center overflow-hidden bg-slate-900">
+      <section className="relative min-h-[600px] flex items-center overflow-hidden bg-white">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1800&q=85"
+            src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1800&q=90"
             alt="Pharmaceutical facility"
-            className="w-full h-full object-cover opacity-40"
+            className="w-full h-full object-cover"
             style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}
           />
         </div>
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-transparent" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/30 via-transparent to-black/10" />
         <div className="relative z-10 max-w-screen-2xl mx-auto px-8 w-full flex flex-col items-center text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary-fixed-dim text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-sm border border-primary/30">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-white/95 text-primary text-xs font-bold tracking-widest uppercase mb-6 border border-primary/20 shadow-lg">
             Our Story
           </span>
-          <h1 className="text-white font-headline text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] max-w-4xl">
+          <h1 className="text-white font-headline text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] max-w-4xl" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6)' }}>
             The Essential Bridge in Healthcare Supply Chains
           </h1>
-          <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-body leading-relaxed">
+          <p className="text-white text-lg md:text-xl mb-10 max-w-2xl mx-auto font-body leading-relaxed font-medium" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}>
             Since 2009, PharmaLink has connected medical institutions worldwide with precision-sourced pharmaceuticals, surgical supplies, and laboratory equipment.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/rfq" className="signature-gradient text-white px-10 py-4 rounded-lg font-headline font-bold text-base hover:scale-[1.02] transition-all shadow-2xl inline-flex items-center gap-2">
+            <Link to="/rfq" className="bg-primary text-white px-10 py-4 rounded-lg font-headline font-bold text-base hover:scale-[1.02] transition-all shadow-2xl inline-flex items-center gap-2">
               Request Quotation
               <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
-            <Link to="/products" className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-10 py-4 rounded-lg font-headline font-bold text-base hover:bg-white/20 transition-all">
+            <Link to="/products" className="bg-white/95 text-slate-900 px-10 py-4 rounded-lg font-headline font-bold text-base hover:bg-white transition-all shadow-xl">
               View Products
             </Link>
           </div>

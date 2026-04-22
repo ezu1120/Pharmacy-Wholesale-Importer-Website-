@@ -24,13 +24,27 @@ export default function CustomerRFQDetail() {
     queryFn: () => api.get(`/customer/rfqs/${id}`).then((r) => r.data),
   })
 
-  const downloadPDF = async () => {
+  const downloadRFQCopy = async () => {
     try {
       const response = await api.get(`/customer/rfqs/${id}/pdf`, { responseType: 'blob' })
       const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }))
       const a = document.createElement('a')
       a.href = url
       a.download = `${rfq?.rfq_number || id}.pdf`
+      a.click()
+      window.URL.revokeObjectURL(url)
+    } catch (err) {
+      console.error('PDF download failed:', err)
+    }
+  }
+
+  const downloadQuotationPDF = async () => {
+    try {
+      const response = await api.get(`/customer/rfqs/${id}/pdf`, { responseType: 'blob' })
+      const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }))
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${rfq?.rfq_number || id}-quotation.pdf`
       a.click()
       window.URL.revokeObjectURL(url)
     } catch (err) {
@@ -62,13 +76,24 @@ export default function CustomerRFQDetail() {
             <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${STATUS_BADGE[rfq.status]}`}>
               {STATUS_LABEL[rfq.status]}
             </span>
-            <button
-              onClick={downloadPDF}
-              className="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg text-sm font-semibold text-on-surface hover:bg-surface-container transition-colors"
-            >
-              <span className="material-symbols-outlined text-base">picture_as_pdf</span>
-              Download PDF
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={downloadRFQCopy}
+                className="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg text-sm font-semibold text-on-surface hover:bg-surface-container transition-colors"
+              >
+                <span className="material-symbols-outlined text-base">description</span>
+                RFQ Copy
+              </button>
+              {rfq.status === 'QUOTATION_SENT' && (
+                <button
+                  onClick={downloadQuotationPDF}
+                  className="flex items-center gap-2 px-4 py-2 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-colors shadow-md"
+                >
+                  <span className="material-symbols-outlined text-base">picture_as_pdf</span>
+                  Download Quotation
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -159,9 +184,28 @@ export default function CustomerRFQDetail() {
             <div className="bg-green-50 border border-green-200 rounded-2xl p-6">
               <div className="flex items-start gap-4">
                 <span className="material-symbols-outlined text-green-600 text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>mark_email_read</span>
-                <div>
+                <div className="flex-1">
                   <h3 className="font-headline font-bold text-green-800 mb-1">Quotation Ready</h3>
-                  <p className="text-sm text-green-700">A formal quotation has been sent to your email. Download the PDF above to review pricing and terms.</p>
+                  <p className="text-sm text-green-700 mb-3">A formal quotation has been sent to your email. Download the PDF above to review pricing and terms.</p>
+                  <button
+                    onClick={downloadQuotationPDF}
+                    className="flex items-center gap-2 px-4 py-2 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-colors shadow-md"
+                  >
+                    <span className="material-symbols-outlined text-base">picture_as_pdf</span>
+                    Download Quotation PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {rfq.status !== 'QUOTATION_SENT' && (
+            <div className="bg-surface-container-low rounded-2xl p-5 border border-outline-variant/20">
+              <div className="flex items-start gap-3">
+                <span className="material-symbols-outlined text-outline text-xl">info</span>
+                <div>
+                  <h3 className="font-headline font-bold text-sm text-on-surface mb-1">Quotation Pending</h3>
+                  <p className="text-xs text-on-surface-variant">Your formal quotation with pricing will be available here once our team sends it. You'll also receive it by email.</p>
                 </div>
               </div>
             </div>

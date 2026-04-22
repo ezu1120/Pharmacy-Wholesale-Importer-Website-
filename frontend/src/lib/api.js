@@ -24,7 +24,8 @@ api.interceptors.response.use(
       const isPublic = publicRoutes.some((r) => url.includes(r))
       if (!isPublic) {
         useAuthStore.getState().clearAuth()
-        window.location.href = '/login'
+        const redirect = encodeURIComponent(window.location.pathname + window.location.search)
+        window.location.href = `/login?redirect=${redirect}`
       }
     }
     return Promise.reject(err)

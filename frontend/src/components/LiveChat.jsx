@@ -15,6 +15,8 @@ export default function LiveChat() {
   const [messages, setMessages]   = useState([])
   const [loading, setLoading]     = useState(false)
   const [sending, setSending]     = useState(false)
+  const [isOnline, setIsOnline]   = useState(true)   // backend reachability
+  const [initError, setInitError] = useState(false)  // session init failed
 
   const msgsEndRef  = useRef(null)
   const pollRef     = useRef(null)
@@ -43,6 +45,7 @@ export default function LiveChat() {
   const initSession = useCallback(async () => {
     if (chatId) return // already have a session
     setLoading(true)
+    setInitError(false)
     try {
       const guestName = user?.fullName || 'Guest'
       const { data } = await api.post('/chat/session', {
@@ -50,9 +53,12 @@ export default function LiveChat() {
         customerId: user?.id || null,
       })
       setChatId(data.id)
+      setIsOnline(true)
       await fetchMessages(data.id)
     } catch (_) {
-      // If backend is down, show a local fallback message
+      // If backend is down, show error state
+      setInitError(true)
+      setIsOnline(false)
       setMessages([{
         id: 'fallback',
         is_from_admin: true,
@@ -116,10 +122,10 @@ export default function LiveChat() {
   }
 
   return (
-    <div className={`fixed z-50 flex flex-col items-end transition-all duration-300 ${
-      location.pathname === '/rfq' 
-        ? 'bottom-16 sm:bottom-20 right-4 sm:right-6' // More space from bottom on RFQ page, responsive spacing
-        : 'bottom-4 sm:bottom-6 right-4 sm:right-6'   // Default positioning, responsive spacing
+    <div className={`fixed z-40 flex flex-col items-end transition-all duration-300 ${
+      location.pathname.startsWith('/portal/rfq') 
+        ? 'bottom-20 sm:bottom-24 right-4 sm:right-6' // More space from bottom on RFQ page
+        : 'bottom-4 sm:bottom-6 right-4 sm:right-6'   // Default positioning
     }`}>
 
       {/* ── Chat Window ─────────────────────────────────────────────────────── */}
@@ -132,12 +138,13 @@ export default function LiveChat() {
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-bold text-lg">E</div>
-              <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-primary rounded-full" />
+              <div className={`absolute bottom-0 right-0 w-3 h-3 border-2 border-primary rounded-full ${isOnline ? 'bg-green-400' : 'bg-gray-400'}`} />
             </div>
             <div>
               <h4 className="font-headline font-bold leading-tight">PharmaLink Support</h4>
-              <p className="text-[10px] text-blue-100 font-medium">
-                {user ? `Signed in as ${user.fullName}` : 'Emily is active now'}
+              <p className="text-[10px] text-blue-100 font-medium flex items-center gap-1">
+                <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-green-300' : 'bg-gray-300'}`} />
+                {isOnline ? (user ? `Signed in as ${user.fullName}` : 'Emily is active now') : 'Currently offline'}
               </p>
             </div>
           </div>
@@ -154,6 +161,18 @@ export default function LiveChat() {
           {loading ? (
             <div className="flex items-center justify-center h-full">
               <span className="material-symbols-outlined animate-spin text-primary text-3xl">progress_activity</span>
+            </div>
+          ) : initError ? (
+            <div className="flex flex-col items-center justify-center h-full gap-3 px-4 text-center">
+              <span className="material-symbols-outlined text-4xl text-outline/40">wifi_off</span>
+              <p className="text-sm font-semibold text-on-surface">Unable to connect</p>
+              <p className="text-xs text-on-surface-variant">The support service is temporarily unavailable.</p>
+              <button
+                onClick={() => { setInitError(false); setChatId(null); initSession() }}
+                className="mt-1 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                Retry
+              </button>
             </div>
           ) : (
             <>
@@ -184,13 +203,13 @@ export default function LiveChat() {
               type="text"
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
-              placeholder={chatId ? 'Send a message...' : 'Connecting...'}
-              disabled={!chatId || sending}
+              placeholder={initError ? 'Connection failed — retry above' : chatId ? 'Send a message...' : 'Connecting...'}
+              disabled={!chatId || sending || initError}
               className="w-full bg-surface-container-high rounded-full py-3.5 pl-5 pr-14 outline-none focus:ring-1 focus:ring-primary focus:bg-surface-container-lowest text-sm transition-all text-on-surface disabled:opacity-60"
             />
             <button
               type="submit"
-              disabled={!inputValue.trim() || !chatId || sending}
+              disabled={!inputValue.trim() || !chatId || sending || initError}
               className="absolute right-1.5 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center disabled:opacity-40 transition-colors"
             >
               <span className="material-symbols-outlined text-[20px] ml-0.5">

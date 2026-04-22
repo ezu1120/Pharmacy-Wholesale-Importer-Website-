@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { Helmet } from 'react-helmet-async'
 import api from '../lib/api'
 import useRFQStore from '../store/rfqStore'
 
@@ -92,15 +93,11 @@ function ProductCard({ product, isAdded, onAdd }) {
           {cfg.label}
         </span>
         {/* Stock indicator */}
-        {outOfStock ? (
+        {outOfStock && (
           <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-600">
             Out of Stock
           </span>
-        ) : stock > 0 && stock <= 10 ? (
-          <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700">
-            Low: {stock}
-          </span>
-        ) : null}
+        )}
       </div>
 
       {/* Content */}
@@ -157,8 +154,14 @@ export default function Products() {
   const [search, setSearch]             = useState('')
   const [toast, setToast]               = useState(null)
   const [selectedManufacturers, setSelectedManufacturers] = useState([])
+  const [allCatsOpen, setAllCatsOpen]   = useState(false)
   const category = searchParams.get('category') || ''
   const { addProduct, selectedProducts } = useRFQStore()
+
+  // Auto-open the dropdown when a sub-category is active
+  useEffect(() => {
+    if (category) setAllCatsOpen(true)
+  }, [category])
 
   const toggleManufacturer = (m) =>
     setSelectedManufacturers(prev => prev.includes(m) ? prev.filter(x => x !== m) : [...prev, m])
@@ -185,6 +188,34 @@ export default function Products() {
 
   return (
     <div className="bg-gray-50 min-h-screen font-body text-on-surface">
+      <Helmet>
+        <title>Product Catalog — PharmaLink Pro Pharmaceutical Wholesale</title>
+        <meta name="description" content="Browse 10,000+ pharmaceutical products including prescription medicines, OTC drugs, medical supplies, surgical products, and laboratory equipment." />
+        <link rel="canonical" href="https://pharmalinkwholesale.com/products" />
+        <meta property="og:title" content="Product Catalog — PharmaLink Pro" />
+        <meta property="og:description" content="Browse our certified range of international pharmaceutical products. Add to RFQ and receive a formal quotation within 24 hours." />
+        <meta property="og:url" content="https://pharmalinkwholesale.com/products" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1200&q=85" />
+        {products.length > 0 && (
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "PharmaLink Pro Product Catalog",
+            "numberOfItems": products.length,
+            "itemListElement": products.slice(0, 10).map((p, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "item": {
+                "@type": "Product",
+                "name": p.name,
+                "brand": { "@type": "Brand", "name": p.brand },
+                "category": p.category,
+              }
+            }))
+          })}</script>
+        )}
+      </Helmet>
       {toast && <Toast message={toast} onDone={() => setToast(null)} />}
 
       {/* Page header */}
@@ -227,18 +258,58 @@ export default function Products() {
             </div>
             <nav className="p-2">
               {CATEGORIES.map(cat => (
-                <button
-                  key={cat.key}
-                  onClick={() => setSearchParams(cat.key ? { category: cat.key } : {})}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${
-                    category === cat.key
-                      ? 'bg-primary text-white font-semibold'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-primary'
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-base">{cat.icon}</span>
-                  <span className="truncate">{cat.label}</span>
-                </button>
+                cat.key === '' ? (
+                  // "All Products" — toggles a dropdown of sub-categories
+                  <div key="all">
+                    <button
+                      onClick={() => {
+                        if (category) {
+                          // If a category is active, clear it and close dropdown
+                          setSearchParams({})
+                          setAllCatsOpen(false)
+                        } else {
+                          // Toggle dropdown
+                          setAllCatsOpen(o => !o)
+                        }
+                      }}
+                      className={`w-full flex items-center justify-between gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${
+                        !category
+                          ? 'bg-primary text-white font-semibold'
+                          : 'text-gray-600 hover:bg-gray-50 hover:text-primary'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="material-symbols-outlined text-base">{cat.icon}</span>
+                        <span className="truncate">{cat.label}</span>
+                      </div>
+                      <span className={`material-symbols-outlined text-sm transition-transform duration-200 ${allCatsOpen ? 'rotate-180' : ''}`}>
+                        expand_more
+                      </span>
+                    </button>
+                    {/* Sub-category dropdown */}
+                    {allCatsOpen && (
+                      <div className="mt-1 ml-2 border-l-2 border-primary/20 pl-2 space-y-0.5">
+                        {CATEGORIES.filter(c => c.key !== '').map(sub => (
+                          <button
+                            key={sub.key}
+                            onClick={() => {
+                              setSearchParams({ category: sub.key })
+                              setAllCatsOpen(false)
+                            }}
+                            className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs transition-all ${
+                              category === sub.key
+                                ? 'bg-primary/10 text-primary font-semibold'
+                                : 'text-gray-600 hover:bg-gray-50 hover:text-primary'
+                            }`}
+                          >
+                            <span className="material-symbols-outlined text-sm">{sub.icon}</span>
+                            <span className="truncate">{sub.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : null
               ))}
             </nav>
           </div>

@@ -21,6 +21,7 @@ import AdminContent from './pages/AdminContent'
 import AdminChat from './pages/AdminChat'
 import AdminContactMessages from './pages/AdminContactMessages'
 import AdminSettings from './pages/AdminSettings'
+import AdminNotificationListener from './components/AdminNotificationListener'
 import RFQList from './pages/RFQList'
 import RFQDetails from './pages/RFQDetails'
 import Login from './pages/Login'
@@ -40,6 +41,7 @@ export default function App() {
         {/* Admin routes — no public navbar */}
         <Route path="/admin/*" element={
           <ProtectedRoute role="admin">
+            <AdminNotificationListener />
             <Routes>
               <Route index element={<AdminDashboard />} />
               <Route path="rfqs" element={<RFQList />} />

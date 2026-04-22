@@ -5,11 +5,25 @@ import api from '../lib/api'
 export default function RFQSuccess() {
   const { rfqNumber } = useParams()
 
-  const { data } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['rfq-lookup', rfqNumber],
     queryFn: () => api.get(`/rfq/${rfqNumber}`).then((r) => r.data),
     retry: false,
   })
+
+  const downloadPDF = async () => {
+    try {
+      const response = await api.get(`/rfq/${rfqNumber}/pdf`, { responseType: 'blob' })
+      const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }))
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${rfqNumber}.pdf`
+      a.click()
+      window.URL.revokeObjectURL(url)
+    } catch (err) {
+      console.error('PDF download failed:', err)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-surface flex items-center justify-center px-4 py-16">
@@ -75,10 +89,25 @@ export default function RFQSuccess() {
           </div>
         )}
 
+        {/* Error state */}
+        {isError && (
+          <div className="text-center py-8">
+            <p className="text-on-surface-variant">Could not load RFQ details. The RFQ number may be invalid.</p>
+            <Link to="/portal" className="text-primary font-bold hover:underline mt-2 inline-block">Go to Dashboard</Link>
+          </div>
+        )}
+
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={downloadPDF}
+            className="signature-gradient text-white px-8 py-3 rounded-xl font-headline font-bold shadow-lg hover:opacity-90 active:scale-95 transition-all flex items-center gap-2 justify-center"
+          >
+            <span className="material-symbols-outlined">download</span>
+            Download RFQ PDF
+          </button>
           <Link
-            to="/track"
+            to={`/track?rfq=${rfqNumber}`}
             className="border border-primary/20 text-primary px-8 py-3 rounded-xl font-headline font-bold hover:bg-primary hover:text-white transition-all flex items-center gap-2 justify-center"
           >
             <span className="material-symbols-outlined">track_changes</span>

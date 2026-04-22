@@ -29,19 +29,27 @@
   }
 
   .signature-gradient {
-    background: linear-gradient(135deg, #003f87 0%, #0056b3 100%);
+    background: linear-gradient(135deg, #003f87 0%, #0056b3 50%, #0066cc 100%);
+    box-shadow: 0 4px 15px rgba(0, 63, 135, 0.2);
+  }
+
+  .nav-glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .btn-primary {
-    @apply signature-gradient text-white font-semibold px-6 py-2.5 rounded-lg shadow hover:opacity-90 active:scale-95 transition-all duration-200 inline-flex items-center gap-2;
+    @apply signature-gradient text-white font-semibold px-6 py-2.5 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 inline-flex items-center gap-2;
   }
 
   .btn-secondary {
-    @apply border border-primary/20 text-primary font-semibold px-6 py-2.5 rounded-lg hover:bg-primary hover:text-white active:scale-95 transition-all duration-200 inline-flex items-center gap-2;
+    @apply border border-primary/20 text-primary font-semibold px-6 py-2.5 rounded-xl hover:bg-primary hover:text-white hover:shadow-lg active:scale-95 transition-all duration-200 inline-flex items-center gap-2;
   }
 
   .btn-ghost {
-    @apply text-slate-600 font-semibold px-6 py-2.5 rounded-lg hover:bg-slate-100 active:scale-95 transition-all duration-200 inline-flex items-center gap-2;
+    @apply text-slate-600 font-semibold px-6 py-2.5 rounded-xl hover:bg-slate-100 hover:shadow-sm active:scale-95 transition-all duration-200 inline-flex items-center gap-2;
   }
 
   .input-field {
@@ -78,8 +86,17 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .animate-fade-in {
   animation: fade-in 0.25s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.2s ease-out forwards;
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -88,4 +105,26 @@
 @keyframes slideProgress {
   from { width: 0%; }
   to   { width: 100%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 63, 135, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(0, 63, 135, 0.5); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.rfq-button-container {
+  @apply relative z-50;
 }

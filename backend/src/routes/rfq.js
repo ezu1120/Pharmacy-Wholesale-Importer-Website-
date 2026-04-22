@@ -6,6 +6,7 @@ const fs = require('fs')
 const pool = require('../db/pool')
 const { generateRFQNumber } = require('../services/rfqNumber')
 const { sendCustomerConfirmation, sendAdminNotification } = require('../services/email')
+const { generateRFQPDF } = require('../services/pdf')
 
 // ── File upload config ────────────────────────────────────────────────────────
 const UPLOAD_DIR = path.join(__dirname, '../../uploads')
@@ -171,6 +172,61 @@ router.post('/', upload.array('attachments', 5), async (req, res, next) => {
   } finally {
     client.release()
   }
+})
+
+// ── GET /api/rfq/:rfqNumber/pdf — public PDF download ────────────────────────
+router.get('/:rfqNumber/pdf', async (req, res, next) => {
+  try {
+    const { rfqNumber } = req.params
+
+    const { rows } = await pool.query(
+      `SELECT r.id, r.rfq_number, r.submitted_at, r.message,
+              r.guest_full_name, r.guest_company, r.guest_email,
+              r.guest_phone, r.guest_city, r.guest_country,
+              COALESCE(u.full_name, r.guest_full_name)   AS customer_name,
+              COALESCE(u.company_name, r.guest_company)  AS company_name,
+              COALESCE(u.email, r.guest_email)            AS email
+       FROM rfqs r
+       LEFT JOIN users u ON u.id = r.customer_id
+       WHERE r.rfq_number = $1`,
+      [rfqNumber]
+    )
+
+    if (!rows.length) return res.status(404).json({ error: 'RFQ_NOT_FOUND' })
+
+    const rfq = rows[0]
+
+    const { rows: items } = await pool.query(
+      `SELECT product_name, brand, quantity, unit, notes
+       FROM rfq_items WHERE rfq_id = $1`,
+      [rfq.id]
+    )
+
+    const pdfData = {
+      rfqNumber:    rfq.rfq_number,
+      submittedAt:  rfq.submitted_at,
+      customerName: rfq.customer_name,
+      companyName:  rfq.company_name,
+      email:        rfq.email,
+      phone:        rfq.guest_phone,
+      city:         rfq.guest_city,
+      country:      rfq.guest_country,
+      message:      rfq.message,
+      items: items.map((i) => ({
+        productName: i.product_name,
+        brand:       i.brand,
+        quantity:    i.quantity,
+        unit:        i.unit,
+        notes:       i.notes,
+      })),
+    }
+
+    const buffer = await generateRFQPDF(pdfData)
+
+    res.setHeader('Content-Type', 'application/pdf')
+    res.setHeader('Content-Disposition', `attachment; filename="${rfqNumber}.pdf"`)
+    res.send(buffer)
+  } catch (err) { next(err) }
 })
 
 // ── GET /api/rfq/:rfqNumber — public status lookup ───────────────────────────

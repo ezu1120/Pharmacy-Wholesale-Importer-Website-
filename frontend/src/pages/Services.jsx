@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useSiteContent } from '../lib/useSiteContent'
 import useRFQStore from '../store/rfqStore'
 
@@ -40,22 +41,28 @@ export default function Services() {
 
   return (
     <>
+      <Helmet>
+        <title>Our Services — PharmaLink Pro Pharmaceutical Supply</title>
+        <meta name="description" content="End-to-end pharmaceutical supply services including wholesale distribution, international import/export, cold chain logistics, and regulatory support." />
+        <link rel="canonical" href="https://pharmalinkwholesale.com/services" />
+      </Helmet>
+
       {/* Hero */}
-      <section className="relative bg-slate-900 py-28 px-8 overflow-hidden">
+      <section className="relative bg-white py-28 px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=80" alt="Services" className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent" />
+          <img src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1800&q=90" alt="Services" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
         </div>
         <div className="relative z-10 max-w-screen-2xl mx-auto flex flex-col items-center text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary-fixed-dim text-xs font-bold tracking-widest uppercase mb-6 border border-primary/30">What We Offer</span>
-          <h1 className="text-white font-headline text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] max-w-4xl">
-            End-to-End Pharmaceutical <span className="text-blue-400">Supply Services</span>
+          <span className="inline-block px-4 py-1.5 rounded-full bg-white/95 text-primary text-xs font-bold tracking-widest uppercase mb-6 border border-primary/20 shadow-lg">What We Offer</span>
+          <h1 className="text-white font-headline text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] max-w-4xl" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6)' }}>
+            End-to-End Pharmaceutical <span className="text-white">Supply Services</span>
           </h1>
-          <p className="text-slate-300 text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+          <p className="text-white text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-medium" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}>
             From wholesale supply and international import to cold chain logistics and regulatory support — we cover every step of the pharmaceutical procurement journey.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/rfq" className="signature-gradient text-white px-8 py-4 rounded-lg font-headline font-bold hover:scale-[1.02] transition-all shadow-xl inline-flex items-center gap-2">
+            <Link to="/rfq" className="bg-primary text-white px-8 py-4 rounded-lg font-headline font-bold hover:scale-[1.02] transition-all shadow-xl inline-flex items-center gap-2">
               Request a Quotation <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
           </div>

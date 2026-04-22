@@ -10,6 +10,8 @@ const COMPARE_FIELDS = [
   { key: 'brand', label: 'Manufacturer' },
   { key: 'category', label: 'Category' },
   { key: 'description', label: 'Description' },
+  { key: 'dosageForm', label: 'Dosage Form' },
+  { key: 'countryOfOrigin', label: 'Country of Origin' },
 ]
 
 export default function Compare() {
@@ -28,7 +30,7 @@ export default function Compare() {
   })
 
   const addToCompare = (id) => {
-    if (selectedIds.length >= 3 || selectedIds.includes(id)) return
+    if (selectedIds.length >= 4 || selectedIds.includes(id)) return
     setSelectedIds((prev) => [...prev, id])
   }
   const removeFromCompare = (id) => setSelectedIds((prev) => prev.filter((i) => i !== id))
@@ -41,7 +43,7 @@ export default function Compare() {
         <div>
           <h1 className="font-headline font-bold text-3xl tracking-tight text-on-surface mb-1">Comparative Analysis</h1>
           <p className="text-on-surface-variant text-sm">
-            Compare up to 3 products side by side.
+            Compare up to 4 products side by side.
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-primary font-semibold rounded-xl hover:bg-surface-container-high transition-all self-start">
@@ -54,15 +56,15 @@ export default function Compare() {
       {allProducts?.items?.length > 0 && (
         <div className="mb-8 p-5 bg-surface-container-low rounded-2xl">
           <p className="text-xs font-bold text-outline uppercase tracking-widest mb-3">
-            Select up to 3 products to compare
-            <span className="ml-2 text-primary normal-case font-normal">({selectedIds.length}/3 selected)</span>
+            Select up to 4 products to compare
+            <span className="ml-2 text-primary normal-case font-normal">({selectedIds.length}/4 selected)</span>
           </p>
           <div className="flex flex-wrap gap-2">
             {allProducts.items.map((p) => (
               <button
                 key={p.id}
                 onClick={() => addToCompare(p.id)}
-                disabled={selectedIds.length >= 3 && !selectedIds.includes(p.id)}
+                disabled={selectedIds.length >= 4 && !selectedIds.includes(p.id)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   selectedIds.includes(p.id)
                     ? 'bg-primary text-white'
@@ -135,7 +137,7 @@ export default function Compare() {
         <div className="text-center py-20 text-on-surface-variant">
           <span className="material-symbols-outlined text-6xl mb-4 block opacity-30">compare</span>
           <p className="font-medium text-lg">Select products above to compare</p>
-          <p className="text-sm mt-1">Choose up to 3 products from the list above.</p>
+          <p className="text-sm mt-1">Choose up to 4 products from the list above.</p>
         </div>
       )}
 

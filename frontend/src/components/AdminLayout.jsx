@@ -1,6 +1,8 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import useAuthStore from '../store/authStore'
+import api from '../lib/api'
 
 const NAV = [
   { to: '/admin',           icon: 'dashboard',       label: 'Dashboard' },
@@ -18,6 +20,55 @@ export default function AdminLayout({ children, title, subtitle }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const profileRef = useRef(null)
+
+  // Get notification counts
+  const { data: rfqCount = 0 } = useQuery({
+    queryKey: ['admin-new-rfqs-count'],
+    queryFn: async () => {
+      try {
+        const response = await api.get('/admin/rfqs', { params: { status: 'NEW', limit: 1 } })
+        const count = response.data.totalCount || 0
+        return count
+      } catch (error) {
+        console.log('RFQ count error:', error)
+        return 0
+      }
+    },
+    refetchInterval: 10000, // Refresh every 10 seconds
+    enabled: !!user && user.role === 'admin'
+  })
+
+  const { data: chatCount = 0 } = useQuery({
+    queryKey: ['admin-unread-chats-count'],
+    queryFn: async () => {
+      try {
+        const response = await api.get('/chat/admin/sessions')
+        const count = response.data.reduce((total, session) => total + (session.unreadCount || 0), 0)
+        return count
+      } catch (error) {
+        console.log('Chat count error:', error)
+        return 0
+      }
+    },
+    refetchInterval: 5000, // Refresh every 5 seconds
+    enabled: !!user && user.role === 'admin'
+  })
+
+  const { data: messageCount = 0 } = useQuery({
+    queryKey: ['admin-unread-messages-count'],
+    queryFn: async () => {
+      try {
+        const response = await api.get('/contact')
+        const count = response.data.filter(msg => !msg.isRead).length
+        return count
+      } catch (error) {
+        console.log('Message count error:', error)
+        return 0
+      }
+    },
+    refetchInterval: 30000, // Refresh every 30 seconds
+    enabled: !!user && user.role === 'admin'
+  })
 
   useEffect(() => {
     const handler = (e) => { if (profileRef.current && !profileRef.current.contains(e.target)) setProfileOpen(false) }
@@ -100,20 +151,35 @@ export default function AdminLayout({ children, title, subtitle }) {
             </button>
           </div>
           <nav className="flex-1 space-y-1 px-3 overflow-y-auto">
-            {NAV.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                  active === item.label
-                    ? 'bg-white text-primary font-bold shadow-sm'
-                    : 'text-slate-500 hover:bg-white/60 hover:text-primary'
-                }`}
-              >
-                <span className="material-symbols-outlined text-lg">{item.icon}</span>
-                {item.label}
-              </Link>
-            ))}
+            {NAV.map((item) => {
+              // Get notification count for this item
+              let notificationCount = 0
+              if (item.to === '/admin/rfqs') notificationCount = rfqCount
+              else if (item.to === '/admin/chat') notificationCount = chatCount
+              else if (item.to === '/admin/messages') notificationCount = messageCount
+
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                    active === item.label
+                      ? 'bg-white text-primary font-bold shadow-sm'
+                      : 'text-slate-500 hover:bg-white/60 hover:text-primary'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-lg">{item.icon}</span>
+                    {item.label}
+                  </div>
+                  {notificationCount > 0 && (
+                    <span className="min-w-[20px] h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center px-1.5 animate-pulse">
+                      {notificationCount > 99 ? '99+' : notificationCount}
+                    </span>
+                  )}
+                </Link>
+              )
+            })}
           </nav>
           <div className="px-6 pt-4 border-t border-slate-200 mt-auto">
             <Link to="/" className="flex items-center gap-2 text-xs text-slate-400 hover:text-primary transition-colors">

@@ -43,24 +43,24 @@ export default function Categories() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-slate-900 py-28 px-8 overflow-hidden">
+      <section className="relative bg-white py-28 px-8 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=80" alt="Pharmaceutical categories" className="w-full h-full object-cover opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900" />
+          <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1800&q=90" alt="Pharmaceutical categories" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10" />
         </div>
         <div className="relative z-10 max-w-screen-2xl mx-auto px-8 w-full flex flex-col items-center text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/20 text-primary-fixed-dim text-xs font-bold tracking-widest uppercase mb-6 border border-primary/30">Product Catalog</span>
-          <h1 className="text-white font-headline text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] max-w-4xl">
-            Specialized Categories for <span className="text-blue-400">Every Medical Department</span>
+          <span className="inline-block px-4 py-1.5 rounded-full bg-white/95 text-primary text-xs font-bold tracking-widest uppercase mb-6 border border-primary/20 shadow-lg">Product Catalog</span>
+          <h1 className="text-white font-headline text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] max-w-4xl" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6)' }}>
+            Specialized Categories for <span className="text-white">Every Medical Department</span>
           </h1>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-white text-lg max-w-2xl mx-auto mb-10 leading-relaxed font-medium" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}>
             From prescription medicines to laboratory equipment — streamlined procurement for pharmacies, hospitals, clinics, and distributors worldwide.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/rfq" className="signature-gradient text-white px-8 py-4 rounded-lg font-headline font-bold hover:scale-[1.02] transition-all shadow-xl inline-flex items-center gap-2 justify-center">
+            <Link to="/rfq" className="bg-primary text-white px-8 py-4 rounded-lg font-headline font-bold hover:scale-[1.02] transition-all shadow-xl inline-flex items-center gap-2 justify-center">
               Request Quotation <span className="material-symbols-outlined">arrow_forward</span>
             </Link>
-            <Link to="/products" className="bg-white/10 border border-white/20 text-white px-8 py-4 rounded-lg font-headline font-bold hover:bg-white/20 transition-all inline-flex items-center gap-2 justify-center">
+            <Link to="/products" className="bg-white/95 text-slate-900 px-8 py-4 rounded-lg font-headline font-bold hover:bg-white transition-all shadow-xl inline-flex items-center gap-2 justify-center">
               Browse All Products
             </Link>
           </div>

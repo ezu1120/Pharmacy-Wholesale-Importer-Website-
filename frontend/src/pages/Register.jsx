@@ -8,6 +8,11 @@ import useAuthStore from '../store/authStore'
 
 const schema = z.object({
   fullName:        z.string().min(2, 'Full name required'),
+  companyName:     z.string().min(2, 'Company name required'),
+  businessType:    z.string().min(1, 'Business type required'),
+  phone:           z.string().min(5, 'Phone required'),
+  country:         z.string().min(2, 'Country required'),
+  city:            z.string().min(2, 'City required'),
   email:           z.string().email('Valid email required'),
   password:        z.string().min(8, 'Minimum 8 characters'),
   confirmPassword: z.string(),
@@ -24,7 +29,16 @@ export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(schema) })
 
   const mutation = useMutation({
-    mutationFn: (data) => api.post('/auth/register', { fullName: data.fullName, email: data.email, password: data.password }).then(r => r.data),
+    mutationFn: (data) => api.post('/auth/register', {
+      fullName: data.fullName,
+      companyName: data.companyName,
+      businessType: data.businessType,
+      phone: data.phone,
+      country: data.country,
+      city: data.city,
+      email: data.email,
+      password: data.password
+    }).then(r => r.data),
     onSuccess: (data) => {
       setAuth(data.user, data.accessToken)
       navigate(redirect || '/portal')
@@ -33,6 +47,18 @@ export default function Register() {
 
   const fields = [
     { name: 'fullName',        label: 'Full Name',        type: 'text',     placeholder: 'Dr. Jane Smith' },
+    { name: 'companyName',     label: 'Company Name',     type: 'text',     placeholder: 'Metro General Health' },
+    { name: 'businessType',    label: 'Business Type',    type: 'select',   placeholder: '', options: [
+      { value: '', label: 'Select...' },
+      { value: 'pharmacy', label: 'Retail Pharmacy' },
+      { value: 'hospital', label: 'Hospital' },
+      { value: 'clinic', label: 'Clinic' },
+      { value: 'distributor', label: 'Distributor' },
+      { value: 'other', label: 'Other' },
+    ]},
+    { name: 'phone',           label: 'Phone Number',     type: 'tel',      placeholder: '+1 555 000 0000' },
+    { name: 'country',         label: 'Country',          type: 'text',     placeholder: 'United States' },
+    { name: 'city',            label: 'City',             type: 'text',     placeholder: 'New York' },
     { name: 'email',           label: 'Email Address',    type: 'email',    placeholder: 'you@company.com' },
     { name: 'password',        label: 'Password',         type: 'password', placeholder: '••••••••', hint: 'Minimum 8 characters' },
     { name: 'confirmPassword', label: 'Confirm Password', type: 'password', placeholder: '••••••••' },
@@ -59,7 +85,16 @@ export default function Register() {
             {fields.map(f => (
               <div key={f.name}>
                 <label className="block text-xs font-semibold text-gray-700 mb-1.5">{f.label}</label>
-                <input {...register(f.name)} type={f.type} placeholder={f.placeholder} className="input-field" />
+                {f.type === 'select' ? (
+                  <div className="relative">
+                    <select {...register(f.name)} className="input-field appearance-none">
+                      {f.options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                    </select>
+                    <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm">expand_more</span>
+                  </div>
+                ) : (
+                  <input {...register(f.name)} type={f.type} placeholder={f.placeholder} className="input-field" />
+                )}
                 {f.hint && !errors[f.name] && <p className="text-xs text-gray-400 mt-1">{f.hint}</p>}
                 {errors[f.name] && <p className="text-xs text-red-500 mt-1">{errors[f.name].message}</p>}
               </div>

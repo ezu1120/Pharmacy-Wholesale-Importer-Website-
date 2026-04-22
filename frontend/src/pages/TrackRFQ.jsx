@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useQuery } from '@tanstack/react-query'
 import api from '../lib/api'
 
@@ -33,6 +34,11 @@ export default function TrackRFQ() {
 
   return (
     <div className="min-h-screen bg-surface py-16 px-4">
+      <Helmet>
+        <title>Track Your RFQ — PharmaLink Pro</title>
+        <meta name="description" content="Track the status of your request for quotation. Enter your RFQ reference number to check progress." />
+        <link rel="canonical" href="https://pharmalinkwholesale.com/track" />
+      </Helmet>
       <div className="max-w-2xl mx-auto">
 
         {/* Header */}

@@ -34,8 +34,13 @@ export default function RFQDetails() {
       setQuoteNotes(rfq.quote_notes || '')
       const prices = {}
       rfq.items?.forEach((item) => {
+        // Pre-fill with saved unit_price first, then fall back to catalog price
+        // item.unitPrice comes from COALESCE(ri.unit_price, p.price, p2.price) in the backend
+        const prefilledPrice = (item.unitPrice !== null && item.unitPrice !== undefined && item.unitPrice !== '')
+          ? String(parseFloat(item.unitPrice).toFixed(2))
+          : ''
         prices[item.id] = {
-          unitPrice: item.unitPrice ?? '',
+          unitPrice: prefilledPrice,
           currency: item.currency || 'USD',
         }
       })
@@ -154,7 +159,10 @@ export default function RFQDetails() {
                 onClick={() => {
                   const allPriced = rfq?.items?.every((item) => itemPrices[item.id]?.unitPrice)
                   if (!allPriced) {
-                    setPriceError('Please fill in unit prices for all items.')
+                    const missing = rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length
+                    setPriceError(`Please fill in unit prices for all items. ${missing} item${missing !== 1 ? 's' : ''} still need${missing === 1 ? 's' : ''} a price.`)
+                    // Scroll to products section
+                    document.querySelector('.divide-y')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                     return
                   }
                   setPriceError('')
@@ -163,6 +171,7 @@ export default function RFQDetails() {
                 disabled={sendQuotation.isPending || quotationSent}
                 className="px-6 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
               >
+                <span className="material-symbols-outlined text-sm">send</span>
                 {sendQuotation.isPending ? 'Sending...' : quotationSent ? '✓ Sent' : 'Send Quote'}
               </button>
             </div>
@@ -189,7 +198,20 @@ export default function RFQDetails() {
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200">
               <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">Products ({rfq.items?.length})</h2>
+                <div className="flex items-center gap-3">
+                  <h2 className="text-lg font-semibold text-gray-900">Products ({rfq.items?.length})</h2>
+                  {rfq.items?.some((item) => !itemPrices[item.id]?.unitPrice) && (
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+                      {rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length} price{rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length !== 1 ? 's' : ''} needed
+                    </span>
+                  )}
+                  {rfq.items?.every((item) => itemPrices[item.id]?.unitPrice) && rfq.items?.length > 0 && (
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-200 flex items-center gap-1">
+                      <span className="material-symbols-outlined text-xs">check_circle</span>
+                      All prices filled
+                    </span>
+                  )}
+                </div>
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
@@ -217,15 +239,27 @@ export default function RFQDetails() {
                         
                         <div className="flex items-center gap-2">
                           <span className="text-sm text-gray-600">{currency}</span>
-                          <input
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            placeholder="0.00"
-                            value={itemPrices[item.id]?.unitPrice || ''}
-                            onChange={(e) => setItemPrices((p) => ({ ...p, [item.id]: { unitPrice: e.target.value, currency } }))}
-                            className="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm text-right focus:ring-2 focus:ring-primary focus:border-primary"
-                          />
+                          <div className="flex flex-col items-end">
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              placeholder={item.unitPrice ? parseFloat(item.unitPrice).toFixed(2) : '0.00'}
+                              value={itemPrices[item.id]?.unitPrice || ''}
+                              onChange={(e) => {
+                                setItemPrices((p) => ({ ...p, [item.id]: { unitPrice: e.target.value, currency } }))
+                                if (priceError) setPriceError('')
+                              }}
+                              className={`w-28 px-3 py-2 border rounded-lg text-sm text-right focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                                priceError && !itemPrices[item.id]?.unitPrice
+                                  ? 'border-red-400 bg-red-50 focus:ring-red-300'
+                                  : 'border-gray-300'
+                              }`}
+                            />
+                            {!itemPrices[item.id]?.unitPrice && (
+                              <span className="text-[10px] text-amber-600 mt-0.5">Price required</span>
+                            )}
+                          </div>
                         </div>
                         
                         {itemPrices[item.id]?.unitPrice && (

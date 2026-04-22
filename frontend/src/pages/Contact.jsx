@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useSiteContent } from '../lib/useSiteContent'
 import api from '../lib/api'
 
@@ -49,15 +50,21 @@ export default function Contact() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <Helmet>
+        <title>Contact Us — PharmaLink Pro</title>
+        <meta name="description" content="Get in touch with our procurement specialists. Available Mon–Fri, 9am–6pm GMT. Submit an RFQ or send us a message." />
+        <link rel="canonical" href="https://pharmalinkwholesale.com/contact" />
+      </Helmet>
 
       {/* Hero */}
-      <section className="relative h-64 flex items-center overflow-hidden bg-gray-900">
-        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=1400&q=80" alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-gray-900/40" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <span className="section-label text-blue-300">Get In Touch</span>
-          <h1 className="text-white font-bold text-3xl sm:text-4xl mt-2 mb-2">Let's Secure Your Supply Chain</h1>
-          <p className="text-gray-300 text-sm sm:text-base max-w-xl">
+      <section className="relative h-80 flex items-center overflow-hidden bg-white">
+        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=90" alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
+        <div className="absolute inset-0 bg-primary/5" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-white/95 text-primary text-xs font-bold tracking-widest uppercase mb-4 border border-primary/20 shadow-lg">Get In Touch</span>
+          <h1 className="text-white font-extrabold text-4xl sm:text-5xl mt-2 mb-3" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6)' }}>Let's Secure Your Supply Chain</h1>
+          <p className="text-white text-sm sm:text-base max-w-xl mx-auto font-medium" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.7)' }}>
             Our procurement experts are ready to assist with bulk orders, regular supplies, or specialized imports.
           </p>
         </div>

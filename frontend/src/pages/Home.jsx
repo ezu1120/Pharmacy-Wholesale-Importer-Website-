@@ -1,14 +1,36 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect, useCallback } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { Helmet } from 'react-helmet-async'
 import api from '../lib/api'
 import useRFQStore from '../store/rfqStore'
 import { useSiteContent } from '../lib/useSiteContent'
 
 const DEFAULT_SLIDES = [
-  { img: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1600&q=85', badge: 'Global Distribution Excellence', headline: 'Trusted Pharmaceutical Wholesale', accent: 'Import Solutions', sub: 'Supplying quality medicines and medical products to pharmacies, hospitals, and clinics worldwide.' },
-  { img: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=1600&q=85', badge: 'WHO-GMP Certified Sources',       headline: 'Trusted Pharmaceutical Wholesale', accent: 'Import Solutions', sub: 'Supplying quality medicines and medical products to pharmacies, hospitals, and clinics worldwide.' },
-  { img: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1600&q=85', badge: 'Cold Chain Specialists',           headline: 'Trusted Pharmaceutical Wholesale', accent: 'Import Solutions', sub: 'Supplying quality medicines and medical products to pharmacies, hospitals, and clinics worldwide.' },
+  { 
+    img: 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=1800&q=90', 
+    badge: 'Global Distribution Excellence', 
+    headline: 'Trusted Pharmaceutical Wholesale & Import Solutions', 
+    accent: '', 
+    sub: 'Supplying quality medicines and medical products to pharmacies, hospitals, and clinics.',
+    slogan: 'Your Partner in Healthcare Excellence'
+  },
+  { 
+    img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1800&q=90', 
+    badge: 'WHO-GMP Certified Sources', 
+    headline: 'Quality Assured Medical Supply Chain', 
+    accent: '', 
+    sub: 'Direct sourcing from certified manufacturers with full regulatory compliance.',
+    slogan: 'Quality You Can Trust'
+  },
+  { 
+    img: 'https://images.unsplash.com/photo-1584362917165-526a968579e8?w=1800&q=90', 
+    badge: 'Cold Chain Specialists', 
+    headline: 'Temperature Controlled Logistics', 
+    accent: '', 
+    sub: 'Specialized handling for vaccines, biologics, and temperature-sensitive medications.',
+    slogan: 'Precision in Every Delivery'
+  },
 ]
 
 const DEFAULT_WHY = [
@@ -19,7 +41,7 @@ const DEFAULT_WHY = [
   { icon: 'groups',         title: 'Expert Team',          desc: 'Dedicated professionals ensuring seamless procurement.' },
 ]
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   { key: 'prescription',     label: 'Prescription',    icon: 'medication',      color: 'bg-blue-50 text-blue-600' },
   { key: 'otc',              label: 'OTC Medicines',   icon: 'pill',            color: 'bg-green-50 text-green-600' },
   { key: 'medical-supplies', label: 'Medical Supplies',icon: 'medical_services',color: 'bg-violet-50 text-violet-600' },
@@ -69,48 +91,106 @@ function HeroSlideshow({ slides }) {
 
   const slide = SLIDES[current]
 
+  // Safety check - don't render if slide data is not available
+  if (!slide) {
+    return null
+  }
+
   return (
-    <section className="relative h-[580px] flex items-center overflow-hidden bg-gray-900">
+    <section className="relative bg-white py-28 px-8 overflow-hidden">
+      {/* Background Images */}
       {SLIDES.map((s, i) => (
-        <div key={i} className="absolute inset-0 transition-opacity duration-700" style={{ opacity: i === current ? 1 : 0 }}>
-          <img src={s.img} alt="" className="w-full h-full object-cover opacity-40" />
+        <div key={i} className="absolute inset-0 z-0 transition-opacity duration-1000" style={{ opacity: i === current ? 1 : 0 }}>
+          <img src={s.img} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10" />
         </div>
       ))}
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-900/50 to-transparent" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="max-w-2xl">
-          <span key={`badge-${current}`} className="inline-block px-3 py-1 rounded-full bg-primary/20 text-blue-200 text-xs font-semibold tracking-wider uppercase mb-5 border border-primary/30 animate-fade-in">
-            {slide.badge}
-          </span>
-          <h1 key={`h1-${current}`} className="text-white font-bold text-4xl sm:text-5xl leading-tight mb-4 animate-fade-in">
-            {slide.headline} &amp; <span className="text-blue-400">{slide.accent}</span>
-          </h1>
-          <p key={`p-${current}`} className="text-gray-300 text-base sm:text-lg mb-8 leading-relaxed animate-fade-in">
-            {slide.sub}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/portal/rfq" className="btn-primary px-6 py-3 text-sm">
-              Request Quotation
-              <span className="material-symbols-outlined text-base">arrow_forward</span>
-            </Link>
-            <Link to="/products" className="px-6 py-3 rounded-lg border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-colors">
-              Browse Products
-            </Link>
-          </div>
+      <div className="relative z-10 max-w-screen-2xl mx-auto px-8 w-full flex flex-col items-center text-center">
+        {/* Badge */}
+        <span className="inline-block px-4 py-1.5 rounded-full bg-white/95 text-primary text-xs font-bold tracking-widest uppercase mb-6 border border-primary/20 shadow-lg">
+          {slide.slogan || slide.badge}
+        </span>
+
+        {/* Main Title */}
+        <h1 
+          className="text-white text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] max-w-4xl"
+          style={{ 
+            textShadow: '0 0 30px rgba(0,0,0,0.9), 0 0 60px rgba(0,0,0,0.7), 2px 2px 4px rgba(0,0,0,0.8), -2px -2px 4px rgba(0,0,0,0.8)',
+            WebkitTextStroke: '1px rgba(0,0,0,0.3)'
+          }}
+        >
+          {slide.headline || slide.title}
+        </h1>
+
+        {/* Subtitle */}
+        <p 
+          className="text-white text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed font-semibold"
+          style={{ 
+            textShadow: '0 0 20px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.7), 2px 2px 3px rgba(0,0,0,0.8), -2px -2px 3px rgba(0,0,0,0.8)',
+            WebkitTextStroke: '0.5px rgba(0,0,0,0.3)'
+          }}
+        >
+          {slide.sub || slide.subtitle}
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center">
+          <Link
+            to="/portal/rfq"
+            className="bg-primary text-white px-8 py-4 rounded-lg font-bold hover:scale-[1.02] transition-all shadow-xl inline-flex items-center gap-2 justify-center"
+          >
+            <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>request_quote</span>
+            Request Quotation
+            <span className="material-symbols-outlined">arrow_forward</span>
+          </Link>
+
+          <Link
+            to="/products"
+            className="bg-white/95 text-slate-900 px-8 py-4 rounded-lg font-bold hover:bg-white transition-all shadow-xl inline-flex items-center gap-2 justify-center"
+          >
+            <span className="material-symbols-outlined text-lg">inventory_2</span>
+            View Products
+          </Link>
+        </div>
+
+        {/* Trust Indicators */}
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {[
+            { icon: 'verified', color: 'text-emerald-400', label: 'WHO-GMP Certified' },
+            { icon: 'local_shipping', color: 'text-blue-400', label: '50+ Countries' },
+            { icon: 'schedule', color: 'text-violet-400', label: '24h Response' },
+          ].map(t => (
+            <div key={t.label} className="flex items-center gap-1.5">
+              <span className={`material-symbols-outlined text-base ${t.color}`} style={{ fontVariationSettings: "'FILL' 1" }}>{t.icon}</span>
+              <span className="text-xs sm:text-sm font-semibold text-white">{t.label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+      {/* Navigation Dots */}
+      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-3 z-10">
         {SLIDES.map((_, i) => (
-          <button key={i} onClick={() => goTo(i)} className={`transition-all duration-300 rounded-full ${i === current ? 'w-6 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/70'}`} />
+          <button 
+            key={i} 
+            onClick={() => goTo(i)} 
+            className={`transition-all duration-300 rounded-full ${
+              i === current 
+                ? 'w-8 h-2 bg-white shadow-lg' 
+                : 'w-2 h-2 bg-white/40 hover:bg-white/70 hover:scale-125'
+            }`} 
+          />
         ))}
       </div>
 
-      {/* Progress */}
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/10 z-10">
-        <div key={current} className="h-full bg-primary" style={{ animation: 'slideProgress 5.5s linear forwards' }} />
+      {/* Progress Bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-10">
+        <div 
+          key={current} 
+          className="h-full bg-gradient-to-r from-primary to-primary-container shadow-lg" 
+          style={{ animation: 'slideProgress 5.5s linear forwards' }} 
+        />
       </div>
     </section>
   )
@@ -151,10 +231,121 @@ function FeaturedCard({ product }) {
   )
 }
 
+// ── Home Contact Section ──────────────────────────────────────────────────────
+const DEFAULT_CONTACT_INFO = [
+  { icon: 'location_on', title: 'Headquarters',   line1: 'Medical Park West, Floor 14', line2: 'London, UK EC1A 4HQ' },
+  { icon: 'call',        title: 'Phone Support',  line1: '+44 (0) 20 7946 0123',        line2: 'Mon–Fri, 9am – 6pm GMT' },
+  { icon: 'mail',        title: 'Email',          line1: 'support@pharmalinkwholesale.com', line2: 'procurement@pharmalinkwholesale.com' },
+]
+
+function HomeContactSection() {
+  const contactInfo = useSiteContent('contact_info', DEFAULT_CONTACT_INFO)
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', message: '' })
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!form.email.includes('@')) return
+    setLoading(true); setError(false)
+    try {
+      await api.post('/contact', { ...form, company: '', phone: '', department: 'other' })
+      setSubmitted(true)
+    } catch {
+      setError(true)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const info = (contactInfo || DEFAULT_CONTACT_INFO).slice(0, 3)
+
+  return (
+    <section className="bg-gray-50 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-10">
+          <span className="section-label">Get In Touch</span>
+          <h2 className="section-title mt-1">Let's Secure Your Supply Chain</h2>
+          <p className="section-sub mt-2 max-w-xl mx-auto">Our procurement experts are ready to assist with bulk orders, regular supplies, or specialized imports.</p>
+        </div>
+        <div className="grid lg:grid-cols-2 gap-10">
+          {/* Left: info + map */}
+          <div className="space-y-6">
+            <div className="grid sm:grid-cols-3 gap-4">
+              {info.map(item => (
+                <div key={item.title} className="bg-white rounded-xl border border-gray-100 p-4 flex flex-col items-start gap-2">
+                  <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <span className="material-symbols-outlined text-primary text-lg">{item.icon}</span>
+                  </div>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{item.title}</p>
+                  <p className="text-sm text-gray-900 leading-snug">{item.line1}</p>
+                  <p className="text-xs text-gray-500">{item.line2}</p>
+                </div>
+              ))}
+            </div>
+            <div className="rounded-xl overflow-hidden border border-gray-200 h-52">
+              <iframe
+                title="PharmaLink Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.819917806043!2d36.81989441475396!3d-1.281801599066062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d65b79eef9%3A0xe744e8d89e5a1b!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sus!4v1683100000000!5m2!1sen!2sus"
+                width="100%" height="100%" style={{ border: 0 }} allowFullScreen="" loading="lazy"
+              />
+            </div>
+          </div>
+          {/* Right: quick form */}
+          <div className="bg-white rounded-xl border border-gray-200 p-6 sm:p-8">
+            {submitted ? (
+              <div className="text-center py-10">
+                <div className="w-14 h-14 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="material-symbols-outlined text-green-600 text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">Message Sent!</h3>
+                <p className="text-sm text-gray-500">Our team will get back to you within 1 business day.</p>
+                <button onClick={() => { setSubmitted(false); setForm({ firstName: '', lastName: '', email: '', message: '' }) }} className="mt-4 text-primary text-sm font-semibold hover:underline">Send another</button>
+              </div>
+            ) : (
+              <>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">Send a Quick Message</h3>
+                <p className="text-sm text-gray-500 mb-5">We'll respond within 1 business day.</p>
+                {error && <p className="text-sm text-red-600 mb-4">Failed to send. Please try again.</p>}
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-700 mb-1.5">First Name *</label>
+                      <input required type="text" value={form.firstName} onChange={set('firstName')} placeholder="John" className="input-field" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-700 mb-1.5">Last Name *</label>
+                      <input required type="text" value={form.lastName} onChange={set('lastName')} placeholder="Smith" className="input-field" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1.5">Email *</label>
+                    <input required type="email" value={form.email} onChange={set('email')} placeholder="you@company.com" className="input-field" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1.5">Message *</label>
+                    <textarea required rows={4} value={form.message} onChange={set('message')} placeholder="How can we help you?" className="input-field resize-none" />
+                  </div>
+                  <button type="submit" disabled={loading} className="w-full btn-primary justify-center py-2.5 text-sm disabled:opacity-60">
+                    {loading ? <><span className="material-symbols-outlined animate-spin text-base">progress_activity</span> Sending...</> : <><span className="material-symbols-outlined text-base">send</span> Send Message</>}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function Home() {
-  const HERO_SLIDES  = useSiteContent('hero_slides', DEFAULT_SLIDES)
-  const WHY_US       = useSiteContent('why_choose_us', DEFAULT_WHY)
+  const HERO_SLIDES  = useSiteContent('hero_slides', DEFAULT_SLIDES) || DEFAULT_SLIDES
+  const WHY_US       = useSiteContent('why_choose_us', DEFAULT_WHY) || DEFAULT_WHY
+  const CATEGORIES   = useSiteContent('home_categories', DEFAULT_CATEGORIES) || DEFAULT_CATEGORIES
   const { data: featured }     = useQuery({ queryKey: ['featured-products'],  queryFn: () => api.get('/products/featured').then(r => r.data) })
   const { data: testimonials } = useQuery({ queryKey: ['testimonials'],        queryFn: () => api.get('/content/testimonials').then(r => r.data) })
   const displayProducts     = featured?.length     > 0 ? featured.slice(0, 4)     : PLACEHOLDER_PRODUCTS
@@ -162,22 +353,40 @@ export default function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>PharmaLink Pro — Trusted Pharmaceutical Wholesale & Import Solutions</title>
+        <meta name="description" content="PharmaLink Pro supplies quality medicines, medical supplies, and pharmaceutical products to pharmacies, hospitals, clinics, and distributors worldwide." />
+        <link rel="canonical" href="https://pharmalinkwholesale.com/" />
+        <meta property="og:title" content="PharmaLink Pro — Pharmaceutical Wholesale & Import" />
+        <meta property="og:description" content="Supplying quality medicines and medical products to pharmacies, hospitals, and clinics worldwide." />
+        <meta property="og:url" content="https://pharmalinkwholesale.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1200&q=85" />
+      </Helmet>
+
       {/* 1. Hero */}
       <HeroSlideshow slides={HERO_SLIDES} />
 
       {/* 2. Trust bar */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <section className="bg-white border-b border-gray-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-8">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Trusted by Healthcare Leaders Worldwide</h3>
+            <p className="text-sm text-gray-600">Delivering excellence in pharmaceutical supply chain management</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: '15+',    label: 'Years Experience' },
-              { value: '50+',    label: 'Countries Served' },
-              { value: '10,000+',label: 'Products in Catalog' },
-              { value: '24h',    label: 'Quote Response' },
+              { value: '15+', label: 'Years Experience', icon: 'history', color: 'text-blue-600' },
+              { value: '50+', label: 'Countries Served', icon: 'public', color: 'text-green-600' },
+              { value: '10,000+', label: 'Products in Catalog', icon: 'inventory_2', color: 'text-purple-600' },
+              { value: '24h', label: 'Quote Response', icon: 'schedule', color: 'text-orange-600' },
             ].map(s => (
-              <div key={s.label}>
-                <p className="text-2xl font-bold text-primary">{s.value}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
+              <div key={s.label} className="group">
+                <div className={`w-12 h-12 ${s.color.replace('text-', 'bg-').replace('-600', '-50')} rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                  <span className={`material-symbols-outlined ${s.color} text-xl`} style={{ fontVariationSettings: "'FILL' 1" }}>{s.icon}</span>
+                </div>
+                <p className="text-3xl font-bold text-gray-900 mb-1">{s.value}</p>
+                <p className="text-sm text-gray-600 font-medium">{s.label}</p>
               </div>
             ))}
           </div>
@@ -265,10 +474,10 @@ export default function Home() {
       <section className="bg-primary py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-white font-bold text-2xl mb-10">Why Healthcare Leaders Choose Us</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {(WHY_US || DEFAULT_WHY).map(item => (
-              <div key={item.title} className="text-center">
-                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <div key={item.title} className="flex flex-col items-center text-center w-40">
+                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-3">
                   <span className="material-symbols-outlined text-blue-200 text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                 </div>
                 <p className="text-white text-sm font-semibold mb-1">{item.title}</p>
@@ -355,7 +564,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 9. CTA */}
+      {/* 9. Contact Section */}
+      <HomeContactSection />
+
+      {/* 10. CTA */}
       <section className="bg-primary py-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-white font-bold text-2xl sm:text-3xl mb-3">Ready to Streamline Your Supply Chain?</h2>
@@ -368,6 +580,10 @@ export default function Home() {
             </Link>
             <Link to="/contact" className="border border-white/20 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-white/10 transition-colors">
               Contact Sales
+            </Link>
+            <Link to="/track" className="border border-white/20 text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-white/10 transition-colors inline-flex items-center gap-2">
+              <span className="material-symbols-outlined text-base">track_changes</span>
+              Track RFQ
             </Link>
           </div>
         </div>

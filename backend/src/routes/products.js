@@ -38,7 +38,8 @@ router.get('/', async (req, res, next) => {
       `SELECT p.id, p.name, p.generic_name AS "genericName", p.brand, p.category,
               p.package_size AS "packageSize", p.description, p.image_url AS "imageUrl",
               p.price, p.currency, p.stock_quantity AS "stockQuantity",
-              p.is_featured AS "isFeatured"
+              p.is_featured AS "isFeatured",
+              p.dosage_form AS "dosageForm", p.country_of_origin AS "countryOfOrigin"
        FROM products p WHERE ${where} ORDER BY ${orderBy}
        LIMIT $${params.length - 1} OFFSET $${params.length}`,
       params
@@ -54,7 +55,8 @@ router.get('/featured', async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT id, name, generic_name AS "genericName", brand, category,
               package_size AS "packageSize", description, image_url AS "imageUrl",
-              price, currency, stock_quantity AS "stockQuantity"
+              price, currency, stock_quantity AS "stockQuantity",
+              dosage_form AS "dosageForm", country_of_origin AS "countryOfOrigin"
        FROM products WHERE is_active = true AND is_featured = true
        ORDER BY name ASC LIMIT 8`
     )
@@ -68,7 +70,8 @@ router.get('/:id', async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT id, name, generic_name AS "genericName", brand, category,
               package_size AS "packageSize", description, image_url AS "imageUrl",
-              price, currency, stock_quantity AS "stockQuantity"
+              price, currency, stock_quantity AS "stockQuantity",
+              dosage_form AS "dosageForm", country_of_origin AS "countryOfOrigin"
        FROM products WHERE id = $1 AND is_active = true`,
       [req.params.id]
     )
