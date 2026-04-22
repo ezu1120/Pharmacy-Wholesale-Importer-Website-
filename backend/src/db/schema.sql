@@ -127,3 +127,59 @@ CREATE TABLE IF NOT EXISTS rfq_sequences (
   year     INTEGER PRIMARY KEY,
   last_seq INTEGER NOT NULL DEFAULT 0
 );
+
+-- Chat sessions
+CREATE TABLE IF NOT EXISTS chats (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  customer_id UUID REFERENCES users(id),
+  guest_name  VARCHAR(255),
+  status      VARCHAR(20) NOT NULL DEFAULT 'OPEN',
+  last_msg_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_chats_last_msg ON chats(last_msg_at DESC);
+
+-- Chat messages
+CREATE TABLE IF NOT EXISTS chat_messages (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  chat_id       UUID NOT NULL REFERENCES chats(id) ON DELETE CASCADE,
+  sender_id     UUID REFERENCES users(id),
+  sender_name   VARCHAR(255) NOT NULL,
+  message       TEXT NOT NULL,
+  is_from_admin BOOLEAN NOT NULL DEFAULT false,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  file_url      VARCHAR(500),
+  file_name     VARCHAR(255),
+  mime_type     VARCHAR(100),
+  is_read       BOOLEAN NOT NULL DEFAULT false
+);
+
+CREATE INDEX IF NOT EXISTS idx_chat_messages_chat ON chat_messages(chat_id);
+
+-- Contact form messages
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id         SERIAL PRIMARY KEY,
+  first_name TEXT NOT NULL,
+  last_name  TEXT NOT NULL,
+  email      TEXT NOT NULL,
+  phone      TEXT,
+  company    TEXT,
+  department TEXT,
+  message    TEXT NOT NULL,
+  is_read    BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Newsletter subscribers
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id         SERIAL PRIMARY KEY,
+  email      TEXT NOT NULL UNIQUE,
+  topics     TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Add stock_quantity and extra product columns if missing
+ALTER TABLE products ADD COLUMN IF NOT EXISTS stock_quantity INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS dosage_form VARCHAR(100);
+ALTER TABLE products ADD COLUMN IF NOT EXISTS country_of_origin VARCHAR(100);

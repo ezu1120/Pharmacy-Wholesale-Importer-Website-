@@ -13,6 +13,7 @@ const adminRoutes = require('./routes/admin')
 const contentRoutes = require('./routes/content')
 const chatRoutes = require('./routes/chat')
 const contactRoutes = require('./routes/contact')
+const newsletterRoutes = require('./routes/newsletter')
 
 const app = express()
 
@@ -56,6 +57,7 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/content', contentRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/contact', contactRoutes)
+app.use('/api/newsletter', newsletterRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }))
