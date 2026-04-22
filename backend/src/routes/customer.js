@@ -81,69 +81,65 @@ router.get('/rfqs/:id', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
-// POST /api/customer/rfqs/:id/accept — Accept quotation and close RFQ
+// POST /api/customer/rfqs/:id/accept — Accept quotation, close RFQ, deduct stock
 router.post('/rfqs/:id/accept', async (req, res, next) => {
+  const client = await pool.connect()
   try {
-    // Verify RFQ belongs to customer and is in QUOTATION_SENT status
-    const { rows } = await pool.query(
-      `SELECT r.id, r.status, r.rfq_number
-       FROM rfqs r
-       WHERE r.id = $1 AND r.customer_id = $2`,
+    // Verify RFQ belongs to this customer and is in QUOTATION_SENT status
+    const { rows } = await client.query(
+      `SELECT id, status, rfq_number FROM rfqs WHERE id = $1 AND customer_id = $2`,
       [req.params.id, req.user.id]
     )
-    
+
     if (!rows.length) {
       return res.status(404).json({ error: 'RFQ not found' })
     }
-    
+
     const rfq = rows[0]
-    
+
     if (rfq.status !== 'QUOTATION_SENT') {
-      return res.status(400).json({ error: 'RFQ must be in QUOTATION_SENT status to accept' })
+      return res.status(400).json({ error: 'Only a QUOTATION_SENT RFQ can be accepted' })
     }
-    
-    // Get all RFQ items with product IDs
-    const { rows: items } = await pool.query(
-      'SELECT id, product_id, quantity FROM rfq_items WHERE rfq_id = $1 AND product_id IS NOT NULL',
+
+    // Get all items that are linked to a product (so we can deduct stock)
+    const { rows: items } = await client.query(
+      `SELECT product_id, quantity FROM rfq_items
+       WHERE rfq_id = $1 AND product_id IS NOT NULL`,
       [rfq.id]
     )
-    
-    // Start transaction to update stock and close RFQ
-    await pool.query('BEGIN')
-    
-    try {
-      // Deduct stock for each item that has a product_id
-      for (const item of items) {
-        await pool.query(
-          `UPDATE products 
-           SET stock_quantity = GREATEST(0, stock_quantity - $1),
-               updated_at = NOW()
-           WHERE id = $2`,
-          [item.quantity, item.product_id]
-        )
-      }
-      
-      // Update RFQ status to CLOSED
-      await pool.query(
-        `UPDATE rfqs 
-         SET status = 'CLOSED', updated_at = NOW()
-         WHERE id = $1`,
-        [rfq.id]
+
+    // Run everything in a single transaction
+    await client.query('BEGIN')
+
+    // 1. Deduct stock for each linked product (floor at 0)
+    for (const item of items) {
+      await client.query(
+        `UPDATE products
+         SET stock_quantity = GREATEST(0, stock_quantity - $1),
+             updated_at     = NOW()
+         WHERE id = $2`,
+        [item.quantity, item.product_id]
       )
-      
-      await pool.query('COMMIT')
-      
-      res.json({ 
-        success: true, 
-        message: 'Quotation accepted successfully',
-        rfqNumber: rfq.rfq_number
-      })
-    } catch (err) {
-      await pool.query('ROLLBACK')
-      throw err
     }
-  } catch (err) { 
-    next(err) 
+
+    // 2. Close the RFQ
+    await client.query(
+      `UPDATE rfqs SET status = 'CLOSED', updated_at = NOW() WHERE id = $1`,
+      [rfq.id]
+    )
+
+    await client.query('COMMIT')
+
+    res.json({
+      success: true,
+      message: 'Quotation accepted. Your order is confirmed.',
+      rfqNumber: rfq.rfq_number,
+    })
+  } catch (err) {
+    await client.query('ROLLBACK').catch(() => {})
+    next(err)
+  } finally {
+    client.release()
   }
 })
 

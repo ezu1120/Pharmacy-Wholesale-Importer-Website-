@@ -99,13 +99,22 @@ export default function CustomerRFQDetail() {
                 RFQ Copy
               </button>
               {rfq.status === 'QUOTATION_SENT' && (
-                <button
-                  onClick={downloadQuotationPDF}
-                  className="flex items-center gap-2 px-4 py-2 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-colors shadow-md"
-                >
-                  <span className="material-symbols-outlined text-base">picture_as_pdf</span>
-                  Download Quotation
-                </button>
+                <>
+                  <button
+                    onClick={downloadQuotationPDF}
+                    className="flex items-center gap-2 px-4 py-2 signature-gradient text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-colors shadow-md"
+                  >
+                    <span className="material-symbols-outlined text-base">picture_as_pdf</span>
+                    Download Quotation
+                  </button>
+                  <button
+                    onClick={() => setShowAcceptModal(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-bold hover:bg-emerald-700 transition-colors shadow-md"
+                  >
+                    <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                    Accept
+                  </button>
+                </>
               )}
             </div>
           </div>
