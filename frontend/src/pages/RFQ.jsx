@@ -272,6 +272,7 @@ function Step3({ onNext, onBack }) {
     const e = {}
     if (!additionalInfo.requestedDeliveryDate) e.date = 'Required'
     if (!additionalInfo.shippingMethod)        e.ship = 'Required'
+    if (files.length === 0)                    e.files = 'Please upload at least one document before proceeding'
     return e
   }
   const handleNext = () => {
@@ -350,9 +351,17 @@ function Step3({ onNext, onBack }) {
           {/* Documents */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <label className="text-[10px] font-bold text-outline uppercase tracking-widest">Documents <span className="font-normal">(optional)</span></label>
+              <label className="text-[10px] font-bold text-outline uppercase tracking-widest">
+                Documents <span className="text-error">*</span>
+              </label>
               {files.length > 0 && <span className="text-[10px] text-primary font-bold">{files.length}/5</span>}
             </div>
+            {errors.files && (
+              <p className="text-[10px] text-error mb-2 flex items-center gap-1">
+                <span className="material-symbols-outlined text-xs">error</span>
+                {errors.files}
+              </p>
+            )}
             {files.length > 0 && (
               <div className="mb-3 space-y-2">
                 {files.map((f, i) => (
@@ -366,13 +375,16 @@ function Step3({ onNext, onBack }) {
               </div>
             )}
             {files.length < 5 && (
-              <label className={`border-2 border-dashed rounded-lg cursor-pointer flex items-center gap-2 transition-all ${files.length > 0 ? 'border-primary/30 bg-primary/5 px-3 py-2.5' : 'border-outline-variant bg-surface-container-low/40 px-4 py-4 flex-col text-center'}`}>
+              <label className={`border-2 border-dashed rounded-lg cursor-pointer flex items-center gap-2 transition-all ${
+                errors.files ? 'border-error/50 bg-red-50/30' :
+                files.length > 0 ? 'border-primary/30 bg-primary/5 px-3 py-2.5' : 'border-outline-variant bg-surface-container-low/40 px-4 py-4 flex-col text-center'
+              }`}>
                 {files.length > 0 ? (
                   <><span className="material-symbols-outlined text-primary text-base">add_circle</span><p className="text-sm font-bold text-primary">Add more · {5 - files.length} left</p></>
                 ) : (
-                  <><span className="material-symbols-outlined text-primary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>cloud_upload</span><p className="text-sm font-bold text-on-surface">Drop or click to upload</p><p className="text-xs text-outline">PDF, JPG, PNG · max 10MB</p></>
+                  <><span className="material-symbols-outlined text-primary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>cloud_upload</span><p className="text-sm font-bold text-on-surface">Drop or click to upload</p><p className="text-xs text-outline">PDF, JPG, PNG · max 10MB · Required</p></>
                 )}
-                <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png" className="hidden" onChange={handleFiles} />
+                <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png" className="hidden" onChange={(ev) => { handleFiles(ev); setErrors(p => ({ ...p, files: '' })) }} />
               </label>
             )}
           </div>
