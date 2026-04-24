@@ -267,6 +267,14 @@ function Step3({ onNext, onBack }) {
   const { additionalInfo, setAdditionalInfo, selectedProducts, customerInfo } = useRFQStore()
   const [files, setFiles] = useState([])
   const [errors, setErrors] = useState({})
+  
+  // Check if main component set upload error
+  useEffect(() => {
+    if (useRFQStore.getState()._uploadError) {
+      setErrors(e => ({ ...e, files: 'Please upload at least one document before proceeding' }))
+      useRFQStore.getState()._uploadError = false
+    }
+  }, [additionalInfo._uploadErrorTs])
 
   const validate = () => {
     const e = {}
@@ -349,7 +357,7 @@ function Step3({ onNext, onBack }) {
             </div>
           </div>
           {/* Documents */}
-          <div>
+          <div id="step3-upload">
             <div className="flex items-center justify-between mb-2">
               <label className="text-[10px] font-bold text-outline uppercase tracking-widest">
                 Documents <span className="text-error">*</span>
@@ -568,12 +576,22 @@ export default function RFQ() {
       }
       goTo(3)
     } else if (currentStep === 3) {
-      // Validate step 3 fields
+      // Validate step 3 fields including file upload
+      const pendingFiles = useRFQStore.getState()._pendingFiles || []
       if (!additionalInfo.requestedDeliveryDate || !additionalInfo.shippingMethod) {
         const dateField = document.getElementById('step3-date')
         const shipField = document.getElementById('step3-ship')
         if (!additionalInfo.requestedDeliveryDate && dateField) dateField.focus()
         else if (!additionalInfo.shippingMethod && shipField) shipField.focus()
+        return
+      }
+      if (pendingFiles.length === 0) {
+        // Scroll to the upload area and show error
+        const uploadArea = document.getElementById('step3-upload')
+        if (uploadArea) uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        useRFQStore.getState()._uploadError = true
+        // Force re-render by updating a store value
+        setAdditionalInfo({ _uploadErrorTs: Date.now() })
         return
       }
       goTo(4)
@@ -592,7 +610,10 @@ export default function RFQ() {
   const canGoNext = () => {
     if (currentStep === 1) return true // Form validation handles this
     if (currentStep === 2) return selectedProducts.length > 0
-    if (currentStep === 3) return additionalInfo.requestedDeliveryDate && additionalInfo.shippingMethod
+    if (currentStep === 3) {
+      const pendingFiles = useRFQStore.getState()._pendingFiles || []
+      return !!(additionalInfo.requestedDeliveryDate && additionalInfo.shippingMethod && pendingFiles.length > 0)
+    }
     if (currentStep === 4) return true
     return false
   }
