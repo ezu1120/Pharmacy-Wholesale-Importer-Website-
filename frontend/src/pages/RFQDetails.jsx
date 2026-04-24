@@ -122,26 +122,28 @@ export default function RFQDetails() {
 
   return (
     <AdminLayout>
-      <div className="max-w-7xl mx-auto px-4 space-y-4">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 space-y-4 pb-20 md:pb-6">
         
-        {/* Header - Compact */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link to="/admin/rfqs" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+        {/* Header - Simplified & Responsive */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start gap-4">
+              <Link to="/admin/rfqs" className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0">
                 <span className="material-symbols-outlined text-gray-600">arrow_back</span>
               </Link>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">{rfq.rfq_number}</h1>
-                <p className="text-sm text-gray-600">{companyName} • {customerName}</p>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h1 className="text-xl md:text-2xl font-bold text-gray-900 truncate">{rfq.rfq_number}</h1>
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider ${STATUS_BADGE[rfq.status] || 'bg-gray-100 text-gray-600 border-gray-200'}`}>
+                    {rfq.status?.replace('_', ' ')}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 mt-1 truncate">{companyName} • {customerName}</p>
               </div>
-              <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${STATUS_BADGE[rfq.status] || 'bg-gray-100 text-gray-600 border-gray-200'}`}>
-                {rfq.status?.replace('_', ' ')}
-              </span>
             </div>
             
-            <div className="flex items-center gap-3">
-              {/* Status dropdown — locked when CLOSED or DECLINED */}
+            {/* Actions Bar */}
+            <div className="flex flex-wrap items-center gap-2 pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
               {isLocked ? (
                 <div className={`px-4 py-2 rounded-lg text-sm font-semibold border ${
                   rfq.status === 'CLOSED'
@@ -151,27 +153,28 @@ export default function RFQDetails() {
                   <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
                     {rfq.status === 'CLOSED' ? 'verified' : 'cancel'}
                   </span>
-                  {rfq.status === 'CLOSED' ? 'Deal Closed' : 'Declined by Customer'}
+                  {rfq.status === 'CLOSED' ? 'Deal Closed' : 'Declined'}
                 </div>
               ) : (
-                <select
-                  value={rfq.status}
-                  onChange={(e) => handleStatusChange(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary"
-                >
-                  <option value="NEW">New</option>
-                  <option value="UNDER_REVIEW">Under Review</option>
-                  <option value="QUOTATION_SENT">Quotation Sent</option>
-                  <option value="CLOSED">Closed</option>
-                </select>
+                <div className="flex flex-1 md:flex-none items-center gap-2">
+                  <select
+                    value={rfq.status}
+                    onChange={(e) => handleStatusChange(e.target.value)}
+                    className="flex-1 md:flex-none px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary bg-white transition-all outline-none"
+                  >
+                    <option value="NEW">New</option>
+                    <option value="UNDER_REVIEW">Under Review</option>
+                    <option value="QUOTATION_SENT">Quotation Sent</option>
+                    <option value="CLOSED">Closed</option>
+                  </select>
+                </div>
               )}
               
-              <button onClick={exportPDF} className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
-                <span className="material-symbols-outlined text-sm">picture_as_pdf</span>
-                PDF
+              <button onClick={exportPDF} title="Download PDF" className="p-2 md:px-4 md:py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 bg-white text-gray-700">
+                <span className="material-symbols-outlined text-base">picture_as_pdf</span>
+                <span className="hidden md:inline">PDF</span>
               </button>
               
-              {/* Send Quote — hidden when locked */}
               {!isLocked && (
                 <button
                   onClick={() => {
@@ -179,129 +182,143 @@ export default function RFQDetails() {
                     if (!allPriced) {
                       const missing = rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length
                       setPriceError(`Please fill in unit prices for all items. ${missing} item${missing !== 1 ? 's' : ''} still need${missing === 1 ? 's' : ''} a price.`)
-                      document.querySelector('.divide-y')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      window.scrollTo({ top: 300, behavior: 'smooth' })
                       return
                     }
                     setPriceError('')
                     sendQuotation.mutate()
                   }}
                   disabled={sendQuotation.isPending || quotationSent}
-                  className="px-6 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
+                  className="flex-1 md:flex-none px-6 py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-sm shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  <span className="material-symbols-outlined text-sm">send</span>
+                  <span className="material-symbols-outlined text-base">send</span>
                   {sendQuotation.isPending ? 'Sending...' : quotationSent ? '✓ Sent' : 'Send Quote'}
                 </button>
               )}
             </div>
           </div>
-          
-          {/* Locked banner */}
-          {isLocked && (
-            <div className={`mt-3 p-3 rounded-lg text-sm flex items-center gap-2 ${
-              rfq.status === 'CLOSED'
-                ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
-                : 'bg-red-50 border border-red-200 text-red-800'
-            }`}>
-              <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
-                {rfq.status === 'CLOSED' ? 'lock' : 'do_not_disturb_on'}
-              </span>
-              {rfq.status === 'CLOSED'
-                ? 'This RFQ has been accepted by the customer and is now closed. No further actions are allowed.'
-                : 'This quotation was declined by the customer. No further actions are allowed.'}
-            </div>
-          )}
 
-          {/* Error/Success Messages */}
-          {priceError && (
-            <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 flex items-center gap-2">
-              <span className="material-symbols-outlined text-sm">warning</span>
-              {priceError}
-            </div>
-          )}
-          {quotationSent && (
-            <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800 flex items-center gap-2">
-              <span className="material-symbols-outlined text-sm">check_circle</span>
-              Quotation sent successfully to {email}
-            </div>
-          )}
+          {/* Messages/Banners */}
+          <div className="mt-4 space-y-2">
+            {isLocked && (
+              <div className={`p-4 rounded-xl text-sm flex items-center gap-3 ${
+                rfq.status === 'CLOSED'
+                  ? 'bg-emerald-50 border border-emerald-100 text-emerald-800'
+                  : 'bg-red-50 border border-red-100 text-red-800'
+              }`}>
+                <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  {rfq.status === 'CLOSED' ? 'lock' : 'do_not_disturb_on'}
+                </span>
+                <p className="font-medium">
+                  {rfq.status === 'CLOSED'
+                    ? 'This RFQ has been accepted by the customer and is now closed.'
+                    : 'This quotation was declined by the customer.'}
+                </p>
+              </div>
+            )}
+
+            {priceError && (
+              <div className="p-4 bg-amber-50 border border-amber-100 rounded-xl text-sm text-amber-800 flex items-center gap-3 animate-pulse">
+                <span className="material-symbols-outlined text-xl">error</span>
+                <p className="font-semibold">{priceError}</p>
+              </div>
+            )}
+            
+            {quotationSent && (
+              <div className="p-4 bg-green-50 border border-green-100 rounded-xl text-sm text-green-800 flex items-center gap-3">
+                <span className="material-symbols-outlined text-xl">check_circle</span>
+                <p className="font-medium">Quotation successfully sent to <strong>{email}</strong></p>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          {/* Main Content - Products */}
+          {/* Main Content - Products List */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gray-50/30">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-lg font-semibold text-gray-900">Products ({rfq.items?.length})</h2>
-                  {rfq.items?.some((item) => !itemPrices[item.id]?.unitPrice) && (
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-                      {rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length} price{rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length !== 1 ? 's' : ''} needed
-                    </span>
-                  )}
-                  {rfq.items?.every((item) => itemPrices[item.id]?.unitPrice) && rfq.items?.length > 0 && (
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-200 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-xs">check_circle</span>
-                      All prices filled
-                    </span>
+                  <h2 className="text-lg font-bold text-gray-900 tracking-tight">Line Items ({rfq.items?.length})</h2>
+                  {rfq.items?.some((item) => !itemPrices[item.id]?.unitPrice) ? (
+                    <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">Missing Prices</span>
+                  ) : (
+                    <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider flex items-center gap-1">Complete</span>
                   )}
                 </div>
-                <select
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="px-3 py-1 border border-gray-300 rounded text-sm font-medium"
-                >
-                  {['USD', 'ETB'].map((c) => <option key={c} value={c}>{c === 'USD' ? 'USD — US Dollar' : 'ETB — Ethiopian Birr'}</option>)}
-                </select>
+                <div className="flex items-center gap-2">
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">Currency:</label>
+                  <select
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value)}
+                    className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm font-bold bg-white text-gray-700"
+                  >
+                    <option value="USD">USD ($)</option>
+                    <option value="ETB">ETB (Br)</option>
+                  </select>
+                </div>
               </div>
               
               <div className="divide-y divide-gray-100">
                 {rfq.items?.map((item) => (
-                  <div key={item.id} className="p-4 hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900">{item.product_name}</h3>
-                        <p className="text-sm text-gray-600">{item.brand}</p>
-                        {item.notes && <p className="text-sm text-gray-500 italic mt-1">"{item.notes}"</p>}
+                  <div key={item.id} className="p-5 hover:bg-gray-50/50 transition-colors">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start gap-4">
+                          <div className="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm">
+                            {item.product_name[0]}
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-gray-900 leading-tight mb-1">{item.product_name}</h3>
+                            <p className="text-sm text-gray-500 font-medium">{item.brand}</p>
+                            {item.notes && (
+                              <div className="mt-2 text-xs text-gray-500 italic bg-gray-50 px-3 py-2 rounded-lg border-l-4 border-gray-200">
+                                "{item.notes}"
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
                       
-                      <div className="flex items-center gap-6">
-                        <div className="text-center">
-                          <p className="text-lg font-bold text-primary">{item.quantity}</p>
-                          <p className="text-xs text-gray-500 uppercase">{item.unit}</p>
+                      <div className="flex flex-wrap items-end sm:items-center justify-between sm:justify-end gap-x-8 gap-y-4">
+                        <div className="text-left sm:text-center">
+                          <p className="text-2xl font-black text-gray-900 leading-none">{item.quantity}</p>
+                          <p className="text-[10px] text-gray-500 font-bold uppercase tracking-tighter mt-1">{item.unit}</p>
                         </div>
                         
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-600">{currency}</span>
-                          <div className="flex flex-col items-end">
+                        <div className="w-full sm:w-auto">
+                          <label className="block sm:hidden text-[10px] font-bold text-gray-400 uppercase mb-1">Unit Price ({currency})</label>
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-bold">{currency}</span>
                             <input
                               type="number"
                               min="0"
                               step="0.01"
-                              placeholder={item.unitPrice ? parseFloat(item.unitPrice).toFixed(2) : '0.00'}
+                              placeholder="0.00"
                               value={itemPrices[item.id]?.unitPrice || ''}
                               onChange={(e) => {
                                 setItemPrices((p) => ({ ...p, [item.id]: { unitPrice: e.target.value, currency } }))
                                 if (priceError) setPriceError('')
                               }}
-                              className={`w-28 px-3 py-2 border rounded-lg text-sm text-right focus:ring-2 focus:ring-primary focus:border-primary transition-colors ${
+                              className={`w-full sm:w-32 pl-12 pr-4 py-2.5 border rounded-xl text-sm font-bold text-right focus:ring-2 transition-all outline-none ${
                                 priceError && !itemPrices[item.id]?.unitPrice
-                                  ? 'border-red-400 bg-red-50 focus:ring-red-300'
-                                  : 'border-gray-300'
+                                  ? 'border-red-300 bg-red-50 focus:ring-red-300'
+                                  : 'border-gray-200 focus:ring-primary/20 focus:border-primary'
                               }`}
                             />
-                            {!itemPrices[item.id]?.unitPrice && (
-                              <span className="text-[10px] text-amber-600 mt-0.5">Price required</span>
-                            )}
                           </div>
+                          {!itemPrices[item.id]?.unitPrice && (
+                            <p className="text-[10px] text-amber-600 font-bold mt-1 text-right">Required</p>
+                          )}
                         </div>
                         
                         {itemPrices[item.id]?.unitPrice && (
-                          <div className="text-right min-w-[80px]">
-                            <p className="text-sm font-semibold text-gray-900">
-                              {currency} {(parseFloat(itemPrices[item.id].unitPrice) * item.quantity).toFixed(2)}
+                          <div className="text-right min-w-[100px] pt-4 sm:pt-0 border-t sm:border-0 border-dashed border-gray-200 w-full sm:w-auto">
+                            <p className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">Total Amount</p>
+                            <p className="text-base font-black text-primary">
+                              {currency} {(parseFloat(itemPrices[item.id].unitPrice) * item.quantity).toLocaleString()}
                             </p>
-                            <p className="text-xs text-gray-500">Total</p>
                           </div>
                         )}
                       </div>
@@ -310,81 +327,100 @@ export default function RFQDetails() {
                 ))}
               </div>
               
-              {/* Grand Total */}
+              {/* Grand Total Footer */}
               {Object.keys(itemPrices).length > 0 && (
-                <div className="p-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
-                  <span className="text-lg font-semibold text-gray-900">Grand Total</span>
-                  <span className="text-xl font-bold text-primary">
-                    {currency} {rfq.items?.reduce((sum, item) => {
-                      const p = parseFloat(itemPrices[item.id]?.unitPrice || 0)
-                      return sum + p * item.quantity
-                    }, 0).toFixed(2)}
-                  </span>
+                <div className="p-6 bg-primary/5 border-t border-primary/10 flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center">
+                      <span className="material-symbols-outlined text-lg">payments</span>
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Total Valuation</p>
+                      <h3 className="text-lg font-bold text-gray-900">Quotation Summary</h3>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-black text-primary">
+                      {currency} {rfq.items?.reduce((sum, item) => {
+                        const p = parseFloat(itemPrices[item.id]?.unitPrice || 0)
+                        return sum + p * item.quantity
+                      }, 0).toLocaleString()}
+                    </p>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase">{Object.keys(itemPrices).length} Items Included</p>
+                  </div>
                 </div>
               )}
             </div>
             
-            {/* Quote Notes */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="p-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">Quotation Notes</h2>
+            {/* Quote Notes Drawer */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+              <div className="p-5 border-b border-gray-100">
+                <h2 className="text-base font-bold text-gray-900 flex items-center gap-2 underline decoration-primary/30 decoration-4 underline-offset-4">
+                  <span className="material-symbols-outlined text-primary text-lg">feedback</span>
+                  Message to Customer
+                </h2>
               </div>
-              <div className="p-4">
+              <div className="p-5">
                 <textarea
-                  rows={3}
+                  rows={4}
                   value={quoteNotes}
                   onChange={(e) => setQuoteNotes(e.target.value)}
-                  placeholder="Add notes to include in the quotation PDF..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary resize-none"
+                  placeholder="Tell the customer about the quote, valid dates, or special conditions..."
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all resize-none outline-none font-medium text-gray-700"
                 />
               </div>
             </div>
 
-            {/* Special Instructions */}
+            {/* Special Instructions (Read-only) */}
             {rfq.message && (
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                <div className="p-4 border-b border-gray-200">
-                  <h2 className="text-lg font-semibold text-gray-900">Special Instructions</h2>
-                </div>
-                <div className="p-4">
-                  <p className="text-sm text-gray-700 leading-relaxed">{rfq.message}</p>
-                </div>
+              <div className="bg-amber-50/50 rounded-xl shadow-sm border border-amber-100 p-5">
+                <h2 className="text-xs font-bold text-amber-600 uppercase tracking-widest mb-3 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-sm">info</span>
+                  Customer's Instructions
+                </h2>
+                <p className="text-sm text-gray-700 leading-relaxed font-medium italic">"{rfq.message}"</p>
               </div>
             )}
 
-            {/* Attachments */}
+            {/* Attachments Section */}
             {rfq.attachments?.length > 0 && (
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                <div className="p-4 border-b border-gray-200">
-                  <h2 className="text-lg font-semibold text-gray-900">Attachments ({rfq.attachments.length})</h2>
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50/30">
+                  <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
+                    <span className="material-symbols-outlined text-primary text-xl">attach_file</span>
+                    Supporting Documents ({rfq.attachments.length})
+                  </h2>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {rfq.attachments.map((file) => {
                     const isPDF = file.mime_type === 'application/pdf'
                     const isImage = file.mime_type?.startsWith('image/')
                     const fileUrl = file.file_url.startsWith('http') ? file.file_url : `http://localhost:5000${file.file_url}`
 
                     return (
-                      <div key={file.id} className="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg border border-gray-100">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                          isPDF ? 'bg-red-50 text-red-600' :
-                          isImage ? 'bg-blue-50 text-blue-600' :
-                          'bg-gray-50 text-gray-600'
-                        }`}>
-                          <span className="material-symbols-outlined text-lg">
-                            {isPDF ? 'picture_as_pdf' : isImage ? 'image' : 'description'}
-                          </span>
+                      <div key={file.id} className="group p-3 rounded-xl border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all flex flex-col gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                            isPDF ? 'bg-red-50 text-red-600' :
+                            isImage ? 'bg-blue-50 text-blue-600' :
+                            'bg-gray-50 text-gray-600'
+                          }`}>
+                            <span className="material-symbols-outlined text-xl">
+                              {isPDF ? 'picture_as_pdf' : isImage ? 'image' : 'description'}
+                            </span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-bold text-gray-900 truncate group-hover:text-primary transition-colors">{file.file_name}</p>
+                            <p className="text-[10px] text-gray-400 font-bold uppercase">{(file.file_size / 1024).toFixed(0)} KB</p>
+                          </div>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">{file.file_name}</p>
-                          <p className="text-xs text-gray-500">{(file.file_size / 1024).toFixed(0)} KB • {file.mime_type}</p>
-                        </div>
-                        <div className="flex gap-2">
+                        
+                        <div className="flex gap-2 border-t border-gray-100 pt-3">
                           <a
                             href={fileUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="px-3 py-1 text-xs font-medium text-primary hover:bg-primary/10 rounded-lg transition-colors flex items-center gap-1"
+                            className="flex-1 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-[10px] font-black text-gray-600 uppercase flex items-center justify-center gap-1 transition-colors"
                           >
                             <span className="material-symbols-outlined text-sm">open_in_new</span>
                             View
@@ -392,10 +428,10 @@ export default function RFQDetails() {
                           <a
                             href={fileUrl}
                             download={file.file_name}
-                            className="px-3 py-1 text-xs font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-1"
+                            className="flex-1 py-1.5 bg-primary text-white hover:bg-primary/90 rounded-lg text-[10px] font-black uppercase flex items-center justify-center gap-1 transition-colors"
                           >
                             <span className="material-symbols-outlined text-sm">download</span>
-                            Download
+                            Get File
                           </a>
                         </div>
                       </div>
@@ -406,34 +442,37 @@ export default function RFQDetails() {
             )}
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-4">
+          {/* Sidebar Area */}
+          <div className="space-y-6">
             
-            {/* Customer Info */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="px-4 py-3 border-b border-gray-200">
-                <h2 className="text-base font-semibold text-gray-900 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-lg">person</span>
-                  Customer
-                </h2>
+            {/* Customer Snapshot */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-gray-100 p-5 flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary font-black text-2xl">
+                  {customerName[0]}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-gray-900 truncate leading-tight">{customerName}</h3>
+                  <p className="text-xs text-gray-500 font-medium truncate uppercase tracking-tighter">{businessType}</p>
+                </div>
               </div>
-              <div className="p-3 space-y-3">
+              <div className="p-5 space-y-4">
                 {[
-                  { label: 'Name', value: customerName, icon: 'badge' },
-                  { label: 'Company', value: companyName, icon: 'business' },
-                  { label: 'Email', value: email, link: `mailto:${email}`, icon: 'mail' },
-                  { label: 'Phone', value: phone, icon: 'call' },
-                  { label: 'Location', value: [city, country].filter(Boolean).join(', '), icon: 'location_on' },
-                  { label: 'Business Type', value: businessType, icon: 'category' },
+                  { label: 'Organization', value: companyName, icon: 'factory' },
+                  { label: 'Email Address', value: email, link: `mailto:${email}`, icon: 'alternate_email' },
+                  { label: 'Phone', value: phone, icon: 'phone_iphone' },
+                  { label: 'Address', value: [city, country].filter(Boolean).join(', '), icon: 'map' },
                 ].map((f) => f.value && (
-                  <div key={f.label} className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-gray-400 text-base">{f.icon}</span>
+                  <div key={f.label} className="flex items-start gap-4 group">
+                    <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/5 transition-colors">
+                      <span className="material-symbols-outlined text-gray-400 text-lg group-hover:text-primary">{f.icon}</span>
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs text-gray-500 font-medium">{f.label}</p>
+                      <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest leading-none mb-1">{f.label}</p>
                       {f.link ? (
-                        <a href={f.link} className="text-sm font-medium text-primary hover:underline truncate block">{f.value}</a>
+                        <a href={f.link} className="text-sm font-bold text-primary hover:underline truncate block">{f.value}</a>
                       ) : (
-                        <p className="text-sm font-medium text-gray-900 truncate">{f.value}</p>
+                        <p className="text-sm font-bold text-gray-700 truncate">{f.value}</p>
                       )}
                     </div>
                   </div>
@@ -441,81 +480,64 @@ export default function RFQDetails() {
               </div>
             </div>
 
-            {/* Order Details */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="px-4 py-3 border-b border-gray-200">
-                <h2 className="text-base font-semibold text-gray-900 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-lg">receipt_long</span>
-                  Order Details
-                </h2>
-              </div>
-              <div className="p-3 space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-gray-400 text-base">schedule</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-gray-500 font-medium">Submitted</p>
-                    <p className="text-sm font-medium text-gray-900">
-                      {new Date(rfq.submitted_at).toLocaleDateString('en-GB', { 
-                        day: 'numeric', 
-                        month: 'short', 
-                        year: 'numeric'
-                      })}
-                    </p>
+            {/* RFQ Meta Info */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 space-y-4">
+              <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Technical Specs</h3>
+              <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0">
+                    <span className="material-symbols-outlined text-gray-400 text-lg">event</span>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">Submitted</p>
+                    <p className="text-xs font-bold text-gray-700">{new Date(rfq.submitted_at).toLocaleDateString()}</p>
                   </div>
                 </div>
                 {rfq.requested_delivery_date && (
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-gray-400 text-base">event</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs text-gray-500 font-medium">Delivery Date</p>
-                      <p className="text-sm font-medium text-gray-900">{rfq.requested_delivery_date}</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 text-amber-500">
+                      <span className="material-symbols-outlined text-lg">timer</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">Deadline</p>
+                      <p className="text-xs font-bold text-gray-700">{rfq.requested_delivery_date}</p>
                     </div>
                   </div>
                 )}
                 {rfq.shipping_method && (
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-gray-400 text-base">local_shipping</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs text-gray-500 font-medium">Delivery Method</p>
-                      <p className="text-sm font-medium text-gray-900 capitalize">{rfq.shipping_method}</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 text-blue-500">
+                      <span className="material-symbols-outlined text-lg">package_2</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[10px] text-gray-400 font-bold uppercase mb-0.5">Logistics</p>
+                      <p className="text-xs font-bold text-gray-700 capitalize">{rfq.shipping_method}</p>
                     </div>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Internal Notes */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="px-4 py-3 border-b border-gray-200">
-                <h2 className="text-base font-semibold text-gray-900 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary text-lg">edit_note</span>
-                  Internal Notes
-                </h2>
+            {/* Private Notes */}
+            <div className="bg-slate-900 rounded-xl shadow-lg p-5 text-white">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400">Internal Log</h3>
+                {notesSaved && <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold">SAVED</span>}
               </div>
-              <div className="p-3">
-                <textarea
-                  rows={3}
-                  value={notes ?? rfq.internal_notes ?? ''}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Add private notes..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-primary resize-none"
-                />
-                <div className="flex items-center justify-between mt-2">
-                  {notesSaved && (
-                    <span className="text-xs text-green-600 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-xs">check_circle</span>
-                      Saved
-                    </span>
-                  )}
-                  <button
-                    onClick={() => saveNotes.mutate()}
-                    disabled={saveNotes.isPending}
-                    className="ml-auto px-2 py-1 text-xs font-medium text-primary hover:bg-primary/10 rounded transition-colors disabled:opacity-50"
-                  >
-                    {saveNotes.isPending ? 'Saving...' : 'Save'}
-                  </button>
-                </div>
-              </div>
+              <textarea
+                rows={3}
+                value={notes ?? rfq.internal_notes ?? ''}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Private notes for staff only..."
+                className="w-full bg-slate-800 border-0 rounded-lg text-xs p-3 text-slate-200 placeholder:text-slate-500 focus:ring-2 focus:ring-primary transition-all resize-none outline-none mb-3"
+              />
+              <button
+                onClick={() => saveNotes.mutate()}
+                disabled={saveNotes.isPending}
+                className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-[10px] font-black uppercase tracking-tighter rounded-lg border border-slate-700 transition-colors disabled:opacity-50"
+              >
+                {saveNotes.isPending ? 'Propagating...' : 'Commit Changes'}
+              </button>
             </div>
           </div>
         </div>

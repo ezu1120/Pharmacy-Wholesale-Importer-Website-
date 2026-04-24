@@ -139,9 +139,10 @@ export default function RFQList() {
         </p>
       </div>
 
-      {/* Table */}
-      <div className="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+      {/* Table (Desktop) / Cards (Mobile) */}
+      <div className="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-surface-container">
+        {/* Desktop View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-[11px] font-bold text-outline uppercase tracking-wider border-b border-surface-container bg-surface-container-low">
@@ -165,15 +166,6 @@ export default function RFQList() {
                       ))}
                     </tr>
                   ))
-                : data?.items?.length === 0
-                ? (
-                  <tr>
-                    <td colSpan={7} className="py-20 text-center text-on-surface-variant">
-                      <span className="material-symbols-outlined text-5xl mb-3 block opacity-30">search_off</span>
-                      <p className="font-medium">No RFQs match your filters</p>
-                    </td>
-                  </tr>
-                )
                 : data?.items?.map((rfq) => (
                     <tr key={rfq.id} className="hover:bg-surface-container-low transition-colors">
                       <td className="py-4 px-6">
@@ -182,7 +174,7 @@ export default function RFQList() {
                         </Link>
                       </td>
                       <td className="py-4 px-4 font-medium text-on-surface">{rfq.customerName}</td>
-                      <td className="py-4 px-4 text-on-surface-variant">{rfq.companyName}</td>
+                      <td className="py-4 px-4 text-on-surface-variant line-clamp-1">{rfq.companyName}</td>
                       <td className="py-4 px-4">
                         {['CLOSED', 'DECLINED'].includes(rfq.status) ? (
                           <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${STATUS_BADGE[rfq.status]}`}>
@@ -198,7 +190,7 @@ export default function RFQList() {
                               }
                               updateStatus.mutate({ id: rfq.id, status: e.target.value })
                             }}
-                            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border-none outline-none cursor-pointer ${STATUS_BADGE[rfq.status]}`}
+                            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border-none outline-none cursor-pointer ${STATUS_BADGE[rfq.status]} ring-1 ring-inset ring-black/5 shadow-sm`}
                           >
                             <option value="NEW">New</option>
                             <option value="UNDER_REVIEW">Under Review</option>
@@ -207,7 +199,7 @@ export default function RFQList() {
                           </select>
                         )}
                       </td>
-                      <td className="py-4 px-4 text-on-surface-variant">{rfq.itemCount}</td>
+                      <td className="py-4 px-4 font-bold text-on-surface-variant">{rfq.itemCount}</td>
                       <td className="py-4 px-4 text-on-surface-variant text-xs">
                         {new Date(rfq.submittedAt).toLocaleDateString()}
                       </td>
@@ -215,17 +207,17 @@ export default function RFQList() {
                         <div className="flex items-center justify-center gap-2">
                           <Link
                             to={`/admin/rfqs/${rfq.id}`}
-                            className="inline-flex items-center gap-1 text-primary hover:underline text-xs font-bold"
+                            className="w-8 h-8 rounded-full flex items-center justify-center text-primary hover:bg-primary/10 transition-colors"
+                            title="View Details"
                           >
-                            <span className="material-symbols-outlined text-sm">visibility</span>
-                            View
+                            <span className="material-symbols-outlined text-lg">visibility</span>
                           </Link>
                           <button
                             onClick={() => setDeleteConfirm(rfq)}
-                            className="inline-flex items-center gap-1 text-error hover:underline text-xs font-bold"
+                            className="w-8 h-8 rounded-full flex items-center justify-center text-error hover:bg-error/10 transition-colors"
+                            title="Delete"
                           >
-                            <span className="material-symbols-outlined text-sm">delete</span>
-                            Delete
+                            <span className="material-symbols-outlined text-lg">delete</span>
                           </button>
                         </div>
                       </td>
@@ -234,6 +226,68 @@ export default function RFQList() {
             </tbody>
           </table>
         </div>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden divide-y divide-surface-container">
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="p-4 space-y-3">
+                  <div className="h-4 bg-surface-container rounded w-1/3 animate-pulse" />
+                  <div className="h-6 bg-surface-container rounded w-2/3 animate-pulse" />
+                  <div className="h-4 bg-surface-container rounded w-full animate-pulse" />
+                </div>
+              ))
+            : data?.items?.map((rfq) => (
+                <div key={rfq.id} className="p-4 flex flex-col gap-3 hover:bg-surface-container-low transition-colors">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Link to={`/admin/rfqs/${rfq.id}`} className="font-mono text-primary font-bold hover:underline text-xs block mb-1">
+                        {rfq.rfqNumber}
+                      </Link>
+                      <h3 className="font-bold text-on-surface truncate">{rfq.customerName}</h3>
+                      <p className="text-xs text-on-surface-variant font-medium mt-0.5">{rfq.companyName}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${STATUS_BADGE[rfq.status]}`}>
+                        {STATUS_LABEL[rfq.status]}
+                      </span>
+                      <p className="text-[10px] text-outline font-bold mt-2">{new Date(rfq.submittedAt).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between pt-2 border-t border-surface-container-high">
+                    <span className="text-xs font-bold text-on-surface-variant flex items-center gap-1">
+                      <span className="material-symbols-outlined text-sm">inventory_2</span>
+                      {rfq.itemCount} Items
+                    </span>
+                    <div className="flex gap-2">
+                       <Link
+                        to={`/admin/rfqs/${rfq.id}`}
+                        className="px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm"
+                      >
+                        <span className="material-symbols-outlined text-sm">edit_square</span>
+                        Process
+                      </Link>
+                      <button
+                        onClick={() => setDeleteConfirm(rfq)}
+                        className="px-3 py-1.5 bg-error text-white rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm"
+                      >
+                        <span className="material-symbols-outlined text-sm">delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+        </div>
+
+        {/* Empty State */}
+        {!isLoading && data?.items?.length === 0 && (
+          <div className="py-20 text-center text-on-surface-variant">
+            <span className="material-symbols-outlined text-6xl mb-4 block opacity-20">inventory_2</span>
+            <p className="text-lg font-bold">No RFQs found</p>
+            <p className="text-sm opacity-60">Try adjusting your search or filters.</p>
+          </div>
+        )}
 
         {/* Pagination */}
         {data?.totalCount > 20 && (
