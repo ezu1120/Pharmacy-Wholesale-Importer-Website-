@@ -23,6 +23,8 @@ const STATUS_LABEL = {
 export default function RFQList() {
   const [filters, setFilters] = useState({ rfqNumber: '', customerName: '', status: '', dateFrom: '', dateTo: '', page: 1 })
   const [deleteConfirm, setDeleteConfirm] = useState(null)
+  const [selectedIds, setSelectedIds] = useState([])
+  const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false)
   const qc = useQueryClient()
   const navigate = useNavigate()
 
@@ -43,8 +45,33 @@ export default function RFQList() {
       qc.invalidateQueries(['admin-rfqs'])
       qc.invalidateQueries(['admin-rfqs-dash'])
       setDeleteConfirm(null)
+      setSelectedIds(s => s.filter(id => id !== deleteConfirm?.id))
     },
   })
+
+  const bulkDeleteRFQ = useMutation({
+    mutationFn: (ids) => api.post('/admin/rfqs/bulk-delete', { ids }),
+    onSuccess: () => {
+      qc.invalidateQueries(['admin-rfqs'])
+      qc.invalidateQueries(['admin-rfqs-dash'])
+      setBulkDeleteConfirm(false)
+      setSelectedIds([])
+    },
+  })
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === data?.items?.length) {
+      setSelectedIds([])
+    } else {
+      setSelectedIds(data?.items?.map(r => r.id) || [])
+    }
+  }
+
+  const toggleSelectOne = (id) => {
+    setSelectedIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    )
+  }
 
   const set = (k) => (e) => setFilters((f) => ({ ...f, [k]: e.target.value, page: 1 }))
 
@@ -132,11 +159,24 @@ export default function RFQList() {
         </div>
       </div>
 
-      {/* Results count */}
+      {/* Results count & Bulk Actions */}
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm text-on-surface-variant">
           {isLoading ? 'Loading...' : `${data?.totalCount || 0} RFQs found`}
         </p>
+
+        {selectedIds.length > 0 && (
+          <div className="flex items-center gap-3 animate-in fade-in slide-in-from-right-4">
+            <span className="text-sm font-bold text-primary">{selectedIds.length} selected</span>
+            <button
+               onClick={() => setBulkDeleteConfirm(true)}
+               className="flex items-center gap-1.5 px-4 py-2 bg-error text-white rounded-xl text-xs font-bold shadow-sm hover:opacity-90 transition-all active:scale-95"
+            >
+              <span className="material-symbols-outlined text-base">delete_sweep</span>
+              Delete Selected
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Table (Desktop) / Cards (Mobile) */}
@@ -146,7 +186,15 @@ export default function RFQList() {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-[11px] font-bold text-outline uppercase tracking-wider border-b border-surface-container bg-surface-container-low">
-                <th className="text-left py-4 px-6">RFQ #</th>
+                <th className="py-4 px-6 text-center w-12">
+                  <input 
+                    type="checkbox" 
+                    checked={data?.items?.length > 0 && selectedIds.length === data?.items?.length}
+                    onChange={toggleSelectAll}
+                    className="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary/20 accent-primary"
+                  />
+                </th>
+                <th className="text-left py-4 px-2">RFQ #</th>
                 <th className="text-left py-4 px-4">Customer</th>
                 <th className="text-left py-4 px-4">Company</th>
                 <th className="text-left py-4 px-4">Status</th>
@@ -167,8 +215,16 @@ export default function RFQList() {
                     </tr>
                   ))
                 : data?.items?.map((rfq) => (
-                    <tr key={rfq.id} className="hover:bg-surface-container-low transition-colors">
-                      <td className="py-4 px-6">
+                    <tr key={rfq.id} className={`hover:bg-surface-container-low transition-colors ${selectedIds.includes(rfq.id) ? 'bg-primary/5' : ''}`}>
+                      <td className="py-4 px-6 text-center">
+                        <input 
+                          type="checkbox" 
+                          checked={selectedIds.includes(rfq.id)}
+                          onChange={() => toggleSelectOne(rfq.id)}
+                          className="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary/20 accent-primary"
+                        />
+                      </td>
+                      <td className="py-4 px-2">
                         <Link to={`/admin/rfqs/${rfq.id}`} className="font-mono text-primary font-bold hover:underline text-xs">
                           {rfq.rfqNumber}
                         </Link>
@@ -238,14 +294,22 @@ export default function RFQList() {
                 </div>
               ))
             : data?.items?.map((rfq) => (
-                <div key={rfq.id} className="p-4 flex flex-col gap-3 hover:bg-surface-container-low transition-colors">
+                <div key={rfq.id} className={`p-4 flex flex-col gap-3 hover:bg-surface-container-low transition-colors ${selectedIds.includes(rfq.id) ? 'bg-primary/5' : ''}`}>
                   <div className="flex items-start justify-between">
-                    <div>
-                      <Link to={`/admin/rfqs/${rfq.id}`} className="font-mono text-primary font-bold hover:underline text-xs block mb-1">
-                        {rfq.rfqNumber}
-                      </Link>
-                      <h3 className="font-bold text-on-surface truncate">{rfq.customerName}</h3>
-                      <p className="text-xs text-on-surface-variant font-medium mt-0.5">{rfq.companyName}</p>
+                    <div className="flex gap-3">
+                       <input 
+                        type="checkbox" 
+                        checked={selectedIds.includes(rfq.id)}
+                        onChange={() => toggleSelectOne(rfq.id)}
+                        className="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary/20 accent-primary mt-1"
+                      />
+                      <div>
+                        <Link to={`/admin/rfqs/${rfq.id}`} className="font-mono text-primary font-bold hover:underline text-xs block mb-1">
+                          {rfq.rfqNumber}
+                        </Link>
+                        <h3 className="font-bold text-on-surface truncate">{rfq.customerName}</h3>
+                        <p className="text-xs text-on-surface-variant font-medium mt-0.5">{rfq.companyName}</p>
+                      </div>
                     </div>
                     <div className="text-right">
                       <span className={`inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${STATUS_BADGE[rfq.status]}`}>
@@ -348,6 +412,40 @@ export default function RFQList() {
               className="flex-1 py-2.5 rounded-xl bg-error text-white font-bold hover:opacity-90 transition-colors disabled:opacity-50"
             >
               {deleteRFQ.isPending ? 'Deleting...' : 'Delete'}
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* Bulk delete confirmation */}
+    {bulkDeleteConfirm && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
+          <div className="w-16 h-16 bg-error-container rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="material-symbols-outlined text-error text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>delete_sweep</span>
+          </div>
+          <h3 className="font-headline font-bold text-xl text-on-surface mb-2">Bulk Delete?</h3>
+          <p className="text-sm text-on-surface-variant mb-6">
+            You are about to delete <span className="font-bold text-error">{selectedIds.length}</span> RFQs. 
+            This action cannot be undone and will remove all associated data.
+          </p>
+          {bulkDeleteRFQ.isError && (
+            <p className="text-xs text-error mb-4">Failed to delete. Please try again.</p>
+          )}
+          <div className="flex gap-3">
+            <button
+              onClick={() => setBulkDeleteConfirm(false)}
+              className="flex-1 py-2.5 rounded-xl border border-outline-variant text-on-surface font-bold hover:bg-surface-container transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => bulkDeleteRFQ.mutate(selectedIds)}
+              disabled={bulkDeleteRFQ.isPending}
+              className="flex-1 py-2.5 rounded-xl bg-error text-white font-bold hover:opacity-90 transition-colors disabled:opacity-50"
+            >
+              {bulkDeleteRFQ.isPending ? 'Deleting...' : 'Delete All'}
             </button>
           </div>
         </div>

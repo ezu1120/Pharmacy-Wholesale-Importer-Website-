@@ -57,7 +57,7 @@ router.get('/rfqs', async (req, res, next) => {
 router.get('/rfqs/:id', async (req, res, next) => {
   try {
     const { rows } = await pool.query(
-      `SELECT r.*,
+      `SELECT r.*, r.legal_document_url AS "legalDocumentUrl", r.is_legitimate AS "isLegitimate",
               u.full_name AS "customerName", u.company_name AS "companyName",
               u.email, u.phone, u.country, u.city, u.business_type AS "businessType"
        FROM rfqs r LEFT JOIN users u ON u.id = r.customer_id
@@ -98,6 +98,19 @@ router.delete('/rfqs/:id', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+// ── POST /api/admin/rfqs/bulk-delete ──────────────────────────────────────────
+router.post('/rfqs/bulk-delete', async (req, res, next) => {
+  try {
+    const { ids } = req.body
+    if (!Array.isArray(ids) || !ids.length) {
+      return res.status(400).json({ error: 'INVALID_IDS' })
+    }
+    // Cascade deletes rfq_items and rfq_attachments automatically in SQL
+    await pool.query('DELETE FROM rfqs WHERE id = ANY($1)', [ids])
+    res.json({ success: true, count: ids.length })
+  } catch (err) { next(err) }
+})
+
 // ── PATCH /api/admin/rfqs/:id/status ─────────────────────────────────────────
 router.patch('/rfqs/:id/status', async (req, res, next) => {
   try {
@@ -116,6 +129,39 @@ router.patch('/rfqs/:id/status', async (req, res, next) => {
       [status, req.params.id]
     )
     res.json({ success: true })
+  } catch (err) { next(err) }
+})
+
+// ── PATCH /api/admin/rfqs/:id/legitimacy ─────────────────────────────────────
+router.patch('/rfqs/:id/legitimacy', async (req, res, next) => {
+  try {
+    const { isLegitimate } = req.body
+    if (typeof isLegitimate !== 'boolean' && isLegitimate !== null) {
+      return res.status(400).json({ error: 'INVALID_VALUE' })
+    }
+
+    // If marked as not legitimate, automatically decline the RFQ
+    // If resetting to null while DECLINED, move back to NEW
+    let status = isLegitimate === false ? 'DECLINED' : undefined
+
+    if (isLegitimate === null) {
+      const { rows: current } = await pool.query('SELECT status FROM rfqs WHERE id = $1', [req.params.id])
+      if (current[0].status === 'DECLINED') status = 'NEW'
+    }
+    
+    if (status) {
+      await pool.query(
+        'UPDATE rfqs SET is_legitimate = $1, status = $2, updated_at = NOW() WHERE id = $3',
+        [isLegitimate, status, req.params.id]
+      )
+    } else {
+      await pool.query(
+        'UPDATE rfqs SET is_legitimate = $1, updated_at = NOW() WHERE id = $2',
+        [isLegitimate, req.params.id]
+      )
+    }
+
+    res.json({ success: true, status: status || 'unchanged' })
   } catch (err) { next(err) }
 })
 
@@ -138,6 +184,11 @@ router.post('/rfqs/:id/respond', async (req, res, next) => {
     if (!check.length) return res.status(404).json({ error: 'NOT_FOUND' })
     if (['CLOSED', 'DECLINED'].includes(check[0].status)) {
       return res.status(400).json({ error: 'RFQ_LOCKED', message: 'Cannot send a quotation on a closed or declined RFQ.' })
+    }
+    // Check legitimacy
+    const { rows: rfqCheck } = await pool.query('SELECT is_legitimate FROM rfqs WHERE id = $1', [req.params.id])
+    if (rfqCheck[0].is_legitimate !== true) {
+      return res.status(400).json({ error: 'NOT_LEGITIMATE', message: 'You must verify the legal documents for this RFQ before sending prices.' })
     }
     const { quoteNotes, itemPrices = {} } = req.body // itemPrices: { [rfqItemId]: { unitPrice, currency } }
 

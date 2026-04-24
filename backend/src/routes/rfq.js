@@ -30,7 +30,10 @@ const upload = multer({
     if (ALLOWED_MIME.includes(file.mimetype)) cb(null, true)
     else cb(new Error(`Invalid file type: ${file.mimetype}`))
   },
-})
+}).fields([
+  { name: 'attachments', maxCount: 5 },
+  { name: 'legalDocument', maxCount: 1 }
+])
 
 // ── Validation schema ─────────────────────────────────────────────────────────
 const rfqSchema = Joi.object({
@@ -59,6 +62,7 @@ const rfqSchema = Joi.object({
     message:               Joi.string().allow('', null),
     attachmentNames:       Joi.array().items(Joi.string()).optional(), // UI-only field
     attachments:           Joi.array().optional(), // persisted store field
+    legalDocumentName:     Joi.string().allow('', null).optional(),
   }).optional().unknown(true), // allow any extra fields from the store
 })
 
@@ -67,7 +71,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const isUUID = (s) => UUID_RE.test(s)
 
 // ── POST /api/rfq ─────────────────────────────────────────────────────────────
-router.post('/', upload.array('attachments', 5), async (req, res, next) => {
+router.post('/', upload, async (req, res, next) => {
   const client = await pool.connect()
   try {
     // Body may come as JSON string when using multipart/form-data
@@ -110,8 +114,9 @@ router.post('/', upload.array('attachments', 5), async (req, res, next) => {
         rfq_number, customer_id,
         guest_full_name, guest_company, guest_business_type,
         guest_email, guest_phone, guest_country, guest_city,
-        requested_delivery_date, shipping_method, message, status
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,'NEW')
+        requested_delivery_date, shipping_method, message, status,
+        legal_document_url
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,'NEW',$13)
       RETURNING id, rfq_number AS "rfqNumber", submitted_at AS "submittedAt"`,
       [
         rfqNumber,
@@ -121,6 +126,7 @@ router.post('/', upload.array('attachments', 5), async (req, res, next) => {
         additionalInfo.requestedDeliveryDate || null,
         additionalInfo.shippingMethod || null,
         additionalInfo.message || null,
+        additionalInfo.legalDocumentUrl || null,
       ]
     )
 
@@ -140,13 +146,25 @@ router.post('/', upload.array('attachments', 5), async (req, res, next) => {
     }
 
     // Save uploaded attachments
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
+    if (req.files) {
+      // General attachments
+      if (req.files.attachments) {
+        for (const file of req.files.attachments) {
+          const fileUrl = `/uploads/${file.filename}`
+          await client.query(
+            `INSERT INTO rfq_attachments (rfq_id, file_name, file_url, file_size, mime_type)
+             VALUES ($1,$2,$3,$4,$5)`,
+            [rfq.id, file.originalname, fileUrl, file.size, file.mimetype]
+          )
+        }
+      }
+      // Legal document
+      if (req.files.legalDocument) {
+        const file = req.files.legalDocument[0]
         const fileUrl = `/uploads/${file.filename}`
         await client.query(
-          `INSERT INTO rfq_attachments (rfq_id, file_name, file_url, file_size, mime_type)
-           VALUES ($1,$2,$3,$4,$5)`,
-          [rfq.id, file.originalname, fileUrl, file.size, file.mimetype]
+          `UPDATE rfqs SET legal_document_url = $1 WHERE id = $2`,
+          [fileUrl, rfq.id]
         )
       }
     }

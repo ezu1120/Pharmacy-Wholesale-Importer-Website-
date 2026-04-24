@@ -272,21 +272,25 @@ function Step2({ onNext, onBack }) {
 function Step3({ onNext, onBack }) {
   const { additionalInfo, setAdditionalInfo, selectedProducts, customerInfo } = useRFQStore()
   const [files, setFiles] = useState([])
+  const [legalFile, setLegalFile] = useState(null)
   const [errors, setErrors] = useState({})
   
   // Check if main component set upload error
   useEffect(() => {
     if (useRFQStore.getState()._uploadError) {
-      setErrors(e => ({ ...e, files: 'Please upload at least one document before proceeding' }))
+      setErrors(e => ({ ...e, files: 'Check required documents' }))
       useRFQStore.getState()._uploadError = false
     }
+    // Load files from store state if they exist
+    if (useRFQStore.getState()._pendingFiles) setFiles(useRFQStore.getState()._pendingFiles)
+    if (useRFQStore.getState()._pendingLegalDocument) setLegalFile(useRFQStore.getState()._pendingLegalDocument)
   }, [additionalInfo._uploadErrorTs])
 
   const validate = () => {
     const e = {}
     if (!additionalInfo.requestedDeliveryDate) e.date = 'Required'
     if (!additionalInfo.shippingMethod)        e.ship = 'Required'
-    if (files.length === 0)                    e.files = 'Please upload at least one document before proceeding'
+    if (!legalFile)                            e.legal = 'Business license is required'
     return e
   }
   const handleNext = () => {
@@ -299,16 +303,22 @@ function Step3({ onNext, onBack }) {
     onNext()
   }
 
+  const handleLegalFile = (ev) => {
+    const file = ev.target.files[0]
+    if (file && file.size <= 10 * 1024 * 1024) {
+      setLegalFile(file)
+      setAdditionalInfo({ legalDocumentName: file.name })
+      useRFQStore.getState()._pendingLegalDocument = file
+      setErrors(e => ({ ...e, legal: '' }))
+    }
+  }
+
   const handleFiles = (ev) => {
     const valid = Array.from(ev.target.files).filter(f => f.size <= 10 * 1024 * 1024)
     const updated = [...files, ...valid].slice(0, 5)
     setFiles(updated)
     setAdditionalInfo({ attachmentNames: updated.map(f => f.name) })
     useRFQStore.getState()._pendingFiles = updated
-    // Clear file error when a file is added
-    if (updated.length > 0) {
-      setErrors(e => ({ ...e, files: '' }))
-    }
   }
   const removeFile = (i) => {
     const updated = files.filter((_, idx) => idx !== i)
@@ -316,7 +326,11 @@ function Step3({ onNext, onBack }) {
     setAdditionalInfo({ attachmentNames: updated.map(f => f.name) })
     useRFQStore.getState()._pendingFiles = updated
   }
-  useRFQStore.getState()._pendingFiles = files
+  const removeLegalFile = () => {
+    setLegalFile(null)
+    setAdditionalInfo({ legalDocumentName: '' })
+    useRFQStore.getState()._pendingLegalDocument = null
+  }
 
   return (
     <div className="h-full flex flex-col">
@@ -370,24 +384,54 @@ function Step3({ onNext, onBack }) {
             </div>
           </div>
           {/* Documents */}
+          {/* Legal Business Document */}
+          <div id="step3-legal">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-[10px] font-bold text-outline uppercase tracking-widest">
+                Business License / Registration <span className="text-error">*</span>
+              </label>
+            </div>
+            {errors.legal && (
+              <p className="text-[10px] text-error mb-2 flex items-center gap-1">
+                <span className="material-symbols-outlined text-xs">error</span>
+                {errors.legal}
+              </p>
+            )}
+            {legalFile ? (
+              <div className="flex items-center justify-between px-3 py-2 bg-primary/5 border border-primary/20 rounded-lg mb-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="material-symbols-outlined text-primary text-sm">verified_user</span>
+                  <p className="text-xs font-semibold text-primary truncate">{legalFile.name}</p>
+                </div>
+                <button type="button" onClick={removeLegalFile} className="text-error ml-2 flex-shrink-0">
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+              </div>
+            ) : (
+              <label className={`border-2 border-dashed rounded-lg cursor-pointer flex flex-col items-center justify-center p-6 text-center transition-all mb-3 ${
+                errors.legal ? 'border-error/50 bg-red-50/30' : 'border-primary/20 bg-primary/5'
+              }`}>
+                <span className="material-symbols-outlined text-primary text-2xl mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>gavel</span>
+                <p className="text-sm font-bold text-primary">Upload Business License</p>
+                <p className="text-[10px] text-primary/60">Required for verification</p>
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="hidden" onChange={handleLegalFile} />
+              </label>
+            )}
+          </div>
+
+          {/* Supporting Documents (Optional) */}
           <div id="step3-upload">
             <div className="flex items-center justify-between mb-2">
               <label className="text-[10px] font-bold text-outline uppercase tracking-widest">
-                Documents <span className="text-error">*</span>
+                Other Supporting Documents <span className="text-outline font-normal">(optional)</span>
               </label>
               {files.length > 0 && <span className="text-[10px] text-primary font-bold">{files.length}/5</span>}
             </div>
-            {errors.files && (
-              <p className="text-[10px] text-error mb-2 flex items-center gap-1">
-                <span className="material-symbols-outlined text-xs">error</span>
-                {errors.files}
-              </p>
-            )}
             {files.length > 0 && (
               <div className="mb-3 space-y-2">
                 {files.map((f, i) => (
-                  <div key={i} className="flex items-center justify-between px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-xs font-semibold text-green-900 truncate flex-1">{f.name}</p>
+                  <div key={i} className="flex items-center justify-between px-3 py-2 bg-surface-container border border-surface-container-high rounded-lg">
+                    <p className="text-xs font-semibold text-on-surface truncate flex-1">{f.name}</p>
                     <button type="button" onClick={() => removeFile(i)} className="text-error ml-2 flex-shrink-0">
                       <span className="material-symbols-outlined text-sm">close</span>
                     </button>
@@ -396,16 +440,10 @@ function Step3({ onNext, onBack }) {
               </div>
             )}
             {files.length < 5 && (
-              <label className={`border-2 border-dashed rounded-lg cursor-pointer flex items-center gap-2 transition-all ${
-                errors.files ? 'border-error/50 bg-red-50/30' :
-                files.length > 0 ? 'border-primary/30 bg-primary/5 px-3 py-2.5' : 'border-outline-variant bg-surface-container-low/40 px-4 py-4 flex-col text-center'
-              }`}>
-                {files.length > 0 ? (
-                  <><span className="material-symbols-outlined text-primary text-base">add_circle</span><p className="text-sm font-bold text-primary">Add more · {5 - files.length} left</p></>
-                ) : (
-                  <><span className="material-symbols-outlined text-primary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>cloud_upload</span><p className="text-sm font-bold text-on-surface">Drop or click to upload</p><p className="text-xs text-outline">PDF, JPG, PNG · max 10MB · Required</p></>
-                )}
-                <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png" className="hidden" onChange={(ev) => { handleFiles(ev); setErrors(p => ({ ...p, files: '' })) }} />
+              <label className="border-2 border-dashed border-outline-variant bg-surface-container-low/40 rounded-lg cursor-pointer flex items-center justify-center gap-2 p-3 transition-all hover:bg-surface-container-low">
+                <span className="material-symbols-outlined text-outline text-base">add_circle</span>
+                <p className="text-xs font-bold text-outline">Add more files</p>
+                <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png" className="hidden" onChange={handleFiles} />
               </label>
             )}
           </div>
@@ -450,6 +488,15 @@ function Step4({ onBack, onSubmit, isLoading, isError, errorMessage }) {
                 )}
                 {additionalInfo.shippingMethod && (
                   <div><p className="text-[9px] font-bold text-outline uppercase">Method</p><p className="text-sm font-semibold text-on-surface capitalize">{additionalInfo.shippingMethod}</p></div>
+                )}
+                {additionalInfo.legalDocumentName && (
+                  <div className="col-span-1 sm:col-span-2">
+                    <p className="text-[9px] font-bold text-outline uppercase">Business License</p>
+                    <div className="flex items-center gap-1.5 text-primary">
+                      <span className="material-symbols-outlined text-sm">verified_user</span>
+                      <p className="text-sm font-bold">{additionalInfo.legalDocumentName}</p>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -547,19 +594,22 @@ export default function RFQ() {
   const submitMutation = useMutation({
     mutationFn: async (payload) => {
       const files = useRFQStore.getState()._pendingFiles || []
+      const legalFile = useRFQStore.getState()._pendingLegalDocument
       const clean = { ...payload, products: payload.products.map(({ isService, stockQuantity, stockError, ...r }) => r) }
-      if (files.length > 0) {
-        const fd = new FormData()
-        fd.append('customerInfo', JSON.stringify(clean.customerInfo))
-        fd.append('products', JSON.stringify(clean.products))
-        fd.append('additionalInfo', JSON.stringify(clean.additionalInfo))
-        files.forEach(f => fd.append('attachments', f))
-        return api.post('/rfq', fd, { headers: { 'Content-Type': 'multipart/form-data' } }).then(r => r.data)
-      }
-      return api.post('/rfq', clean).then(r => r.data)
+      
+      const fd = new FormData()
+      fd.append('customerInfo', JSON.stringify(clean.customerInfo))
+      fd.append('products', JSON.stringify(clean.products))
+      fd.append('additionalInfo', JSON.stringify(clean.additionalInfo))
+      
+      if (legalFile) fd.append('legalDocument', legalFile)
+      files.forEach(f => fd.append('attachments', f))
+      
+      return api.post('/rfq', fd, { headers: { 'Content-Type': 'multipart/form-data' } }).then(r => r.data)
     },
     onSuccess: (data) => {
       useRFQStore.getState()._pendingFiles = []
+      useRFQStore.getState()._pendingLegalDocument = null
       resetRFQ()
       navigate(`/rfq/success/${data.rfqNumber}`)
     },
@@ -599,11 +649,15 @@ export default function RFQ() {
         document.getElementById('step3-ship')?.focus()
         return
       }
-      if (pendingFiles.length === 0) {
-        const uploadArea = document.getElementById('step3-upload')
+      if (pendingFiles.length === 0 && !useRFQStore.getState()._pendingLegalDocument) {
+        const uploadArea = document.getElementById('step3-legal')
         if (uploadArea) uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' })
         useRFQStore.getState()._uploadError = true
         setAdditionalInfo({ _uploadErrorTs: Date.now() })
+        return
+      }
+      if (!useRFQStore.getState()._pendingLegalDocument) {
+        setErrors(e => ({ ...e, legal: 'Business license is required' }))
         return
       }
       goTo(4)
@@ -623,8 +677,8 @@ export default function RFQ() {
     if (currentStep === 1) return true // Form validation handles this
     if (currentStep === 2) return selectedProducts.length > 0
     if (currentStep === 3) {
-      const pendingFiles = useRFQStore.getState()._pendingFiles || []
-      return !!(additionalInfo.requestedDeliveryDate && additionalInfo.shippingMethod && pendingFiles.length > 0)
+      const legalFile = useRFQStore.getState()._pendingLegalDocument
+      return !!(additionalInfo.requestedDeliveryDate && additionalInfo.shippingMethod && legalFile)
     }
     if (currentStep === 4) return true
     return false

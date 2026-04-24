@@ -86,6 +86,11 @@ export default function RFQDetails() {
     },
   })
 
+  const updateLegitimacy = useMutation({
+    mutationFn: (isLegitimate) => api.patch(`/admin/rfqs/${id}/legitimacy`, { isLegitimate }),
+    onSuccess: () => qc.invalidateQueries(['admin-rfq', id]),
+  })
+
   // PDF download with auth token
   const exportPDF = async () => {
     try {
@@ -177,7 +182,11 @@ export default function RFQDetails() {
               
               {!isLocked && (
                 <button
-                  onClick={() => {
+                   onClick={() => {
+                    if (rfq.isLegitimate !== true) {
+                      setPriceError('You must verify the legal documents first.')
+                      return
+                    }
                     const allPriced = rfq?.items?.every((item) => itemPrices[item.id]?.unitPrice)
                     if (!allPriced) {
                       const missing = rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length
@@ -188,8 +197,10 @@ export default function RFQDetails() {
                     setPriceError('')
                     sendQuotation.mutate()
                   }}
-                  disabled={sendQuotation.isPending || quotationSent}
-                  className="flex-1 md:flex-none px-6 py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-sm shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+                  disabled={sendQuotation.isPending || quotationSent || rfq.isLegitimate !== true}
+                  className={`flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-bold shadow-sm transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 ${
+                    rfq.isLegitimate === true ? 'bg-primary text-white shadow-primary/20 hover:bg-primary/90' : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  }`}
                 >
                   <span className="material-symbols-outlined text-base">send</span>
                   {sendQuotation.isPending ? 'Sending...' : quotationSent ? '✓ Sent' : 'Send Quote'}
@@ -230,6 +241,44 @@ export default function RFQDetails() {
                 <p className="font-medium">Quotation successfully sent to <strong>{email}</strong></p>
               </div>
             )}
+            {rfq.isLegitimate === null && !isLocked && (
+              <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl text-sm text-primary flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-xl animate-pulse">fact_check</span>
+                  <div>
+                    <p className="font-bold">Awaiting Verification</p>
+                    <p className="text-xs opacity-80">This RFQ needs business legitimacy check before prices can be sent.</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => updateLegitimacy.mutate(false)} className="px-4 py-1.5 bg-white border border-red-200 text-red-600 rounded-lg font-bold text-xs hover:bg-red-50 transition-all">Mark Fraudulent</button>
+                  <button onClick={() => updateLegitimacy.mutate(true)} className="px-4 py-1.5 bg-primary text-white rounded-lg font-bold text-xs hover:bg-primary/90 transition-all">Mark Legitimate</button>
+                </div>
+              </div>
+            )}
+
+            {rfq.isLegitimate !== null && rfq.status !== 'CLOSED' && (
+              <div className={`p-4 border rounded-xl text-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                rfq.isLegitimate === true ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-red-50 border-red-200 text-red-800'
+              }`}>
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-xl">
+                    {rfq.isLegitimate === true ? 'verified' : 'block'}
+                  </span>
+                  <div>
+                    <p className="font-bold">{rfq.isLegitimate === true ? 'Business Verified' : 'Business Rejected'}</p>
+                    <p className="text-xs opacity-80">You can proceed with pricing or change your decision.</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => updateLegitimacy.mutate(null)} 
+                  className="px-4 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-lg font-bold text-xs hover:bg-gray-50 transition-all flex items-center gap-2"
+                >
+                  <span className="material-symbols-outlined text-sm">arrow_back</span>
+                  Change Decision
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -237,6 +286,69 @@ export default function RFQDetails() {
           
           {/* Main Content - Products List */}
           <div className="lg:col-span-2 space-y-6">
+            
+            {/* Legitimacy Check Banner */}
+            {rfq.legalDocumentUrl && (
+              <div className={`bg-white rounded-xl shadow-sm border overflow-hidden ${
+                rfq.isLegitimate === true ? 'border-emerald-200' :
+                rfq.isLegitimate === false ? 'border-red-200' : 'border-primary/20'
+              }`}>
+                <div className={`p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                  rfq.isLegitimate === true ? 'bg-emerald-50' :
+                  rfq.isLegitimate === false ? 'bg-red-50' : 'bg-primary/5'
+                }`}>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      rfq.isLegitimate === true ? 'bg-emerald-100 text-emerald-600' :
+                      rfq.isLegitimate === false ? 'bg-red-100 text-red-600' : 'bg-primary/10 text-primary'
+                    }`}>
+                      <span className="material-symbols-outlined">
+                        {rfq.isLegitimate === true ? 'verified' : rfq.isLegitimate === false ? 'block' : 'gavel'}
+                      </span>
+                    </div>
+                    <div>
+                      <h2 className={`text-sm font-bold ${
+                        rfq.isLegitimate === true ? 'text-emerald-900' :
+                        rfq.isLegitimate === false ? 'text-red-900' : 'text-primary'
+                      }`}>
+                        {rfq.isLegitimate === true ? 'Business Verified' :
+                         rfq.isLegitimate === false ? 'Business Rejected' : 'Verify Business Identity'}
+                      </h2>
+                      <p className="text-[10px] font-medium text-gray-500 uppercase tracking-widest">Legal Document Review</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <a href={rfq.legalDocumentUrl.startsWith('http') ? rfq.legalDocumentUrl : `http://localhost:5000${rfq.legalDocumentUrl}`} 
+                       target="_blank" rel="noreferrer"
+                       className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-50 transition-all flex items-center gap-1.5 shadow-sm">
+                      <span className="material-symbols-outlined text-sm">open_in_new</span>
+                      Review Document
+                    </a>
+                    {rfq.isLegitimate === null && !isLocked && (
+                       <>
+                         <button onClick={() => updateLegitimacy.mutate(false)} className="p-1.5 bg-white border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-all" title="Mark Incomplete/Fraud">
+                           <span className="material-symbols-outlined text-sm">close</span>
+                         </button>
+                         <button onClick={() => updateLegitimacy.mutate(true)} className="p-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all" title="Mark Legitimate">
+                           <span className="material-symbols-outlined text-sm">check</span>
+                         </button>
+                       </>
+                    )}
+                    {rfq.isLegitimate !== null && rfq.status !== 'CLOSED' && (
+                      <button 
+                        onClick={() => updateLegitimacy.mutate(null)} 
+                        className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-[10px] font-bold text-gray-400 hover:text-primary hover:border-primary/30 transition-all flex items-center gap-1.5 shadow-sm group"
+                        title="Change your mind on the legitimacy of this file"
+                      >
+                        <span className="material-symbols-outlined text-sm transition-transform group-hover:-translate-x-0.5">arrow_back</span>
+                        Change Decision
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="p-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gray-50/30">
                 <div className="flex items-center gap-3">
