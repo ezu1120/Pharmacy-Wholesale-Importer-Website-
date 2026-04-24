@@ -295,13 +295,20 @@ function Step3({ onNext, onBack }) {
 
   const handleFiles = (ev) => {
     const valid = Array.from(ev.target.files).filter(f => f.size <= 10 * 1024 * 1024)
-    setFiles(prev => [...prev, ...valid].slice(0, 5))
-    setAdditionalInfo({ attachmentNames: [...files, ...valid].slice(0, 5).map(f => f.name) })
+    const updated = [...files, ...valid].slice(0, 5)
+    setFiles(updated)
+    setAdditionalInfo({ attachmentNames: updated.map(f => f.name) })
+    useRFQStore.getState()._pendingFiles = updated
+    // Clear file error when a file is added
+    if (updated.length > 0) {
+      setErrors(e => ({ ...e, files: '' }))
+    }
   }
   const removeFile = (i) => {
     const updated = files.filter((_, idx) => idx !== i)
     setFiles(updated)
     setAdditionalInfo({ attachmentNames: updated.map(f => f.name) })
+    useRFQStore.getState()._pendingFiles = updated
   }
   useRFQStore.getState()._pendingFiles = files
 
@@ -578,19 +585,18 @@ export default function RFQ() {
     } else if (currentStep === 3) {
       // Validate step 3 fields including file upload
       const pendingFiles = useRFQStore.getState()._pendingFiles || []
-      if (!additionalInfo.requestedDeliveryDate || !additionalInfo.shippingMethod) {
-        const dateField = document.getElementById('step3-date')
-        const shipField = document.getElementById('step3-ship')
-        if (!additionalInfo.requestedDeliveryDate && dateField) dateField.focus()
-        else if (!additionalInfo.shippingMethod && shipField) shipField.focus()
+      if (!additionalInfo.requestedDeliveryDate) {
+        document.getElementById('step3-date')?.focus()
+        return
+      }
+      if (!additionalInfo.shippingMethod) {
+        document.getElementById('step3-ship')?.focus()
         return
       }
       if (pendingFiles.length === 0) {
-        // Scroll to the upload area and show error
         const uploadArea = document.getElementById('step3-upload')
         if (uploadArea) uploadArea.scrollIntoView({ behavior: 'smooth', block: 'center' })
         useRFQStore.getState()._uploadError = true
-        // Force re-render by updating a store value
         setAdditionalInfo({ _uploadErrorTs: Date.now() })
         return
       }
