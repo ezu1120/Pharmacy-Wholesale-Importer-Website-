@@ -118,6 +118,8 @@ export default function RFQDetails() {
   const country       = rfq.country       || rfq.guest_country
   const businessType  = rfq.businessType  || rfq.guest_business_type
 
+  const isLocked = rfq.status === 'CLOSED' || rfq.status === 'DECLINED'
+
   return (
     <AdminLayout>
       <div className="max-w-7xl mx-auto px-4 space-y-4">
@@ -133,50 +135,82 @@ export default function RFQDetails() {
                 <h1 className="text-xl font-bold text-gray-900">{rfq.rfq_number}</h1>
                 <p className="text-sm text-gray-600">{companyName} • {customerName}</p>
               </div>
-              <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${STATUS_BADGE[rfq.status]}`}>
+              <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${STATUS_BADGE[rfq.status] || 'bg-gray-100 text-gray-600 border-gray-200'}`}>
                 {rfq.status?.replace('_', ' ')}
               </span>
             </div>
             
             <div className="flex items-center gap-3">
-              <select
-                value={rfq.status}
-                onChange={(e) => handleStatusChange(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary"
-              >
-                <option value="NEW">New</option>
-                <option value="UNDER_REVIEW">Under Review</option>
-                <option value="QUOTATION_SENT">Quotation Sent</option>
-                <option value="CLOSED">Closed</option>
-              </select>
+              {/* Status dropdown — locked when CLOSED or DECLINED */}
+              {isLocked ? (
+                <div className={`px-4 py-2 rounded-lg text-sm font-semibold border ${
+                  rfq.status === 'CLOSED'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                    : 'bg-red-50 text-red-700 border-red-200'
+                } flex items-center gap-2`}>
+                  <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    {rfq.status === 'CLOSED' ? 'verified' : 'cancel'}
+                  </span>
+                  {rfq.status === 'CLOSED' ? 'Deal Closed' : 'Declined by Customer'}
+                </div>
+              ) : (
+                <select
+                  value={rfq.status}
+                  onChange={(e) => handleStatusChange(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  <option value="NEW">New</option>
+                  <option value="UNDER_REVIEW">Under Review</option>
+                  <option value="QUOTATION_SENT">Quotation Sent</option>
+                  <option value="CLOSED">Closed</option>
+                </select>
+              )}
               
               <button onClick={exportPDF} className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm">picture_as_pdf</span>
                 PDF
               </button>
               
-              <button
-                onClick={() => {
-                  const allPriced = rfq?.items?.every((item) => itemPrices[item.id]?.unitPrice)
-                  if (!allPriced) {
-                    const missing = rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length
-                    setPriceError(`Please fill in unit prices for all items. ${missing} item${missing !== 1 ? 's' : ''} still need${missing === 1 ? 's' : ''} a price.`)
-                    // Scroll to products section
-                    document.querySelector('.divide-y')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                    return
-                  }
-                  setPriceError('')
-                  sendQuotation.mutate()
-                }}
-                disabled={sendQuotation.isPending || quotationSent}
-                className="px-6 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
-              >
-                <span className="material-symbols-outlined text-sm">send</span>
-                {sendQuotation.isPending ? 'Sending...' : quotationSent ? '✓ Sent' : 'Send Quote'}
-              </button>
+              {/* Send Quote — hidden when locked */}
+              {!isLocked && (
+                <button
+                  onClick={() => {
+                    const allPriced = rfq?.items?.every((item) => itemPrices[item.id]?.unitPrice)
+                    if (!allPriced) {
+                      const missing = rfq.items.filter((item) => !itemPrices[item.id]?.unitPrice).length
+                      setPriceError(`Please fill in unit prices for all items. ${missing} item${missing !== 1 ? 's' : ''} still need${missing === 1 ? 's' : ''} a price.`)
+                      document.querySelector('.divide-y')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      return
+                    }
+                    setPriceError('')
+                    sendQuotation.mutate()
+                  }}
+                  disabled={sendQuotation.isPending || quotationSent}
+                  className="px-6 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
+                >
+                  <span className="material-symbols-outlined text-sm">send</span>
+                  {sendQuotation.isPending ? 'Sending...' : quotationSent ? '✓ Sent' : 'Send Quote'}
+                </button>
+              )}
             </div>
           </div>
           
+          {/* Locked banner */}
+          {isLocked && (
+            <div className={`mt-3 p-3 rounded-lg text-sm flex items-center gap-2 ${
+              rfq.status === 'CLOSED'
+                ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
+                : 'bg-red-50 border border-red-200 text-red-800'
+            }`}>
+              <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
+                {rfq.status === 'CLOSED' ? 'lock' : 'do_not_disturb_on'}
+              </span>
+              {rfq.status === 'CLOSED'
+                ? 'This RFQ has been accepted by the customer and is now closed. No further actions are allowed.'
+                : 'This quotation was declined by the customer. No further actions are allowed.'}
+            </div>
+          )}
+
           {/* Error/Success Messages */}
           {priceError && (
             <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 flex items-center gap-2">

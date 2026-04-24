@@ -6,7 +6,7 @@ const { sendQuotationEmail } = require('../services/email')
 
 router.use(requireAdmin)
 
-const VALID_STATUSES = ['NEW', 'UNDER_REVIEW', 'QUOTATION_SENT', 'CLOSED']
+const VALID_STATUSES = ['NEW', 'UNDER_REVIEW', 'QUOTATION_SENT', 'CLOSED', 'DECLINED']
 
 // ── GET /api/admin/rfqs ───────────────────────────────────────────────────────
 router.get('/rfqs', async (req, res, next) => {

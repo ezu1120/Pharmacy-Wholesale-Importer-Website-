@@ -8,6 +8,7 @@ const STATUS_BADGE = {
   UNDER_REVIEW:   'bg-yellow-50 text-yellow-700',
   QUOTATION_SENT: 'bg-green-50 text-green-700',
   CLOSED:         'bg-emerald-50 text-emerald-700',
+  DECLINED:       'bg-red-50 text-red-700',
 }
 
 const STATUS_LABEL = {
@@ -15,13 +16,15 @@ const STATUS_LABEL = {
   UNDER_REVIEW:   'Under Review',
   QUOTATION_SENT: 'Quotation Sent',
   CLOSED:         'Deal Closed',
+  DECLINED:       'Declined',
 }
 
 export default function CustomerRFQDetail() {
   const { id } = useParams()
   const queryClient = useQueryClient()
   const [showAcceptModal, setShowAcceptModal] = useState(false)
-  const [accepted, setAccepted] = useState(false)
+  const [showDeclineModal, setShowDeclineModal] = useState(false)
+  const [declineReason, setDeclineReason] = useState('')
 
   const { data: rfq, isLoading } = useQuery({
     queryKey: ['customer-rfq', id],
@@ -34,7 +37,15 @@ export default function CustomerRFQDetail() {
       queryClient.invalidateQueries({ queryKey: ['customer-rfq', id] })
       queryClient.invalidateQueries({ queryKey: ['customer-rfqs'] })
       setShowAcceptModal(false)
-      setAccepted(true)
+    },
+  })
+
+  const declineMutation = useMutation({
+    mutationFn: () => api.post(`/customer/rfqs/${id}/decline`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['customer-rfq', id] })
+      queryClient.invalidateQueries({ queryKey: ['customer-rfqs'] })
+      setShowDeclineModal(false)
     },
   })
 
@@ -106,6 +117,13 @@ export default function CustomerRFQDetail() {
                   >
                     <span className="material-symbols-outlined text-base">picture_as_pdf</span>
                     Download Quotation
+                  </button>
+                  <button
+                    onClick={() => setShowDeclineModal(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700 transition-colors shadow-md"
+                  >
+                    <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>cancel</span>
+                    Decline
                   </button>
                   <button
                     onClick={() => setShowAcceptModal(true)}
@@ -222,28 +240,26 @@ export default function CustomerRFQDetail() {
             </div>
           )}
 
-          {/* ── QUOTATION SENT: Accept or Download ─────────────────────────── */}
+          {/* ── QUOTATION SENT: Accept or Decline ──────────────────────────── */}
           {rfq.status === 'QUOTATION_SENT' && (
             <div className="bg-green-50 border border-green-200 rounded-2xl p-6">
               <div className="flex items-start gap-4">
                 <span className="material-symbols-outlined text-green-600 text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>mark_email_read</span>
                 <div className="flex-1">
-                  <h3 className="font-headline font-bold text-green-800 mb-1">Quotation Ready — Review & Accept</h3>
+                  <h3 className="font-headline font-bold text-green-800 mb-1">Quotation Ready — Review & Respond</h3>
                   <p className="text-sm text-green-700 mb-4">
-                    A formal quotation has been sent to your email. Download the PDF to review pricing and terms, then click <strong>Accept Quotation</strong> to confirm the deal.
+                    A formal quotation has been sent to your email. Download the PDF to review pricing and terms, then <strong>Accept</strong> to confirm or <strong>Decline</strong> if you are not satisfied.
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    <button
-                      onClick={downloadQuotationPDF}
-                      className="flex items-center gap-2 px-4 py-2.5 border border-green-400 text-green-800 bg-white rounded-lg text-sm font-semibold hover:bg-green-100 transition-colors"
-                    >
+                    <button onClick={downloadQuotationPDF} className="flex items-center gap-2 px-4 py-2.5 border border-green-400 text-green-800 bg-white rounded-lg text-sm font-semibold hover:bg-green-100 transition-colors">
                       <span className="material-symbols-outlined text-base">picture_as_pdf</span>
                       Download Quotation PDF
                     </button>
-                    <button
-                      onClick={() => setShowAcceptModal(true)}
-                      className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 text-white rounded-lg text-sm font-bold hover:bg-emerald-700 transition-colors shadow-md"
-                    >
+                    <button onClick={() => setShowDeclineModal(true)} className="flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700 transition-colors shadow-md">
+                      <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>cancel</span>
+                      Decline Quotation
+                    </button>
+                    <button onClick={() => setShowAcceptModal(true)} className="flex items-center gap-2 px-6 py-2.5 bg-emerald-600 text-white rounded-lg text-sm font-bold hover:bg-emerald-700 transition-colors shadow-md">
                       <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                       Accept Quotation
                     </button>
@@ -253,8 +269,8 @@ export default function CustomerRFQDetail() {
             </div>
           )}
 
-          {/* ── CLOSED: Deal confirmed banner ──────────────────────────────── */}
-          {(rfq.status === 'CLOSED' || accepted) && (
+          {/* ── CLOSED: Deal confirmed ──────────────────────────────────────── */}
+          {rfq.status === 'CLOSED' && (
             <div className="bg-emerald-50 border border-emerald-300 rounded-2xl p-6">
               <div className="flex items-start gap-4">
                 <span className="material-symbols-outlined text-emerald-600 text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
@@ -268,8 +284,27 @@ export default function CustomerRFQDetail() {
             </div>
           )}
 
+          {/* ── DECLINED: Quotation declined ───────────────────────────────── */}
+          {rfq.status === 'DECLINED' && (
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
+              <div className="flex items-start gap-4">
+                <span className="material-symbols-outlined text-red-500 text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>cancel</span>
+                <div>
+                  <h3 className="font-headline font-bold text-red-800 text-lg mb-1">Quotation Declined</h3>
+                  <p className="text-sm text-red-700 mb-3">
+                    You have declined the quotation for <strong>{rfq.rfq_number}</strong>. If you'd like to request a new quote, please submit a new RFQ.
+                  </p>
+                  <Link to="/portal/rfq" className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">
+                    <span className="material-symbols-outlined text-base">add</span>
+                    Submit New RFQ
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Quotation pending info */}
-          {rfq.status !== 'QUOTATION_SENT' && rfq.status !== 'CLOSED' && !accepted && (
+          {rfq.status !== 'QUOTATION_SENT' && rfq.status !== 'CLOSED' && rfq.status !== 'DECLINED' && (
             <div className="bg-surface-container-low rounded-2xl p-5 border border-outline-variant/20">
               <div className="flex items-start gap-3">
                 <span className="material-symbols-outlined text-outline text-xl">info</span>
@@ -293,6 +328,54 @@ export default function CustomerRFQDetail() {
           </div>
         </div>
       </div>
+
+      {/* ── Decline Confirmation Modal ────────────────────────────────────── */}
+      {showDeclineModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8">
+            <div className="flex items-center gap-4 mb-5">
+              <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="material-symbols-outlined text-red-600 text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>cancel</span>
+              </div>
+              <div>
+                <h2 className="font-headline font-extrabold text-xl text-on-surface">Decline Quotation?</h2>
+                <p className="text-sm text-outline font-mono">{rfq.rfq_number}</p>
+              </div>
+            </div>
+
+            <p className="text-sm text-on-surface-variant mb-5 leading-relaxed">
+              Are you sure you want to decline this quotation? The admin will be notified and no further action will be taken on this RFQ. You can always submit a new RFQ.
+            </p>
+
+            {declineMutation.isError && (
+              <p className="text-sm text-red-600 mb-4 bg-red-50 px-4 py-2 rounded-lg border border-red-200">
+                Something went wrong. Please try again.
+              </p>
+            )}
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowDeclineModal(false)}
+                disabled={declineMutation.isPending}
+                className="flex-1 px-4 py-3 border border-outline-variant rounded-xl text-sm font-semibold text-on-surface hover:bg-surface-container transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => declineMutation.mutate()}
+                disabled={declineMutation.isPending}
+                className="flex-1 px-4 py-3 bg-red-600 text-white rounded-xl text-sm font-bold hover:bg-red-700 transition-colors shadow-md disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {declineMutation.isPending ? (
+                  <><span className="material-symbols-outlined animate-spin text-base">progress_activity</span> Processing...</>
+                ) : (
+                  <><span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>cancel</span> Confirm Decline</>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Accept Confirmation Modal ─────────────────────────────────────── */}
       {showAcceptModal && (
