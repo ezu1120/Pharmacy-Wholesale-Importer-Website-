@@ -172,9 +172,12 @@ function Step2({ onNext, onBack }) {
           <div className="flex-1 overflow-y-auto border border-surface-container rounded-lg">
             {catalog.map(p => {
               const added = selectedProducts.some(s => s.productId === p.id)
-              // Use availableQuantity (stock minus reserve) if provided, else fall back
-              const available = p.availableQuantity ?? Math.max(0, (p.stockQuantity || p.stock_quantity || 0) - 50)
-              const outOfStock = available === 0
+              // inStock = true/false from API (hides actual numbers for security)
+              // For static fallback items, check stockQuantity > 50
+              const inStock = p.inStock !== undefined
+                ? p.inStock
+                : Math.max(0, (p.stockQuantity || p.stock_quantity || 0) - 50) > 0
+              const outOfStock = !inStock
               return (
                 <div key={p.id} className={`flex items-center justify-between px-4 py-3 border-b border-surface-container last:border-0 hover:bg-surface-container-low transition-colors ${outOfStock ? 'opacity-50' : ''}`}>
                   <div className="min-w-0 flex-1">
@@ -184,11 +187,11 @@ function Step2({ onNext, onBack }) {
                       {outOfStock ? (
                         <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-600">Unavailable</span>
                       ) : (
-                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-green-50 text-green-700">{available} available</span>
+                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-green-50 text-green-700">In Stock</span>
                       )}
                     </div>
                   </div>
-                  <button onClick={() => !added && !outOfStock && addProduct({ ...p, stockQuantity: available })} disabled={added || outOfStock}
+                  <button onClick={() => !added && !outOfStock && addProduct({ ...p, stockQuantity: 999 })} disabled={added || outOfStock}
                     className={`ml-3 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
                       outOfStock ? 'bg-surface-container text-outline cursor-not-allowed' :
                       added ? 'bg-green-100 text-green-600' : 'bg-primary/10 text-primary hover:bg-primary hover:text-white'
@@ -243,7 +246,7 @@ function Step2({ onNext, onBack }) {
                     <div className="mt-2">
                       <p className="text-[10px] text-error flex items-center gap-1">
                         <span className="material-symbols-outlined text-xs">error</span>
-                        Exceeds available quantity ({item.stockQuantity} units available). Please reduce your order.
+                        Requested quantity exceeds available stock. Please reduce your order.
                       </p>
                     </div>
                   )}

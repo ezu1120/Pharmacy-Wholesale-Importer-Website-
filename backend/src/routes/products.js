@@ -40,8 +40,8 @@ router.get('/', async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT p.id, p.name, p.generic_name AS "genericName", p.brand, p.category,
               p.package_size AS "packageSize", p.description, p.image_url AS "imageUrl",
-              p.price, p.currency, p.stock_quantity AS "stockQuantity",
-              GREATEST(0, p.stock_quantity - ${STOCK_RESERVE}) AS "availableQuantity",
+              p.price, p.currency,
+              CASE WHEN p.stock_quantity > ${STOCK_RESERVE} THEN true ELSE false END AS "inStock",
               p.is_featured AS "isFeatured",
               p.dosage_form AS "dosageForm", p.country_of_origin AS "countryOfOrigin"
        FROM products p WHERE ${where} ORDER BY ${orderBy}
@@ -59,8 +59,8 @@ router.get('/featured', async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT id, name, generic_name AS "genericName", brand, category,
               package_size AS "packageSize", description, image_url AS "imageUrl",
-              price, currency, stock_quantity AS "stockQuantity",
-              GREATEST(0, stock_quantity - ${STOCK_RESERVE}) AS "availableQuantity",
+              price, currency,
+              CASE WHEN stock_quantity > ${STOCK_RESERVE} THEN true ELSE false END AS "inStock",
               dosage_form AS "dosageForm", country_of_origin AS "countryOfOrigin"
        FROM products WHERE is_active = true AND is_featured = true
        ORDER BY name ASC LIMIT 8`
@@ -75,8 +75,8 @@ router.get('/:id', async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT id, name, generic_name AS "genericName", brand, category,
               package_size AS "packageSize", description, image_url AS "imageUrl",
-              price, currency, stock_quantity AS "stockQuantity",
-              GREATEST(0, stock_quantity - ${STOCK_RESERVE}) AS "availableQuantity",
+              price, currency,
+              CASE WHEN stock_quantity > ${STOCK_RESERVE} THEN true ELSE false END AS "inStock",
               dosage_form AS "dosageForm", country_of_origin AS "countryOfOrigin"
        FROM products WHERE id = $1 AND is_active = true`,
       [req.params.id]
