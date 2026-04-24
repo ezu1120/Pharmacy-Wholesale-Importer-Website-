@@ -103,6 +103,14 @@ router.patch('/rfqs/:id/status', async (req, res, next) => {
   try {
     const { status } = req.body
     if (!VALID_STATUSES.includes(status)) return res.status(400).json({ error: 'INVALID_STATUS' })
+
+    // Prevent changing status of a locked RFQ
+    const { rows: current } = await pool.query('SELECT status FROM rfqs WHERE id = $1', [req.params.id])
+    if (!current.length) return res.status(404).json({ error: 'NOT_FOUND' })
+    if (['CLOSED', 'DECLINED'].includes(current[0].status)) {
+      return res.status(400).json({ error: 'RFQ_LOCKED', message: 'Cannot change status of a closed or declined RFQ.' })
+    }
+
     await pool.query(
       'UPDATE rfqs SET status = $1, updated_at = NOW() WHERE id = $2',
       [status, req.params.id]
@@ -126,6 +134,11 @@ router.patch('/rfqs/:id/notes', async (req, res, next) => {
 // ── POST /api/admin/rfqs/:id/respond — generate PDF + send quotation email ───
 router.post('/rfqs/:id/respond', async (req, res, next) => {
   try {
+    const { rows: check } = await pool.query('SELECT status FROM rfqs WHERE id = $1', [req.params.id])
+    if (!check.length) return res.status(404).json({ error: 'NOT_FOUND' })
+    if (['CLOSED', 'DECLINED'].includes(check[0].status)) {
+      return res.status(400).json({ error: 'RFQ_LOCKED', message: 'Cannot send a quotation on a closed or declined RFQ.' })
+    }
     const { quoteNotes, itemPrices = {} } = req.body // itemPrices: { [rfqItemId]: { unitPrice, currency } }
 
     const { rows } = await pool.query(
