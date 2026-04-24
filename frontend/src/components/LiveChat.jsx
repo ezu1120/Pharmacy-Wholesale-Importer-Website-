@@ -222,111 +222,130 @@ export default function LiveChat() {
   return (
     <div
       ref={containerRef}
-      className={`fixed z-50 flex transition-all duration-300 pointer-events-none ${
+      className={`fixed z-50 flex transition-all duration-500 pointer-events-none ${
         opensUpward ? 'flex-col' : 'flex-col-reverse'
       } ${
         alignsRight ? 'items-end' : 'items-start'
       } ${
         location.pathname.startsWith('/portal/rfq') || location.pathname.startsWith('/rfq') || location.pathname.startsWith('/portal/compare') || location.pathname.startsWith('/products')
-          ? 'bottom-24 sm:bottom-28 right-4 sm:right-8'
+          ? 'bottom-20 sm:bottom-28 right-4 sm:right-8'
           : 'bottom-6 sm:bottom-8 right-4 sm:right-8'
       }`}
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`,
-        transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), bottom 0.3s, right 0.3s',
+        transition: isDragging ? 'none' : 'transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), bottom 0.3s, right 0.3s',
         touchAction: 'none'
       }}
     >
-      {/* ── Chat Window ──────────────────────────────────────────────────────── */}
+      {/* ── Chat Window (Mobile: Fullscreen, Desktop: Popup) ────────────────────── */}
       <div
-        className={`w-[calc(100vw-32px)] sm:w-[380px] bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col border border-gray-200 transition-all duration-300 ${
-          opensUpward 
-            ? (alignsRight ? 'mb-3 origin-bottom-right' : 'mb-3 origin-bottom-left') 
-            : (alignsRight ? 'mt-3 origin-top-right' : 'mt-3 origin-top-left')
-        } ${
-          isOpen
-            ? 'opacity-100 scale-100 pointer-events-auto translate-y-0'
-            : 'opacity-0 scale-95 pointer-events-none' + (opensUpward ? ' translate-y-4' : ' -translate-y-4')
-        }`}
+        className={`
+          flex flex-col overflow-hidden bg-white/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] 
+          border border-gray-200/50 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]
+          ${isOpen 
+            ? 'opacity-100 scale-100 pointer-events-auto' 
+            : 'opacity-0 scale-90 pointer-events-none'
+          }
+          ${/* Mobile: Full-screen relative to viewport, Desktop: Fixed size */ ''}
+          fixed md:relative top-0 left-0 md:top-auto md:left-auto
+          w-screen h-screen md:w-[380px] md:h-[min(520px,calc(100vh-140px))]
+          md:rounded-3xl
+          ${isOpen ? 'translate-y-0' : (opensUpward ? 'translate-y-10' : '-translate-y-10')}
+          ${opensUpward ? 'md:mb-4' : 'md:mt-4'}
+          ${alignsRight ? 'md:origin-bottom-right' : 'md:origin-bottom-left'}
+        `}
         style={{
-          height: isOpen ? 'min(480px, calc(100vh - 120px))' : '0px',
-          maxHeight: 'calc(100vh - 120px)',
-          transition: 'height 0.3s ease, opacity 0.3s ease, transform 0.3s ease',
+          zIndex: 100,
+          // On mobile, we override the natural positioning to fill the screen
+          ...(isOpen && typeof window !== 'undefined' && window.innerWidth < 768 ? {
+            position: 'fixed',
+            inset: 0,
+            transform: 'none',
+            borderRadius: 0,
+            width: '100vw',
+            height: '100dvh'
+          } : {})
         }}
       >
         {/* ── Header ─────────────────────────────────────────────────────────── */}
-        <div className="bg-primary px-4 py-3 flex items-center justify-between flex-shrink-0 cursor-default">
-          <div className="flex items-center gap-3">
+        <div className="bg-primary/95 backdrop-blur-md px-5 py-4 flex items-center justify-between flex-shrink-0 shadow-sm relative overflow-hidden">
+          {/* Decorative background glow */}
+          <div className="absolute -top-10 -left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+          
+          <div className="flex items-center gap-4 relative">
             <div className="relative flex-shrink-0">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white font-bold text-base">
+              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-primary font-black text-xl shadow-inner">
                 P
               </div>
-              <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-primary ${isOnline ? 'bg-green-400' : 'bg-gray-400'}`} />
+              <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-4 border-primary ${isOnline ? 'bg-green-400' : 'bg-gray-400'} shadow-sm`} />
             </div>
-            <div>
-              <p className="text-white font-bold text-sm leading-tight">PharmaLink Support</p>
-              <p className="text-blue-200 text-[11px] flex items-center gap-1">
-                <span className={`w-1.5 h-1.5 rounded-full inline-block ${isOnline ? 'bg-green-300' : 'bg-gray-300'}`} />
-                {isOnline ? 'Online — typically replies instantly' : 'Offline'}
-              </p>
+            <div className="min-w-0">
+              <p className="text-white font-black text-sm tracking-tight leading-none mb-1">PharmaLink Support</p>
+              <div className="flex items-center gap-1.5">
+                <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isOnline ? 'bg-green-300' : 'bg-gray-300'}`} />
+                <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest">{isOnline ? 'Online' : 'Away'}</p>
+              </div>
             </div>
           </div>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="w-8 h-8 rounded-full hover:bg-white/15 flex items-center justify-center transition-colors text-white/80 hover:text-white"
-          >
-            <span className="material-symbols-outlined text-xl">close</span>
-          </button>
+
+          <div className="flex items-center gap-2 relative">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="w-10 h-10 rounded-2xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all active:scale-90 text-white"
+            >
+              <span className="material-symbols-outlined text-2xl font-bold">close</span>
+            </button>
+          </div>
         </div>
 
-        {/* ── Messages ───────────────────────────────────────────────────────── */}
-        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-gray-50 min-h-0">
+        {/* ── Messages Area ─────────────────────────────────────────────────── */}
+        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-4 bg-gray-50/50 scroll-smooth">
           {loading ? (
-            <div className="flex items-center justify-center h-full">
-              <span className="material-symbols-outlined animate-spin text-primary text-3xl">progress_activity</span>
+            <div className="flex flex-col items-center justify-center h-full gap-3 opacity-40">
+              <span className="material-symbols-outlined animate-spin text-4xl text-primary">progress_activity</span>
+              <p className="text-[10px] font-black uppercase tracking-widest text-primary">Syncing Chat...</p>
             </div>
           ) : initError ? (
-            <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
-              <span className="material-symbols-outlined text-4xl text-gray-300">wifi_off</span>
-              <p className="text-sm font-semibold text-gray-700">Unable to connect</p>
-              <p className="text-xs text-gray-500">Support service is temporarily unavailable.</p>
+            <div className="flex flex-col items-center justify-center h-full gap-4 text-center px-6">
+              <div className="w-16 h-16 bg-red-50 text-red-500 rounded-3xl flex items-center justify-center">
+                <span className="material-symbols-outlined text-4xl">cloud_off</span>
+              </div>
+              <div>
+                <p className="font-black text-gray-900 text-lg mb-1 tracking-tight">Offline</p>
+                <p className="text-xs text-gray-500 font-medium">We couldn't connect to the secure server.</p>
+              </div>
               <button
                 onClick={() => { setInitError(false); setChatId(null); initSession() }}
-                className="mt-1 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors"
-                style={{ pointerEvents: 'auto' }}
+                className="px-8 py-3 bg-primary text-white text-xs font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all pointer-events-auto"
               >
-                Retry
+                Retry Connection
               </button>
             </div>
           ) : (
             <>
-              {/* Date separator */}
-              <div className="flex items-center gap-2 py-1">
-                <div className="flex-1 h-px bg-gray-200" />
-                <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Today</span>
-                <div className="flex-1 h-px bg-gray-200" />
+              {/* Intelligent Date Marker */}
+              <div className="flex items-center gap-4 py-4 opacity-30">
+                <div className="h-px bg-gray-400 flex-1" />
+                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-900">Secure Channel</span>
+                <div className="h-px bg-gray-400 flex-1" />
               </div>
 
               {messages.map((m) => (
                 <div
                   key={m.id}
-                  className={`flex flex-col ${m.is_from_admin ? 'items-start' : 'items-end'}`}
+                  className={`flex flex-col ${m.is_from_admin ? 'items-start' : 'items-end'} animate-in fade-in slide-in-from-bottom-2 duration-300`}
                 >
-                  {/* Sender label — only for admin messages */}
-                  {m.is_from_admin && (
-                    <p className="text-[10px] font-semibold text-primary ml-1 mb-1">{m.sender_name}</p>
-                  )}
-
-                  <div className={`max-w-[78%] px-3.5 py-2.5 text-sm leading-relaxed ${
-                    m.is_from_admin
-                      ? 'bg-white text-gray-800 rounded-2xl rounded-tl-sm border border-gray-200 shadow-sm'
-                      : 'bg-primary text-white rounded-2xl rounded-tr-sm shadow-sm'
-                  }`}>
+                  <div className={`
+                    max-w-[85%] px-5 py-3.5 text-sm font-semibold leading-relaxed shadow-sm
+                    ${m.is_from_admin
+                      ? 'bg-white text-gray-800 rounded-3xl rounded-tl-lg border border-gray-100'
+                      : 'bg-primary text-white rounded-3xl rounded-tr-lg'
+                    }
+                  `}>
                     {m.message}
                   </div>
-
-                  {/* Timestamp */}
-                  <p className={`text-[10px] text-gray-400 mt-1 ${m.is_from_admin ? 'ml-1' : 'mr-1'}`}>
+                  <p className="text-[9px] text-gray-400 font-bold mt-1.5 px-2 flex items-center gap-1">
+                    {m.is_from_admin && <span className="text-primary font-black uppercase tracking-tighter mr-1">{m.sender_name} •</span>}
                     {formatTime(m.created_at)}
                   </p>
                 </div>
@@ -336,46 +355,70 @@ export default function LiveChat() {
           )}
         </div>
 
-        {/* ── Input ──────────────────────────────────────────────────────────── */}
-        <form
-          onSubmit={handleSend}
-          className="flex-shrink-0 px-3 py-3 border-t border-gray-100 bg-white flex items-center gap-2"
-        >
-          <input
-            type="text"
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
-            placeholder={initError ? 'Connection failed…' : chatId ? 'Type a message…' : 'Connecting…'}
-            disabled={!chatId || sending || initError}
-            className="flex-1 bg-gray-100 rounded-full py-2.5 px-4 text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-gray-800 placeholder:text-gray-400 disabled:opacity-50"
-          />
-          <button
-            type="submit"
-            disabled={!inputValue.trim() || !chatId || sending || initError}
-            className="w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center flex-shrink-0 disabled:opacity-40 hover:bg-primary/90 active:scale-95 transition-all"
+        {/* ── Native-Style Input Bar ────────────────────────────────────────── */}
+        <div className="px-5 py-4 bg-white border-t border-gray-100 sm:pb-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <form
+            onSubmit={handleSend}
+            className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-[2rem] border border-gray-200/50 focus-within:bg-white focus-within:ring-4 focus-within:ring-primary/5 transition-all"
           >
-            <span className="material-symbols-outlined text-[18px]" style={{ marginLeft: '2px' }}>
-              {sending ? 'progress_activity' : 'send'}
-            </span>
-          </button>
-        </form>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+              placeholder={initError ? 'Connection failed' : 'Write your message...'}
+              disabled={!chatId || sending || initError}
+              className="flex-1 bg-transparent px-4 py-2.5 text-sm font-bold text-gray-800 outline-none placeholder:text-gray-400 disabled:opacity-50"
+            />
+            <button
+              type="submit"
+              disabled={!inputValue.trim() || !chatId || sending || initError}
+              className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center flex-shrink-0 disabled:opacity-20 shadow-lg shadow-primary/30 transition-all hover:scale-105 active:scale-90"
+            >
+              <span className="material-symbols-outlined text-xl">
+                {sending ? 'sync' : 'arrow_upward'}
+              </span>
+            </button>
+          </form>
+        </div>
       </div>
 
-      {/* ── Toggle Button ────────────────────────────────────────────────────── */}
-      <button
-        onMouseDown={(e) => handleStart(e.clientX, e.clientY)}
-        onTouchStart={(e) => handleStart(e.touches[0].clientX, e.touches[0].clientY)}
-        onClick={toggleChat}
-        className={`w-14 h-14 bg-primary text-white rounded-full shadow-[0_8px_24px_rgba(0,63,135,0.4)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all outline-none relative cursor-move pointer-events-auto ${isDragging ? 'scale-110 shadow-2xl ring-4 ring-primary/20' : ''}`}
-      >
-        <span className={`material-symbols-outlined text-2xl transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
-          {isOpen ? 'keyboard_arrow_down' : 'chat_bubble'}
-        </span>
-        {/* Unread dot — shows when closed and there are messages */}
-        {!isOpen && messages.some(m => m.is_from_admin) && (
-          <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white" />
+      {/* ── Enhanced Toggle Bubble ───────────────────────────────────────────── */}
+      <div className="relative group">
+        {/* Subtle Hint Tooltip */}
+        {!isOpen && !isDragging && (
+          <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 hidden sm:block pointer-events-none group-hover:block transition-all opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0">
+            <div className="bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-xl shadow-xl whitespace-nowrap">
+              Chat with us
+            </div>
+          </div>
         )}
-      </button>
+
+        <button
+          onMouseDown={(e) => handleStart(e.clientX, e.clientY)}
+          onTouchStart={(e) => handleStart(e.touches[0].clientX, e.touches[0].clientY)}
+          onClick={toggleChat}
+          className={`
+            w-16 h-16 bg-primary text-white rounded-[2rem] shadow-[0_15px_40px_rgba(0,63,135,0.4)] 
+            flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 
+            outline-none relative cursor-move pointer-events-auto z-10 overflow-hidden
+            ${isDragging ? 'scale-110 shadow-2xl ring-4 ring-primary/20 rotate-12' : ''}
+            ${isOpen ? 'rounded-2xl rotate-90 !bg-slate-900 scale-90 md:scale-100' : ''}
+          `}
+        >
+          {/* Drag Handle Indicator */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-4 h-1 bg-white/20 rounded-full md:opacity-0 group-hover:opacity-100 transition-opacity" />
+          
+          <span className={`material-symbols-outlined text-3xl transition-all duration-500 font-bold ${isOpen ? 'rotate-[-90deg]' : 'rotate-0'}`}>
+            {isOpen ? 'close' : 'chat_bubble'}
+          </span>
+
+          {/* Unread dot / Glow */}
+          {!isOpen && messages.some(m => m.is_from_admin) && (
+            <span className="absolute top-2 right-2 w-4 h-4 bg-red-500 rounded-full border-4 border-primary animate-bounce shadow-sm" />
+          )}
+        </button>
+      </div>
     </div>
   )
 }
+
