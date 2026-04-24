@@ -8,7 +8,16 @@ const STATUS_BADGE = {
   NEW:            'bg-blue-50 text-blue-700',
   UNDER_REVIEW:   'bg-yellow-50 text-yellow-700',
   QUOTATION_SENT: 'bg-green-50 text-green-700',
-  CLOSED:         'bg-slate-100 text-slate-500',
+  CLOSED:         'bg-emerald-50 text-emerald-700',
+  DECLINED:       'bg-red-50 text-red-700',
+}
+
+const STATUS_LABEL = {
+  NEW:            'New',
+  UNDER_REVIEW:   'Under Review',
+  QUOTATION_SENT: 'Quotation Sent',
+  CLOSED:         'Closed',
+  DECLINED:       'Declined',
 }
 
 export default function RFQList() {
@@ -40,11 +49,12 @@ export default function RFQList() {
   const set = (k) => (e) => setFilters((f) => ({ ...f, [k]: e.target.value, page: 1 }))
 
   const STATUS_CHIPS = [
-    { label: 'All', value: '' },
-    { label: 'New', value: 'NEW' },
-    { label: 'Under Review', value: 'UNDER_REVIEW' },
+    { label: 'All',            value: '' },
+    { label: 'New',            value: 'NEW' },
+    { label: 'Under Review',   value: 'UNDER_REVIEW' },
     { label: 'Quotation Sent', value: 'QUOTATION_SENT' },
-    { label: 'Closed', value: 'CLOSED' },
+    { label: 'Closed',         value: 'CLOSED' },
+    { label: 'Declined',       value: 'DECLINED' },
   ]
 
   return (
@@ -174,22 +184,28 @@ export default function RFQList() {
                       <td className="py-4 px-4 font-medium text-on-surface">{rfq.customerName}</td>
                       <td className="py-4 px-4 text-on-surface-variant">{rfq.companyName}</td>
                       <td className="py-4 px-4">
-                        <select
-                          value={rfq.status}
-                          onChange={(e) => {
-                            if (e.target.value === 'QUOTATION_SENT') {
-                              navigate(`/admin/rfqs/${rfq.id}`)
-                              return
-                            }
-                            updateStatus.mutate({ id: rfq.id, status: e.target.value })
-                          }}
-                          className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border-none outline-none cursor-pointer ${STATUS_BADGE[rfq.status]}`}
-                        >
-                          <option value="NEW">New</option>
-                          <option value="UNDER_REVIEW">Under Review</option>
-                          <option value="QUOTATION_SENT">Quotation Sent</option>
-                          <option value="CLOSED">Closed</option>
-                        </select>
+                        {['CLOSED', 'DECLINED'].includes(rfq.status) ? (
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${STATUS_BADGE[rfq.status]}`}>
+                            {STATUS_LABEL[rfq.status]}
+                          </span>
+                        ) : (
+                          <select
+                            value={rfq.status}
+                            onChange={(e) => {
+                              if (e.target.value === 'QUOTATION_SENT') {
+                                navigate(`/admin/rfqs/${rfq.id}`)
+                                return
+                              }
+                              updateStatus.mutate({ id: rfq.id, status: e.target.value })
+                            }}
+                            className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full border-none outline-none cursor-pointer ${STATUS_BADGE[rfq.status]}`}
+                          >
+                            <option value="NEW">New</option>
+                            <option value="UNDER_REVIEW">Under Review</option>
+                            <option value="QUOTATION_SENT">Quotation Sent</option>
+                            <option value="CLOSED">Closed</option>
+                          </select>
+                        )}
                       </td>
                       <td className="py-4 px-4 text-on-surface-variant">{rfq.itemCount}</td>
                       <td className="py-4 px-4 text-on-surface-variant text-xs">
