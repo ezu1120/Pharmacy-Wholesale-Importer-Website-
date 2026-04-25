@@ -17,11 +17,13 @@ if (useCloudinary) {
 
   const storage = new CloudinaryStorage({
     cloudinary,
-    params: {
+    params: async (req, file) => ({
       folder: 'pharmalink/rfq-attachments',
-      resource_type: 'auto',
-      allowed_formats: ['pdf', 'jpg', 'jpeg', 'png', 'xlsx'],
-    },
+      resource_type: file.mimetype === 'application/pdf' ? 'raw' : 'image',
+      access_mode: 'public',
+      use_filename: true,
+      unique_filename: true,
+    }),
   })
 
   upload = multer({
