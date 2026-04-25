@@ -318,7 +318,7 @@ export default function RFQDetails() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <a href={rfq.legalDocumentUrl.startsWith('http') ? rfq.legalDocumentUrl : `http://localhost:5000${rfq.legalDocumentUrl}`} 
+                    <a href={rfq.legalDocumentUrl.startsWith('http') ? rfq.legalDocumentUrl : `${import.meta.env.VITE_API_URL || ''}${rfq.legalDocumentUrl}`} 
                        target="_blank" rel="noreferrer"
                        className="px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 hover:bg-gray-50 transition-all flex items-center gap-1.5 shadow-sm">
                       <span className="material-symbols-outlined text-sm">open_in_new</span>
@@ -507,7 +507,7 @@ export default function RFQDetails() {
                   {rfq.attachments.map((file) => {
                     const isPDF = file.mime_type === 'application/pdf'
                     const isImage = file.mime_type?.startsWith('image/')
-                    const fileUrl = file.file_url.startsWith('http') ? file.file_url : `http://localhost:5000${file.file_url}`
+                    const fileUrl = file.file_url.startsWith('http') ? file.file_url : `${import.meta.env.VITE_API_URL || ''}${file.file_url}`
 
                     return (
                       <div key={file.id} className="group p-3 rounded-xl border border-gray-200 hover:border-primary/30 hover:bg-primary/5 transition-all flex flex-col gap-3">
